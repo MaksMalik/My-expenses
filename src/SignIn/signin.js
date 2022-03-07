@@ -13,8 +13,24 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {useState} from "react";
-import {GoogleAuthProvider, signInWithPopup} from "firebase/auth";
+import {GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import {authentication} from "../Firebase/firebase";
+
+const user = authentication.currentUser;
+
+onAuthStateChanged(authentication, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    const uid = user.uid;
+    // ...
+  } else {
+    // User is signed out
+    // ...
+  }
+});
+
+
 
 const theme = createTheme();
 
@@ -32,10 +48,11 @@ export default function SignIn() {
     });
   };
 
-  const SignWithFirebase = () => {
+  const SignWithFirebase = (res) => {
     const provider = new GoogleAuthProvider()
     signInWithPopup(authentication, provider)
     .then(res => {
+      console.log("Logged id")
       console.log(res.user)
     })
     .then(() => setIsLoggedIn(true))
@@ -44,6 +61,19 @@ export default function SignIn() {
     })
   }
 
+
+
+
+  const LogOut = () => {
+    signOut(authentication)
+    .then(() => {
+      console.log("Logged out")
+    })
+    .then(() => setIsLoggedIn(false))
+    .catch(error => {
+      console.log(error)
+    })
+  }
 
   return (
     <>
@@ -123,6 +153,12 @@ export default function SignIn() {
             </Box>
           </Container>
         </ThemeProvider>
+      )}
+      {isLoggedIn && (
+        <>
+          <h1>Hello, {user.displayName}</h1>
+          <Button onClick={LogOut}>Logout</Button>
+        </>
       )}
     </>
   );

@@ -8,7 +8,14 @@ const App = () => {
 
   return (
     <>
-      <SignIn/>
+      <header style={{
+        backgroundImage: 'url("https://i.ibb.co/R6q5MK7/vecteezybackground-white-hs0821-generated.jpg")', backgroundSize: "cover"
+      }}>
+        <h1 style={{textAlign: "center", paddingTop: "60px", fontWeight: "bold", fontSize: "40px"}}>MY EXPENSES</h1>
+        <SignIn/>
+
+      </header>
+
     </>
   )
 }
