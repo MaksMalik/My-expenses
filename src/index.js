@@ -5,8 +5,6 @@ import "./index.scss"
 import SignIn from "./SignIn/signin";
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-
 
   return (
     <>
