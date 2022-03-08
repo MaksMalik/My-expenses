@@ -14,6 +14,7 @@ import {useState} from "react";
 import {GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import {authentication} from "../Firebase/firebase";
 import AfterLogin from "./afterlogin";
+import ResponsiveAppBarBeforeLogin from "./ResponsiveAppBarBeforeLogin";
 
 export default function SignIn() {
 
@@ -113,7 +114,9 @@ export default function SignIn() {
 
   return (
     <>
-      {!isLoggedIn && (
+
+      {!isLoggedIn && <>
+        <ResponsiveAppBarBeforeLogin/>
         <ThemeProvider theme={theme}>
           <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -254,8 +257,8 @@ export default function SignIn() {
             </Box>
           </Container>
         </ThemeProvider>
-      )}
-
+      </>
+      }
 
       {isLoggedIn && (
         <>
