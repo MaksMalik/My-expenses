@@ -13,55 +13,59 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {useState} from "react";
-import {GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
+import {GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import {authentication} from "../Firebase/firebase";
-
-const user = authentication.currentUser;
-
-onAuthStateChanged(authentication, (user) => {
-  if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/firebase.User
-    // ...
-  } else {
-    // User is signed out
-    // ...
-  }
-});
-
-
-
-const theme = createTheme();
 
 export default function SignIn() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const theme = createTheme();
 
-  const handleSubmit = (event) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [realUser, setRealUser] = useState({})
+  const [failedLogIn, setFailedLogIn] = useState(false)
+  const [loginEmail, setLoginEmail] = useState("")
+  const [loginPassword, setLoginPassword] = useState("")
+
+  onAuthStateChanged(authentication, (currentUser) => {
+    setRealUser(currentUser)
+  })
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    setLoginEmail(data.get('email'))
+    setLoginPassword(data.get('password'))
+
+    try {
+      const user = await signInWithEmailAndPassword (
+        authentication,
+        loginEmail,
+        loginPassword)
+      .then(() => setIsLoggedIn(true))
+      .then(() => setFailedLogIn(false))
+
+      console.log(user)
+    } catch (error) {
+      setFailedLogIn(true)
+    }
   };
 
-  const SignWithFirebase = (res) => {
-    const provider = new GoogleAuthProvider()
+  const provider = new GoogleAuthProvider()
+
+  const SignWithFirebase = () => {
     signInWithPopup(authentication, provider)
     .then(res => {
       console.log("Logged id")
       console.log(res.user)
     })
     .then(() => setIsLoggedIn(true))
+    .then(() => setFailedLogIn(false))
+
     .catch(error => {
       console.log(error)
     })
   }
-
-
-
 
   const LogOut = () => {
     signOut(authentication)
@@ -115,6 +119,7 @@ export default function SignIn() {
                   id="password"
                   autoComplete="current-password"
                 />
+                {failedLogIn && (<div style={{color: 'red'}}>Wrong e-mail or password</div>)}
                 <FormControlLabel
                   control={<Checkbox value="remember" color="primary" />}
                   label="Remember me"
@@ -155,8 +160,16 @@ export default function SignIn() {
       )}
       {isLoggedIn && (
         <>
-          <h1>Hello, {user.displayName}</h1>
-          <Button onClick={LogOut}>Logout</Button>
+          <Container  maxWidth="xs">
+            <h1 style={{textAlign: "center", paddingTop: "20px", paddingBottom: "20px"}}>Welcome {realUser?.displayName}</h1>
+
+            <Button
+              fullWidth
+              variant="contained"
+              sx={{ mt: 0, mb: 2 }}
+              onClick={LogOut}>Logout
+            </Button>
+          </Container>
         </>
       )}
     </>

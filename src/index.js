@@ -13,9 +13,7 @@ const App = () => {
       }}>
         <h1 style={{textAlign: "center", paddingTop: "60px", fontWeight: "bold", fontSize: "40px"}}>MY EXPENSES</h1>
         <SignIn/>
-
       </header>
-
     </>
   )
 }
