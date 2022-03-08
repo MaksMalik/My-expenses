@@ -10,7 +10,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {useState} from "react";
+import {useState } from "react";
 import {GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import {authentication} from "../Firebase/firebase";
 import AfterLogin from "./afterlogin";
@@ -21,7 +21,6 @@ export default function SignIn() {
   const provider = new GoogleAuthProvider()
   const theme = createTheme();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [realUser, setRealUser] = useState({})
 
   const [failedLogIn, setFailedLogIn] = useState(false)
@@ -57,7 +56,6 @@ export default function SignIn() {
         authentication,
         loginEmail,
         loginPassword)
-      .then(() => setIsLoggedIn(true))
       .then(() => setFailedLogIn(false))
       console.log(user)
     } catch (error) {
@@ -94,7 +92,6 @@ export default function SignIn() {
       console.log("Logged id")
       console.log(res.user)
     })
-    .then(() => setIsLoggedIn(true))
     .then(() => setFailedLogIn(false))
     .catch(error => {
       console.log(error)
@@ -106,7 +103,6 @@ export default function SignIn() {
     .then(() => {
       console.log("Logged out")
     })
-    .then(() => setIsLoggedIn(false))
     .catch(error => {
       console.log(error)
     })
@@ -115,7 +111,7 @@ export default function SignIn() {
   return (
     <>
 
-      {!isLoggedIn && <>
+      {!realUser && <>
         <ResponsiveAppBarBeforeLogin/>
         <ThemeProvider theme={theme}>
           <Container component="main" maxWidth="xs">
@@ -260,7 +256,7 @@ export default function SignIn() {
       </>
       }
 
-      {isLoggedIn && (
+      {realUser && (
         <>
           <AfterLogin data={realUser} LogOut={LogOut}/>
         </>

@@ -8,11 +8,11 @@ const App = () => {
 
   return (
     <>
-      <SignIn/>
-
+      <div style={{backgroundImage: 'url("https://i.ibb.co/j89gQJQ/background.jpg")', backgroundSize: "cover", height: "100vh"}}>
+        <SignIn/>
+      </div>
     </>
   )
 }
-// style={{backgroundImage: 'url("https://i.ibb.co/R6q5MK7/vecteezybackground-white-hs0821-generated.jpg")', backgroundSize: "cover"}}
 
 ReactDOM.render(<App/>, document.getElementById("app"))
