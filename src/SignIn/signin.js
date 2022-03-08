@@ -27,14 +27,12 @@ export default function SignIn() {
   const [failedRegister, setFailedRegister] = useState(false)
   const [succeedRegistered, setSucceedRegistered] = useState(false)
 
-
-
   const [loginEmail, setLoginEmail] = useState("")
   const [loginPassword, setLoginPassword] = useState("")
   const [registerEmail, setRegisterEmail] = useState("")
   const [registerPassword, setRegisterPassword] = useState("")
 
-  const [isRegistered, setIsRegistered] = useState(false)
+  const [isRegistered, setIsRegistered] = useState(true)
 
   onAuthStateChanged(authentication, (currentUser) => {
     setRealUser(currentUser)
