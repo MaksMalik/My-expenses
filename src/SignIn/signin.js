@@ -21,11 +21,13 @@ export default function SignIn() {
   const provider = new GoogleAuthProvider()
   const theme = createTheme();
 
+  // const [isLoggedIn, setIsLoggedIn] = useState(false)
+
   const [realUser, setRealUser] = useState({})
 
   const [failedLogIn, setFailedLogIn] = useState(false)
   const [failedRegister, setFailedRegister] = useState(false)
-  const [succeedRegistered, setSucceedRegistered] = useState(false)
+  // const [succeedRegistered, setSucceedRegistered] = useState(false)
 
   const [loginEmail, setLoginEmail] = useState("")
   const [loginPassword, setLoginPassword] = useState("")
@@ -56,6 +58,7 @@ export default function SignIn() {
         authentication,
         loginEmail,
         loginPassword)
+      // .then(() => setIsLoggedIn(true))
       .then(() => setFailedLogIn(false))
       console.log(user)
     } catch (error) {
@@ -72,13 +75,13 @@ export default function SignIn() {
         registerPassword)
       console.log(user)
       setFailedRegister(false)
-      setSucceedRegistered(true)
+      // setSucceedRegistered(true)
       setTimeout(() => {
         setIsRegistered(true)
       }, 3000)
-      setTimeout(() => {
-        setSucceedRegistered(false)
-      }, 3000)
+      // setTimeout(() => {
+      //   setSucceedRegistered(false)
+      // }, 3000)
 
 
     } catch (error) {
@@ -92,6 +95,7 @@ export default function SignIn() {
       console.log("Logged id")
       console.log(res.user)
     })
+    // .then(() => setIsLoggedIn(true))
     .then(() => setFailedLogIn(false))
     .catch(error => {
       console.log(error)
@@ -103,6 +107,7 @@ export default function SignIn() {
     .then(() => {
       console.log("Logged out")
     })
+    // .then(() => setIsLoggedIn(false))
     .catch(error => {
       console.log(error)
     })
@@ -111,7 +116,7 @@ export default function SignIn() {
   return (
     <>
 
-      {!realUser && <>
+      {!realUser  && <>
         <ResponsiveAppBarBeforeLogin/>
         <ThemeProvider theme={theme}>
           <Container component="main" maxWidth="xs">
@@ -219,7 +224,7 @@ export default function SignIn() {
 
                     />
                     {failedRegister && (<div style={{color: 'red'}}>Wrong e-mail or password</div>)}
-                    {succeedRegistered && (<div style={{color: 'green'}}>Successfully registered. Please sign in.</div>)}
+                    {/*{succeedRegistered && (<div style={{color: 'green'}}>Successfully registered. Please sign in.</div>)}*/}
                     <Button
                       type="submit"
                       fullWidth
@@ -256,7 +261,7 @@ export default function SignIn() {
       </>
       }
 
-      {realUser && (
+      {realUser  && (
         <>
           <AfterLogin data={realUser} LogOut={LogOut}/>
         </>
