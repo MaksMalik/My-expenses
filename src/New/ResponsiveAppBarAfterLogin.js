@@ -11,6 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import {Link} from "react-router-dom";
 
 const ResponsiveAppBarAfterLogin = ({realUser, signUserOut}) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -74,10 +75,18 @@ const ResponsiveAppBarAfterLogin = ({realUser, signUserOut}) => {
               }}
             >
               <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">EXPENSES</Typography>
+                <Typography textAlign="center">
+                  <Link to='/expenses/expenses' style={{textDecoration: 'none', color: "black"}}>
+                    EXPENSES
+                  </Link>
+                </Typography>
               </MenuItem>
               <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">STATISTICS</Typography>
+                <Typography textAlign="center">
+                  <Link to='/expenses/statistics' style={{textDecoration: 'none', color: "black"}}>
+                    STATISTICS
+                  </Link>
+                </Typography>
               </MenuItem>
             </Menu>
           </Box>
@@ -94,13 +103,17 @@ const ResponsiveAppBarAfterLogin = ({realUser, signUserOut}) => {
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: 'white', display: 'block' }}
             >
-              EXPENSES
+              <Link to='/expenses/expenses' style={{textDecoration: 'none', color: "white"}}>
+                EXPENSES
+              </Link>
             </Button>
             <Button
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: 'white', display: 'block' }}
             >
-              STATISTICS
+              <Link to='/expenses/statistics' style={{textDecoration: 'none', color: "white"}}>
+                STATISTICS
+              </Link>
             </Button>
           </Box>
 
