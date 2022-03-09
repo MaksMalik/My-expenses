@@ -26,6 +26,7 @@ const AfterLogin = ({setIsAuth, realUser, isAuth}) => {
     if (!isAuth) {
       navigate("/")
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 
