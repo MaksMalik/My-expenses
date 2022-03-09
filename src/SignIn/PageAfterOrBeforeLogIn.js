@@ -9,7 +9,7 @@ import { useState} from "react";
 import {GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "firebase/auth";
 import {authentication} from "../Firebase/firebase";
 import AfterSignIn from "./AfterSignIn";
-import ResponsiveAppBarBeforeLogin from "./ResponsiveAppBarBeforeLogin";
+import ResponsiveAppBarBeforeLogin from "../New/ResponsiveAppBarBeforeLogin";
 import Register from "./Register";
 import SignIn from "./SignIn";
 
@@ -65,7 +65,7 @@ export default function PageAfterOrBeforeLogIn() {
                 </Avatar>
                 {isRegistered && (
                   <SignIn setIsRegistered={setIsRegistered} setFailedLogIn={setFailedLogIn} loginEmail={loginEmail} loginPassword={loginPassword}
-                          etLoginEmail={setLoginEmail} SignWithFirebase={SignWithFirebase} failedLogIn={failedLogIn} setLoginPassword={setLoginPassword}/>
+                          setLoginEmail={setLoginEmail} SignWithFirebase={SignWithFirebase} failedLogIn={failedLogIn} setLoginPassword={setLoginPassword} />
                 )}
                 {!isRegistered && (
                   <Register SignWithFirebase={SignWithFirebase} setIsRegistered={setIsRegistered}/>

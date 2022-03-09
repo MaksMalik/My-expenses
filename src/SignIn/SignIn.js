@@ -5,11 +5,13 @@ import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {onAuthStateChanged, signInWithEmailAndPassword} from "firebase/auth";
 import {authentication} from "../Firebase/firebase";
 
 
 export default function SignIn({setIsRegistered, setFailedLogIn, loginEmail, loginPassword, setLoginEmail, SignWithFirebase, failedLogIn, setLoginPassword  }) {
+
+
 
   const MoveToRegister = (event) => {
     event.preventDefault();
