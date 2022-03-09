@@ -14,6 +14,7 @@ import {useState} from "react";
 import {createUserWithEmailAndPassword} from "firebase/auth";
 import {authentication} from "../../Firebase/firebase";
 import ResponsiveAppBarBeforeLogin from "../ResponsiveAppBarBeforeLogin";
+import {Alert, Snackbar} from "@mui/material";
 
 const theme = createTheme();
 
@@ -23,6 +24,14 @@ const Register = () => {
   const [registerPassword, setRegisterPassword] = useState()
   const [failedRegister, setFailedRegister] = useState(false)
   const [succeededRegister, setSucceededRegister] = useState(false)
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSucceededRegister(false);
+    setFailedRegister(false);
+  };
 
   let navigate = useNavigate()
 
@@ -103,6 +112,20 @@ const Register = () => {
               >
                 Sign up
               </Button>
+
+              <Snackbar open={succeededRegister} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                  Successfully registered. Redirecting to login page.
+                </Alert>
+              </Snackbar>
+
+              <Snackbar open={failedRegister} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                  Wrong e-mail or password. Try again
+                </Alert>
+              </Snackbar>
+
+
               <Grid container>
                 <Grid item xs>
                 </Grid>
