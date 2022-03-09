@@ -11,7 +11,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import {Link} from "react-router-dom";
 
 const ResponsiveAppBarAfterLogin = ({realUser, signUserOut, setDisplayStatistics}) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
