@@ -23,15 +23,18 @@ const App = () => {
 
   return (
     <>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home/>}/>
-          <Route path="/login" element={<Login setIsAuth={setIsAuth}/>}/>
-          <Route path="/register" element={<Register/>}/>
-          {/*<Route path="/statistics/" element={<Statistics realUser={realUser}/>}/>*/}
-          <Route path="/expenses" element={<AfterLogin setIsAuth={setIsAuth} realUser={realUser} isAuth={isAuth}/>}/>
-        </Routes>
-      </Router>
+      <div style={{backgroundImage: 'url("https://i.ibb.co/8DRKvkg/background.jpg")', backgroundSize:"cover", minHeight: "100vh"}}>
+
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home/>}/>
+            <Route path="/login" element={<Login setIsAuth={setIsAuth}/>}/>
+            <Route path="/register" element={<Register/>}/>
+            {/*<Route path="/statistics/" element={<Statistics realUser={realUser}/>}/>*/}
+            <Route path="/expenses" element={<AfterLogin setIsAuth={setIsAuth} realUser={realUser} isAuth={isAuth}/>}/>
+          </Routes>
+        </Router>
+      </div>
     </>
   )
 }

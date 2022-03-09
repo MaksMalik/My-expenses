@@ -43,7 +43,7 @@ export default function Home() {
 
   return (
     <>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme} >
         <CssBaseline />
         <AppBar position="relative">
           <Toolbar>
@@ -55,7 +55,6 @@ export default function Home() {
         <main>
           <Box
             sx={{
-              bgcolor: 'background.paper',
               pt: 8,
               pb: 6,
             }}
@@ -86,7 +85,7 @@ export default function Home() {
           </Box>
 
         </main>
-        <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
+        <Box sx={{ p: 6 }} component="footer">
           <Typography variant="h6" align="center" gutterBottom>
           </Typography>
           <Typography

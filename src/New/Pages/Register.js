@@ -63,11 +63,13 @@ const Register = () => {
     <>
       <ResponsiveAppBarBeforeLogin/>
       <ThemeProvider theme={theme}>
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs" style={{backgroundColor: "rgba(255,255,255,0.29)", boxShadow:"1px" +
+            " 2px 5px black", borderRadius:"5px", marginTop:"100px", padding: "40px 30px" +
+            " 40px 30px", width:"110%"}}>
           <CssBaseline />
           <Box
             sx={{
-              marginTop: 8,
+              marginTop: 0,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',

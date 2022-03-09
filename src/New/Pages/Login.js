@@ -14,6 +14,7 @@ import {authentication, provider} from "../../Firebase/firebase";
 import {signInWithEmailAndPassword, signInWithPopup} from "firebase/auth";
 import {useState} from "react";
 import ResponsiveAppBarBeforeLogin from "../ResponsiveAppBarBeforeLogin";
+import {Alert, Snackbar} from "@mui/material";
 
 const theme = createTheme();
 
@@ -24,6 +25,14 @@ const Login = ({setIsAuth}) => {
   const [failedLogIn, setFailedLogIn] = useState(false)
 
   let navigate = useNavigate()
+
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setFailedLogIn(false);
+  };
 
   const SubmitLogin =  (event) => {
     event.preventDefault();
@@ -61,11 +70,13 @@ const Login = ({setIsAuth}) => {
     <>
       <ResponsiveAppBarBeforeLogin/>
       <ThemeProvider theme={theme}>
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs" style={{backgroundColor: "rgba(255,255,255,0.29)", boxShadow:"1px" +
+            " 2px 5px black", borderRadius:"5px", marginTop:"100px", padding: "40px 30px" +
+            " 40px 30px", width:"110%"}}>
           <CssBaseline />
           <Box
             sx={{
-              marginTop: 8,
+              marginTop: 0,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -88,6 +99,7 @@ const Login = ({setIsAuth}) => {
                 name="email"
                 autoComplete="email"
                 autoFocus
+
               />
               <TextField
                 onChange={(event) => setLoginPassword(event.target.value)}
@@ -111,6 +123,13 @@ const Login = ({setIsAuth}) => {
               </Button>
             </Box>
           </Box>
+
+          <Snackbar open={failedLogIn} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+              Wrong e-mail or password. Try again
+            </Alert>
+          </Snackbar>
+
           <Button
             onClick={SignInWithGoogle}
             type="submit"
