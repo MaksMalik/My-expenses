@@ -1,11 +1,9 @@
 import * as React from 'react';
-import ResponsiveAppBarAfterLogin from "../ResponsiveAppBarAfterLogin";
 
-const Statistics = ({realUser, signUserOut}) => {
+const Statistics = () => {
   return (
     <>
-      <ResponsiveAppBarAfterLogin realUser={realUser} signUserOut={signUserOut}/>
-
+      <h1>Statistics</h1>
     </>
   )
 }

@@ -1,26 +1,17 @@
 import * as React from 'react';
-import {authentication, db} from "../../Firebase/firebase";
+import {authentication} from "../../Firebase/firebase";
 import {signOut} from "firebase/auth";
 import {useNavigate} from "react-router-dom";
 import ResponsiveAppBarAfterLogin from "../ResponsiveAppBarAfterLogin";
-import {TextField} from "@mui/material";
 import {useEffect, useState} from "react";
-import {addDoc, collection} from 'firebase/firestore'
+import Statistics from "./Statistics";
+import Expenses from "./Expenses";
 
 const AfterLogin = ({setIsAuth, realUser, isAuth}) => {
 
+  const [displayStatistics, setDisplayStatistics] = useState(true)
 
   let navigate = useNavigate()
-  const [title, setTitle] = useState("")
-  const createCollection = collection(db, "Expenses")
-
-
-  const create = async () => {
-    await addDoc(createCollection, {
-      title,
-      author: {name: realUser.email, id: realUser.uid}
-    })
-  }
   
   useEffect(() => {
     if (!isAuth) {
@@ -28,7 +19,6 @@ const AfterLogin = ({setIsAuth, realUser, isAuth}) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
 
 
   const signUserOut = () => {
@@ -42,10 +32,8 @@ const AfterLogin = ({setIsAuth, realUser, isAuth}) => {
 
   return (
     <>
-      <ResponsiveAppBarAfterLogin realUser={realUser} signUserOut={signUserOut}/>
-      <TextField id="outlined-basic" label="Expenses" variant="outlined" onChange={(event) => {setTitle(event.target.value)}}/>
-      <button onClick={create}>Send</button>
-      <TextField id="outlined-basic" label="Income" variant="outlined" />
+      <ResponsiveAppBarAfterLogin realUser={realUser} signUserOut={signUserOut} setDisplayStatistics={setDisplayStatistics}/>
+      {displayStatistics ? <Expenses realUser={realUser}/> : <Statistics/>}
     </>
   )
 }

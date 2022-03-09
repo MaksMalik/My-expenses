@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import {Link} from "react-router-dom";
 
-const ResponsiveAppBarAfterLogin = ({realUser, signUserOut}) => {
+const ResponsiveAppBarAfterLogin = ({realUser, signUserOut, setDisplayStatistics}) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -31,6 +31,16 @@ const ResponsiveAppBarAfterLogin = ({realUser, signUserOut}) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const displayStatisticsButton = () => {
+    setAnchorElUser(null);
+    setDisplayStatistics(false);
+  }
+
+  const displayExpensesButton = () => {
+    setAnchorElUser(null);
+    setDisplayStatistics(true);
+  }
 
   return (
     <AppBar position="static">
@@ -75,17 +85,13 @@ const ResponsiveAppBarAfterLogin = ({realUser, signUserOut}) => {
               }}
             >
               <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">
-                  <Link to='/expenses/expenses' style={{textDecoration: 'none', color: "black"}}>
-                    EXPENSES
-                  </Link>
+                <Typography textAlign="center" onClick={displayExpensesButton}>
+                  EXPENSES
                 </Typography>
               </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">
-                  <Link to='/expenses/statistics' style={{textDecoration: 'none', color: "black"}}>
-                    STATISTICS
-                  </Link>
+              <MenuItem onClick={handleCloseNavMenu} >
+                <Typography textAlign="center" onClick={displayStatisticsButton}>
+                  STATISTICS
                 </Typography>
               </MenuItem>
             </Menu>
@@ -100,20 +106,16 @@ const ResponsiveAppBarAfterLogin = ({realUser, signUserOut}) => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <Button
-              onClick={handleCloseNavMenu}
+              onClick={displayExpensesButton}
               sx={{ my: 2, color: 'white', display: 'block' }}
             >
-              <Link to='/expenses/expenses' style={{textDecoration: 'none', color: "white"}}>
-                EXPENSES
-              </Link>
+              EXPENSES
             </Button>
             <Button
-              onClick={handleCloseNavMenu}
+              onClick={displayStatisticsButton}
               sx={{ my: 2, color: 'white', display: 'block' }}
             >
-              <Link to='/expenses/statistics' style={{textDecoration: 'none', color: "white"}}>
-                STATISTICS
-              </Link>
+              STATISTICS
             </Button>
           </Box>
 
