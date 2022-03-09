@@ -18,6 +18,8 @@ const App = () => {
     setRealUser(currentUser)
   })
 
+  console.log(isAuth)
+
   return (
     <>
       <Router>

@@ -29,23 +29,22 @@ const Register = () => {
   const handleSubmitRegister = (event) => {
     event.preventDefault();
     try {
-      createUserWithEmailAndPassword(
+      createUserWithEmailAndPassword (
         authentication,
         registerEmail,
-        registerPassword
-      ).then(() =>{
+        registerPassword)
+      .then(() =>{
         setFailedRegister(false)
         setSucceededRegister(true)
         setTimeout(()=> {
           navigate("/login")
         }, 3000)
         }
-      ) .catch(() => {
+      ).catch(() => {
         setFailedRegister(true)
         setSucceededRegister(false)
       })
-    }
-    catch (error) {
+    }catch (error) {
       setFailedRegister(true)
       setSucceededRegister(false)
     }

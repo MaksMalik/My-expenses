@@ -21,7 +21,7 @@ const AfterLogin = ({setIsAuth, realUser}) => {
   return (
     <>
       <ResponsiveAppBarAfterLogin realUser={realUser} signUserOut={signUserOut}/>
-      <button onClick={signUserOut}>Logout</button>
+
     </>
   )
 }
