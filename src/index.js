@@ -13,7 +13,7 @@ import Statistics from "./New/Pages/Statistics";
 
 const App = () => {
 
-  const [isAuth, setIsAuth] = useState(false)
+  const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"))
   const [realUser, setRealUser] = useState({})
 
   onAuthStateChanged(authentication, (currentUser) => {
