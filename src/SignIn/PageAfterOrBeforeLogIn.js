@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {useEffect, useState} from "react";
+import { useState} from "react";
 import {GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "firebase/auth";
 import {authentication} from "../Firebase/firebase";
 import AfterSignIn from "./AfterSignIn";
@@ -80,6 +80,3 @@ export default function PageAfterOrBeforeLogIn() {
     </>
   )
 }
-
-
-

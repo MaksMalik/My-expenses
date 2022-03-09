@@ -20,10 +20,8 @@ import Tooltip from "@mui/material/Tooltip";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import {onAuthStateChanged, signOut} from "firebase/auth";
+import { signOut} from "firebase/auth";
 import {authentication} from "../Firebase/firebase";
-import {useEffect} from "react";
-
 
 function Copyright(props) {
   return (
