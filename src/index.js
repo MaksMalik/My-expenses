@@ -8,6 +8,7 @@ import Register from './New/Pages/Register'
 import {onAuthStateChanged } from "firebase/auth";
 import {authentication} from "./Firebase/firebase";
 import Home from "./New/Pages/Home";
+import ForgotPassword from "./New/Pages/ForgotPassword";
 
 const App = () => {
 
@@ -18,18 +19,15 @@ const App = () => {
     setRealUser(currentUser)
   })
 
-
-  console.log(isAuth)
-
   return (
     <>
       <div style={{backgroundImage: 'url("https://i.ibb.co/8DRKvkg/background.jpg")', backgroundSize:"cover", minHeight: "100vh"}}>
-
         <Router>
           <Routes>
             <Route path="/" element={<Home/>}/>
             <Route path="/login" element={<Login setIsAuth={setIsAuth}/>}/>
             <Route path="/register" element={<Register/>}/>
+            <Route path="/ForgotPassword" element={<ForgotPassword/>}/>
             {/*<Route path="/statistics/" element={<Statistics realUser={realUser}/>}/>*/}
             <Route path="/expenses" element={<AfterLogin setIsAuth={setIsAuth} realUser={realUser} isAuth={isAuth}/>}/>
           </Routes>

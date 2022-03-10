@@ -26,9 +26,6 @@ function Copyright() {
 
 const theme = createTheme();
 
-
-
-
 export default function Home() {
 
   let navigate = useNavigate()

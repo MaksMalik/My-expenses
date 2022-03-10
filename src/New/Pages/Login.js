@@ -142,14 +142,14 @@ const Login = ({setIsAuth}) => {
           <Grid container>
             <Grid item xs>
               <nav>
-                <Link to='/register'>
+                <Link to='/ForgotPassword'>
                   Forgot password?
                 </Link>
               </nav>
             </Grid>
             <Grid item>
               <Link to='/register'>
-                {"Don't have an account? Sign Up"}
+                Don't have an account? Sign Up
               </Link>
             </Grid>
           </Grid>

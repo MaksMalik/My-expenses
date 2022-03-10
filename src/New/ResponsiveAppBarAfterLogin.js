@@ -140,9 +140,6 @@ const ResponsiveAppBarAfterLogin = ({realUser, signUserOut, setDisplayStatistics
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem  onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">Change password</Typography>
-              </MenuItem>
               <MenuItem  onClick={signUserOut}>
                 <Typography textAlign="center">Logout</Typography>
               </MenuItem>

@@ -165,13 +165,13 @@ const Expenses = ({realUser}) => {
           flexWrap: 'wrap',
           '& > :not(style)': {
             m: 3,
-            width: '40%',
+            width: '70%',
             height: 'minContent',
           },
         }}
       >
-        <Paper style={{ height: '600px', maxHeight: '600px', width: '40%', backgroundColor: 'rgba(255,255,255,0.69)'}}>
-          <DataGrid columns={columns} rows={rows} style={{ height: '600px', maxHeight: '600px', width: '100%', background: 'transparent'}} />
+        <Paper style={{ height: '400px', maxHeight: '600px', width: '70%', backgroundColor: 'rgba(255,255,255,0.69)'}}>
+          <DataGrid columns={columns} rows={rows} style={{ height: '400px', maxHeight: '600px', width: '100%', background: 'transparent'}} />
         </Paper>
       </Box>
       <Box
