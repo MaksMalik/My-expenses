@@ -7,6 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SecurityIcon from '@mui/icons-material/Security';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import {db} from "../../Firebase/firebase";
+import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 
 const initialRows = [
@@ -92,13 +93,13 @@ const Expenses = ({realUser}) => {
     () => [
       { field: 'name', type: 'string' },
       { field: 'age', type: 'number' },
-      { field: 'dateCreated', type: 'date', width: 130 },
-      { field: 'lastLogin', type: 'dateTime', width: 180 },
-      { field: 'isAdmin', type: 'boolean', width: 120 },
+      { field: 'dateCreated', type: 'date', width: 90 },
+      { field: 'lastLogin', type: 'dateTime', width: 100 },
+      { field: 'isAdmin', type: 'boolean', width: 80 },
       {
         field: 'country',
         type: 'singleSelect',
-        width: 120,
+        width: 80,
         valueOptions: [
           'Bulgaria',
           'Netherlands',
@@ -111,7 +112,7 @@ const Expenses = ({realUser}) => {
       {
         field: 'discount',
         type: 'singleSelect',
-        width: 120,
+        width: 80,
         editable: true,
         valueOptions: ({ row }) => {
           if (row === undefined) {
@@ -130,7 +131,7 @@ const Expenses = ({realUser}) => {
       {
         field: 'actions',
         type: 'actions',
-        width: 80,
+        width: 60,
         getActions: (params) => [
           <GridActionsCellItem
             icon={<DeleteIcon />}
@@ -157,17 +158,21 @@ const Expenses = ({realUser}) => {
 
   return (
     <>
-      <Box sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        flexWrap: 'wrap',
-        '& > :not(style)': {
-          m: 3,
-          width: '90%',
-          height: 'minContent',
-        },
-      }} style={{backgroundColor: 'rgba(255,255,255,0.5)'}}>
-        <DataGrid columns={columns} rows={rows} />
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          flexWrap: 'wrap',
+          '& > :not(style)': {
+            m: 3,
+            width: '40%',
+            height: 'minContent',
+          },
+        }}
+      >
+        <Paper style={{ height: '600px', maxHeight: '600px', width: '40%', backgroundColor: 'rgba(255,255,255,0.69)'}}>
+          <DataGrid columns={columns} rows={rows} style={{ height: '600px', maxHeight: '600px', width: '100%', background: 'transparent'}} />
+        </Paper>
       </Box>
       <Box
         sx={{
@@ -176,7 +181,7 @@ const Expenses = ({realUser}) => {
           flexWrap: 'wrap',
           '& > :not(style)': {
             m: 3,
-            width: '90%',
+            width: '40%',
             height: 'minContent',
           },
         }}
@@ -185,6 +190,7 @@ const Expenses = ({realUser}) => {
         <TextField id="outlined-basic" label="Income" variant="outlined" />
         <button onClick={create}>Send</button>
       </Box>
+
     </>
   )
 }
