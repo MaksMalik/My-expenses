@@ -16,7 +16,16 @@ import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {Alert, Snackbar} from "@mui/material";
 
-const theme = createTheme();
+const theme = createTheme({
+  palette: {
+    secondary: {
+      main: 'rgba(0,0,0,0.21)'
+    },
+    primary: {
+      main: 'rgba(0,0,0,0.21)'
+    }
+  }}
+)
 
 
 const ForgotPassword = () => {
@@ -57,9 +66,9 @@ const ForgotPassword = () => {
     <>
       <ResponsiveAppBarBeforeLogin/>
       <ThemeProvider theme={theme}>
-        <Container component="main" maxWidth="xs" style={{backgroundColor: "rgba(255,255,255,0.29)", boxShadow:"1px" +
+        <Container component="main" maxWidth="xs" style={{backgroundColor: "rgba(0,0,0,0.21)", boxShadow:"1px" +
             " 2px 5px black", borderRadius:"5px", marginTop:"100px", padding: "40px 30px" +
-            " 40px 30px", width:"110%"}}>
+            " 40px 30px", width:"100%"}}>
           <CssBaseline />
           <Box
             sx={{
@@ -73,7 +82,7 @@ const ForgotPassword = () => {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Reset password
             </Typography>
             <Box component="form" noValidate sx={{ mt: 1 }}>
               <TextField
@@ -101,7 +110,7 @@ const ForgotPassword = () => {
           </Box>
 
           <Snackbar open={succeedResetPasswordEmail} autoHideDuration={6000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+            <Alert style={{backgroundColor: 'rgba(47,255,0,0.13)', color: 'rgba(255,255,255,0.55)'}} onClose={handleClose} severity="success" sx={{ width: '100%' }}>
               E-mail sent successfully. Redirecting to main page.
             </Alert>
           </Snackbar>
@@ -109,13 +118,13 @@ const ForgotPassword = () => {
           <Grid container>
             <Grid item xs>
               <nav>
-                <Link to='/login'>
+                <Link to='/login' style={{color: 'rgba(255,255,255,0.68)'}}>
                   Sign In
                 </Link>
               </nav>
             </Grid>
             <Grid item>
-              <Link to='/register'>
+              <Link to='/register' style={{color: 'rgba(255,255,255,0.68)'}}>
                 Don't have an account? Sign Up
               </Link>
             </Grid>

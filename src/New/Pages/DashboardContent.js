@@ -7,36 +7,22 @@ import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { mainListItems, secondaryListItems } from './listItems';
+import { mainListItems } from './listItems';
 import Tooltip from "@mui/material/Tooltip";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { signOut} from "firebase/auth";
-import {authentication} from "../Firebase/firebase";
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://my-expenses-final.netlify.app/">
-        My Expenses
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import Expenses from "./Expenses";
 
-const drawerWidth = 240;
+import {useNavigate} from "react-router-dom";
+import {useEffect} from "react";
+import {signOut} from "firebase/auth";
+import {authentication} from "../../Firebase/firebase";
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -55,6 +41,8 @@ const AppBar = styled(MuiAppBar, {
     }),
   }),
 }));
+
+const drawerWidth = 240;
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -82,13 +70,23 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-const mdTheme = createTheme();
-
-function DashboardContent({data}) {
+const DashboardContent = ({realUser, isAuth, setIsAuth}) => {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  const mdTheme = createTheme({
+    palette: {
+      secondary: {
+        main: '#093531'
+      },
+      primary: {
+        main: '#072623'
+      }
+    }}
+  )
+
 
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -100,21 +98,30 @@ function DashboardContent({data}) {
     setAnchorElUser(null);
   };
 
-  const LogOut = () => {
+  const signUserOut = () => {
     signOut(authentication)
     .then(() => {
-      console.log("Logged out")
-    })
-    .catch(error => {
-      console.log(error)
+      localStorage.clear();
+      setIsAuth(false)
+      navigate('/login')
     })
   }
 
+  let navigate = useNavigate()
+
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/")
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+
   return (
-    <ThemeProvider theme={mdTheme}>
-      <Box sx={{ display: 'flex' }}>
+    <ThemeProvider  theme={mdTheme}>
+      <Box  sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar position="absolute" open={open}>
+        <AppBar  position="absolute" open={open}>
           <Toolbar
             sx={{
               pr: '24px', // keep right padding when drawer closed
@@ -134,17 +141,17 @@ function DashboardContent({data}) {
             </IconButton>
             <Typography
               component="h1"
-              variant="h6"
+              variant="h5"
               color="inherit"
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              My expenses
+              My Expenses
             </Typography>
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src={data?.photoURL} />
+                  <Avatar alt="Remy Sharp" src={realUser?.photoURL} />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -167,7 +174,7 @@ function DashboardContent({data}) {
                   <Typography textAlign="center">Change password
                   </Typography>
                 </MenuItem>
-                <MenuItem onClick={LogOut}>
+                <MenuItem onClick={signUserOut}>
                   <Typography textAlign="center">Logout
                   </Typography>
                 </MenuItem>
@@ -175,8 +182,9 @@ function DashboardContent({data}) {
             </Box>
           </Toolbar>
         </AppBar>
-        <Drawer variant="permanent" open={open}>
+        <Drawer style={{backgroundColor: "#072623"}} variant="permanent" open={open}>
           <Toolbar
+            style={{backgroundColor: "#072623"}}
             sx={{
               display: 'flex',
               alignItems: 'center',
@@ -185,66 +193,30 @@ function DashboardContent({data}) {
             }}
           >
             <IconButton onClick={toggleDrawer}>
-              <ChevronLeftIcon />
+              <ChevronLeftIcon  style={{color: 'white'}} />
             </IconButton>
           </Toolbar>
-          <Divider />
-          <List component="nav">
+          <List style={{backgroundColor: "#072623", color: 'white'}} component="nav">
             {mainListItems}
-            <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
+
           </List>
         </Drawer>
         <Box
           component="main"
           sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === 'light'
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
             flexGrow: 1,
             height: '100vh',
             overflow: 'auto',
           }}
+          style={{background: "radial-gradient(circle, rgba(16,94,89,1) 0%, rgba(4,22,19,1) 100%)", minHeight: "100vh", maxWidth:"100vw"}}
         >
-          <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              {/* Chart */}
-              <Grid item xs={12} md={8} lg={9}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  {/*<Chart />*/}
-                </Paper>
-              </Grid>
-              {/* Recent Deposits */}
-              <Grid item xs={12} md={4} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  {/*<Deposits />*/}
-                </Paper>
-              </Grid>
-              {/* Recent Orders */}
-              <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  {/*<Orders />*/}
-                  Hello {data?.displayName}
-                </Paper>
-              </Grid>
-            </Grid>
-            <Copyright sx={{ pt: 4 }} />
+          <Toolbar  />
+          <Container sx={{ mt: 0, mb: 0 }}>
+
+
+            <Expenses realUser={realUser}/>
+
+
           </Container>
         </Box>
       </Box>
@@ -252,6 +224,4 @@ function DashboardContent({data}) {
   );
 }
 
-export default function Dashboard() {
-  return <DashboardContent />;
-}
+export default DashboardContent

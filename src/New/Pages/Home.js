@@ -16,7 +16,7 @@ function Copyright() {
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://my-expenses-final.netlify.app/">
-        My expenses
+        My Expenses
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -24,7 +24,16 @@ function Copyright() {
   );
 }
 
-const theme = createTheme();
+const theme = createTheme({
+  palette: {
+    secondary: {
+      main: '#093531'
+    },
+    primary: {
+      main: '#072623'
+    }
+  }}
+)
 
 export default function Home() {
 
@@ -44,7 +53,7 @@ export default function Home() {
         <CssBaseline />
         <AppBar position="relative">
           <Toolbar>
-            <Typography variant="h6" color="inherit" noWrap>
+            <Typography variant="h5" color="inherit" noWrap>
               My Expenses
             </Typography>
           </Toolbar>
@@ -63,6 +72,7 @@ export default function Home() {
                 align="center"
                 color="text.primary"
                 gutterBottom
+                style={{color:"rgb(255,255,255)"}}
               >
                 Welcome to<br></br>My Expenses
               </Typography>

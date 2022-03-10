@@ -16,7 +16,16 @@ import {useState} from "react";
 import ResponsiveAppBarBeforeLogin from "../ResponsiveAppBarBeforeLogin";
 import {Alert, Snackbar} from "@mui/material";
 
-const theme = createTheme();
+const theme = createTheme({
+  palette: {
+    secondary: {
+      main: 'rgba(0,0,0,0.21)'
+    },
+    primary: {
+      main: 'rgba(0,0,0,0.21)'
+    }
+  }}
+)
 
 const Login = ({setIsAuth}) => {
 
@@ -46,7 +55,7 @@ const Login = ({setIsAuth}) => {
       .then(() => {
         localStorage.setItem("isAuth", true);
         setIsAuth(true);
-        navigate("/expenses")
+        navigate("/dashboard")
       })
       .catch(() => {
         setFailedLogIn(true)
@@ -62,7 +71,7 @@ const Login = ({setIsAuth}) => {
     .then(() => {
       localStorage.setItem("isAuth", true);
       setIsAuth(true);
-      navigate("/expenses")
+      navigate("/dashboard")
     })
   }
 
@@ -70,9 +79,9 @@ const Login = ({setIsAuth}) => {
     <>
       <ResponsiveAppBarBeforeLogin/>
       <ThemeProvider theme={theme}>
-        <Container component="main" maxWidth="xs" style={{backgroundColor: "rgba(255,255,255,0.29)", boxShadow:"1px" +
+        <Container component="main" maxWidth="xs" style={{backgroundColor: "rgba(0,0,0,0.21)", boxShadow:"1px" +
             " 2px 5px black", borderRadius:"5px", marginTop:"100px", padding: "40px 30px" +
-            " 40px 30px", width:"110%"}}>
+            " 40px 30px", width:"100%"}}>
           <CssBaseline />
           <Box
             sx={{
@@ -112,7 +121,7 @@ const Login = ({setIsAuth}) => {
                 id="password"
                 autoComplete="current-password"
               />
-              {failedLogIn && (<div style={{color: 'red'}}>Wrong e-mail or password</div>)}
+              {failedLogIn && (<div style={{color: 'rgba(255,0,0,0.57)', textAlign: 'center', paddingTop:"10px"}}>Wrong e-mail or password</div>)}
               <Button
                 type="submit"
                 fullWidth
@@ -125,7 +134,7 @@ const Login = ({setIsAuth}) => {
           </Box>
 
           <Snackbar open={failedLogIn} autoHideDuration={6000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+            <Alert  style={{backgroundColor: 'rgba(255,0,0,0.2)', color: 'rgba(255,255,255,0.55)'}}  onClose={handleClose} severity="error" sx={{ width: '100%' }}>
               Wrong e-mail or password. Try again
             </Alert>
           </Snackbar>
@@ -136,20 +145,21 @@ const Login = ({setIsAuth}) => {
             fullWidth
             variant="contained"
             sx={{ mt: 1, mb: 2 }}
+            style={{backgroundColor: 'rgba(40,58,211,0.22)', color: 'rgb(255,255,255)'}}
           >
             Sign In With Google
           </Button>
           <Grid container>
             <Grid item xs>
               <nav>
-                <Link to='/ForgotPassword'>
+                <Link to='/ForgotPassword' style={{color: 'rgba(255,255,255,0.68)'}}>
                   Forgot password?
                 </Link>
               </nav>
             </Grid>
             <Grid item>
-              <Link to='/register'>
-                Don't have an account? Sign Up
+              <Link to='/register' style={{color: 'rgba(255,255,255,0.68)'}}>
+                Don't have an account?
               </Link>
             </Grid>
           </Grid>

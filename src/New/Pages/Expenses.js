@@ -1,196 +1,122 @@
 import * as React from 'react';
-import {TextField} from "@mui/material";
-import {useState} from "react";
-import {addDoc, collection} from "firebase/firestore";
-import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
-import DeleteIcon from '@mui/icons-material/Delete';
-import SecurityIcon from '@mui/icons-material/Security';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
-import {db} from "../../Firebase/firebase";
+import { useState} from "react";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import {FormControl, InputLabel, Select, TextField} from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
+import {db} from "../../Firebase/firebase";
+import {collection, addDoc } from "firebase/firestore"
+import {useNavigate} from "react-router-dom";
+import {createTheme} from "@mui/material/styles";
 
-const initialRows = [
-  {
-    id: 1,
-    name: 'Damien',
-    age: 25,
-    dateCreated: 12,
-    lastLogin: 41,
-    isAdmin: true,
-    country: 'Spain',
-    discount: '',
-  },
-  {
-    id: 2,
-    name: 'Nicolas',
-    age: 36,
-    dateCreated: 312,
-    lastLogin: 123,
-    isAdmin: false,
-    country: 'France',
-    discount: '',
-  },
-  {
-    id: 3,
-    name: 'Kate',
-    age: 19,
-    dateCreated: 2,
-    lastLogin: 2,
-    isAdmin: false,
-    country: 'Brazil',
-    discount: 'junior',
-  },
-];
+const theme = createTheme({
+  palette: {
+    secondary: {
+      main: '#093531'
+    },
+    primary: {
+      main: '#072623'
+    }
+  }}
+)
 
 const Expenses = ({realUser}) => {
-
-  const [title, setTitle] = useState("")
-  const createCollection = collection(db, "Expenses")
-
-
-  const create = async () => {
-    await addDoc(createCollection, {
-      title,
-      author: {name: realUser.email, id: realUser.uid}
+  const [newExpense, setNewExpense] = useState(
+    {
+      transactions: [],
+      balance: 0,
+      transactionName: "",
+      transactionType: "",
+      amount: "",
+      currentUID: realUser?.uid,
     })
+
+  const transactionCollection = collection(db, 'Transactions/users/' + realUser?.uid)
+
+  let navigate = useNavigate()
+
+  const handleChange = async () => {
+    if (newExpense.transactionType && newExpense.transactionName && newExpense.amount) {
+      const BackUpState = newExpense.transactions
+      BackUpState.push({
+        id: BackUpState.length + 1,
+        name: newExpense.transactionName,
+        type: newExpense.transactionType,
+        amount: newExpense.amount,
+        user_id: newExpense.currentUID
+      })
+      try {addDoc(transactionCollection, {
+        id: BackUpState.length + 1,
+        name: newExpense.transactionName,
+        type: newExpense.transactionType,
+        amount: newExpense.amount,
+        user_id: newExpense.currentUID,
+        balance: newExpense.transactionType === 'income' ? newExpense.balance + parseFloat(newExpense.amount) : newExpense.balance - parseFloat(newExpense.amount)
+      })
+      .then(() =>{
+        console.log("Successfully added")
+        setNewExpense({...newExpense, transactionType: "", transactionName: "", amount: "", balance: newExpense.transactionType === 'income' ? newExpense.balance + parseFloat(newExpense.amount) : newExpense.balance - parseFloat(newExpense.amount)})
+        console.log(newExpense)
+      })}
+      catch (error) {
+        navigate('/login')
+      }
+    }
   }
-
-
-  const [rows, setRows] = React.useState(initialRows);
-
-  const deleteUser = React.useCallback(
-    (id) => () => {
-      setTimeout(() => {
-        setRows((prevRows) => prevRows.filter((row) => row.id !== id));
-      });
-    },
-    [],
-  );
-
-  const toggleAdmin = React.useCallback(
-    (id) => () => {
-      setRows((prevRows) =>
-        prevRows.map((row) =>
-          row.id === id ? { ...row, isAdmin: !row.isAdmin } : row,
-        ),
-      );
-    },
-    [],
-  );
-
-  const duplicateUser = React.useCallback(
-    (id) => () => {
-      setRows((prevRows) => {
-        const rowToDuplicate = prevRows.find((row) => row.id === id);
-        return [...prevRows, { ...rowToDuplicate, id: Date.now() }];
-      });
-    },
-    [],
-  );
-
-  const columns = React.useMemo(
-    () => [
-      { field: 'name', type: 'string' },
-      { field: 'age', type: 'number' },
-      { field: 'dateCreated', type: 'date', width: 90 },
-      { field: 'lastLogin', type: 'dateTime', width: 100 },
-      { field: 'isAdmin', type: 'boolean', width: 80 },
-      {
-        field: 'country',
-        type: 'singleSelect',
-        width: 80,
-        valueOptions: [
-          'Bulgaria',
-          'Netherlands',
-          'France',
-          'United Kingdom',
-          'Spain',
-          'Brazil',
-        ],
-      },
-      {
-        field: 'discount',
-        type: 'singleSelect',
-        width: 80,
-        editable: true,
-        valueOptions: ({ row }) => {
-          if (row === undefined) {
-            return ['EU-resident', 'junior'];
-          }
-          const options = [];
-          if (!['United Kingdom', 'Brazil'].includes(row.country)) {
-            options.push('EU-resident');
-          }
-          if (row.age < 27) {
-            options.push('junior');
-          }
-          return options;
-        },
-      },
-      {
-        field: 'actions',
-        type: 'actions',
-        width: 60,
-        getActions: (params) => [
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={deleteUser(params.id)}
-          />,
-          <GridActionsCellItem
-            icon={<SecurityIcon />}
-            label="Toggle Admin"
-            onClick={toggleAdmin(params.id)}
-            showInMenu
-          />,
-          <GridActionsCellItem
-            icon={<FileCopyIcon />}
-            label="Duplicate User"
-            onClick={duplicateUser(params.id)}
-            showInMenu
-          />,
-        ],
-      },
-    ],
-    [deleteUser, toggleAdmin, duplicateUser],
-  );
 
   return (
     <>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          flexWrap: 'wrap',
-          '& > :not(style)': {
-            m: 3,
-            width: '70%',
-            height: 'minContent',
-          },
-        }}
-      >
-        <Paper style={{ height: '400px', maxHeight: '600px', width: '70%', backgroundColor: 'rgba(255,255,255,0.69)'}}>
-          <DataGrid columns={columns} rows={rows} style={{ height: '400px', maxHeight: '600px', width: '100%', background: 'transparent'}} />
-        </Paper>
+      <Box theme={theme} sx={{display: 'flex',justifyContent: 'center',flexWrap: 'wrap', '& > :not(style)': { m: 3, width: '70%', height: 'minContent',},}}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Paper style={{ maxHeight: 'minContent', padding:"30px", backgroundColor: 'rgba(0,0,0,0.21)'}}>
+              <Typography style={{color: "rgba(255,255,255,0.85)"}} variant="h5" >
+                {realUser?.displayName ? <>{realUser.displayName}, your balance:</> : ("Your balance:")} {newExpense?.balance} zł
+              </Typography>
+            </Paper>
+          </Grid>
+          <Grid item xs={4}>
+            <Paper style={{ height: '400px', maxHeight: '600px', backgroundColor: 'rgba(0,0,0,0.21)'}}>
+              <Box sx={{display: 'flex',justifyContent: 'center',flexWrap: 'wrap', '& > :not(style)': { m: 3, width: '100%', height: 'minContent',},}}>
+                <TextField
+                  id="outlined-number"
+                  label="Amount"
+                  type="number"
+                  value={newExpense.amount}
+                  onChange={(event) => setNewExpense({...newExpense, amount: event.target.value})}
+                />
+                <TextField
+                  id="outlined-password-input"
+                  label="Purpose"
+                  onChange={(event) => setNewExpense({...newExpense, transactionName: event.target.value})}
+                />
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Type</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={newExpense.transactionType}
+                    label="Type"
+                    onChange={(event) => setNewExpense({...newExpense, transactionType: event.target.value})}
+                  >
+                    <MenuItem value="expense">Expense</MenuItem>
+                    <MenuItem value="income">Income</MenuItem>
+                  </Select>
+                </FormControl>
+                <button onClick={handleChange}>Dodaj</button>
+              </Box>
+            </Paper>
+          </Grid>
+          <Grid item xs={8}>
+            <Paper style={{ height: '400px', maxHeight: '600px',backgroundColor: 'rgba(0,0,0,0.21)'}}/>
+          </Grid>
+          <Grid item xs={12}>
+            <Paper style={{ height: '100px', maxHeight: '100px',  backgroundColor: 'rgba(0,0,0,0.21)'}}/>
+          </Grid>
+        </Grid>
       </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          flexWrap: 'wrap',
-          '& > :not(style)': {
-            m: 3,
-            width: '40%',
-            height: 'minContent',
-          },
-        }}
-      >
-        <TextField id="outlined-basic" label="Expenses" variant="outlined" onChange={(event) => {setTitle(event.target.value)}}/>
-        <TextField id="outlined-basic" label="Income" variant="outlined" />
-        <button onClick={create}>Send</button>
-      </Box>
-
     </>
   )
 }

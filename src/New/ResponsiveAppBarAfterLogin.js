@@ -11,6 +11,18 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import {createTheme} from "@mui/material/styles";
+
+const theme = createTheme({
+  palette: {
+    secondary: {
+      main: '#093531'
+    },
+    primary: {
+      main: '#072623'
+    }
+  }}
+)
 
 const ResponsiveAppBarAfterLogin = ({realUser, signUserOut, setDisplayStatistics}) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -42,11 +54,11 @@ const ResponsiveAppBarAfterLogin = ({realUser, signUserOut, setDisplayStatistics
   }
 
   return (
-    <AppBar position="static">
+    <AppBar theme={theme} position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
-            variant="h6"
+            variant="h4"
             noWrap
             component="div"
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
@@ -139,8 +151,9 @@ const ResponsiveAppBarAfterLogin = ({realUser, signUserOut, setDisplayStatistics
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
+
             >
-              <MenuItem  onClick={signUserOut}>
+              <MenuItem style={{color:"rgba(255,255,255,0.6)", backgroundColor:"#062320"}}  onClick={signUserOut}>
                 <Typography textAlign="center">Logout</Typography>
               </MenuItem>
             </Menu>

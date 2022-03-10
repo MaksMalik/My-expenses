@@ -4,15 +4,27 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import {createTheme} from "@mui/material/styles";
+
+const theme = createTheme({
+  palette: {
+    secondary: {
+      main: '#093531'
+    },
+    primary: {
+      main: '#072623'
+    }
+  }}
+)
 
 const ResponsiveAppBarBeforeLogin = () => {
 
   return (
-    <AppBar position="static">
+    <AppBar theme={theme} position="static">
       <Container maxWidth="m">
         <Toolbar disableGutters>
           <Typography
-            variant="h6"
+            variant="h4"
             noWrap
             component="div"
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
