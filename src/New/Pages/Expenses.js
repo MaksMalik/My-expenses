@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState} from "react";
+import {useEffect, useState} from "react";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -7,26 +7,15 @@ import Typography from "@mui/material/Typography";
 import {FormControl, InputLabel, Select, TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import {db} from "../../Firebase/firebase";
-import {collection, addDoc } from "firebase/firestore"
+import {collection, addDoc, onSnapshot } from "firebase/firestore"
 import {useNavigate} from "react-router-dom";
-// import {createTheme} from "@mui/material/styles";
 import Container from "@mui/material/Container";
 
-// const theme = createTheme({
-//   palette: {
-//     secondary: {
-//       main: '#093531'
-//     },
-//     primary: {
-//       main: '#072623'
-//     }
-//   }}
-// )
 
 const Expenses = ({realUser}) => {
   const [newExpense, setNewExpense] = useState(
     {
-      transactions: [1,2],
+      transactions: [],
       balance: 0,
       transactionName: "",
       transactionType: "",
@@ -59,13 +48,27 @@ const Expenses = ({realUser}) => {
       .then(() =>{
         console.log("Successfully added")
         setNewExpense({...newExpense, transactionType: "", transactionName: "", amount: "", balance: newExpense.transactionType === 'income' ? newExpense.balance + parseFloat(newExpense.amount) : newExpense.balance - parseFloat(newExpense.amount)})
-        console.log(newExpense)
       })}
       catch (error) {
         navigate('/login')
       }
     }
   }
+
+  useEffect(() => {
+    const BackUpState = newExpense.transactions
+    let totalMoney = newExpense.amount
+
+    onSnapshot(collection(db, "Transactions/users/" + realUser?.uid), (snapshot) => {
+      const transactions = (snapshot.docs.map(doc => doc.data()))
+      transactions.forEach(transaction => {
+        newExpense.balance = transaction.type === 'income' ?
+          Number(transaction.amount) + newExpense.balance :
+          newExpense.balance - Number(transaction.amount)
+      })
+
+    })
+  }, [realUser, newExpense])
 
   return (
     <>
@@ -142,13 +145,20 @@ const Expenses = ({realUser}) => {
               xs={12}
             >
               <Paper style={{ height: '400px', maxHeight: '600px',backgroundColor: 'rgba(0,0,0,0)'}}>
-                {newExpense.transactions.map((transaction, index) => {
-                  return (
-                    <Paper  key={index} style={{ height: '40px', maxHeight: '40px',backgroundColor: 'rgba(0,0,0,0.21)', width:"100%"}}>
-                      {transaction.transactionType}
-                    </Paper>
-                  )
-                })}
+                <ul> Latest Transactions
+                  {newExpense.transactions.map((transaction, index) => (
+                    <li key={index}>
+                      <div>{transaction.name}</div>
+                      <div>{transaction.transactionType === "income" ?
+                        (<span className="deposit">+ {transaction.amount}</span>) :
+                        (<span className="income">- {transaction.amount}</span>)}
+                      </div>
+                    </li>
+                    )
+                  )}
+
+                </ul>
+
               </Paper>
             </Grid>
           </Grid>
