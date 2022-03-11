@@ -16,15 +16,14 @@ import {authentication} from "../../Firebase/firebase";
 import {Alert, Snackbar} from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import DashboardSidebar from "./DashboardSidebar";
 
 const theme = createTheme({
   palette: {
     secondary: {
-      main: 'rgba(0,0,0,0.21)'
+      main: '#093531'
     },
     primary: {
-      main: 'rgba(0,0,0,0.21)'
+      main: 'rgba(7,38,35,0.79)'
     }
   }}
 )
@@ -73,10 +72,10 @@ const Register = () => {
   return (
     <>
       <ThemeProvider theme={theme}>
+        <CssBaseline />
+
         <AppBar position="relative">
           <Toolbar style={{display: 'flex', justifyContent: 'center'}}>
-            <DashboardSidebar/>
-
             <Typography   variant="h5" color="inherit" noWrap>
               My Expenses
             </Typography>

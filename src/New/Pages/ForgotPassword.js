@@ -20,10 +20,10 @@ import Toolbar from "@mui/material/Toolbar";
 const theme = createTheme({
   palette: {
     secondary: {
-      main: 'rgba(0,0,0,0.21)'
+      main: '#093531'
     },
     primary: {
-      main: 'rgba(0,0,0,0.21)'
+      main: 'rgba(7,38,35,0.79)'
     }
   }}
 )
@@ -62,7 +62,7 @@ const ForgotPassword = () => {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <AppBar position="relative">
+        <AppBar theme={theme} position="relative">
           <Toolbar style={{display: 'flex', justifyContent: 'center'}}>
             <Typography  variant="h5" color="inherit" noWrap>
               My Expenses

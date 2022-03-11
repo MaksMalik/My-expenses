@@ -5,18 +5,18 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import Container from '@mui/material/Container';
 import Tooltip from "@mui/material/Tooltip";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Expenses from "./Expenses";
 import {useNavigate} from "react-router-dom";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {signOut} from "firebase/auth";
 import {authentication} from "../../Firebase/firebase";
 import DashboardSidebar from "./DashboardSidebar";
 import {AppBar} from "@mui/material";
+import Statistics from "./Statistics";
 
 
 
@@ -33,6 +33,9 @@ const DashboardContent = ({realUser, isAuth, setIsAuth}) => {
       }
     }}
   )
+
+  const [isStatistics, setIsStatistics] = useState(false)
+
 
 
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -68,7 +71,7 @@ const DashboardContent = ({realUser, isAuth, setIsAuth}) => {
     <ThemeProvider  theme={mdTheme} >
       <AppBar position="relative">
         <Toolbar style={{display: 'flex', justifyContent: 'center'}}>
-          <DashboardSidebar>MENU</DashboardSidebar>
+          <DashboardSidebar setIsStatistics={setIsStatistics}/>
 
 
 
@@ -124,10 +127,11 @@ const DashboardContent = ({realUser, isAuth, setIsAuth}) => {
           style={{background: "radial-gradient(circle, rgba(16,94,89,1) 0%, rgba(4,22,19,1) 100%)", minHeight: "100vh", maxWidth:"100vw"}}
         >
           <Toolbar  />
-          <Container sx={{ mt: 0, mb: 0 }}>
-            <Expenses realUser={realUser}/>
-          </Container>
-        </Box>
+
+
+          {!isStatistics ? <Expenses realUser={realUser}/> : <Statistics realUser={realUser}/>}
+
+            </Box>
       </Box>
     </ThemeProvider>
   );
