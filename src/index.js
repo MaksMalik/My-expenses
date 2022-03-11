@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import ReactDOM from 'react-dom'
 import "./index.scss"
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom"
@@ -25,9 +25,12 @@ const App = () => {
     })
   }
 
-  onAuthStateChanged(authentication, (currentUser) => {
-    setRealUser(currentUser)
-  })
+  useEffect(() => {
+    onAuthStateChanged(authentication, (currentUser) => {
+      setRealUser(currentUser)
+    })
+  }, [])
+
 
   return (
     <>
@@ -38,7 +41,7 @@ const App = () => {
             <Route path="/login" element={<Login setIsAuth={setIsAuth}/>}/>
             <Route path="/register" element={<Register/>}/>
             <Route path="/ForgotPassword" element={<ForgotPassword/>}/>
-            <Route path="/dashboard" element={<DashboardContent signUserOut={signUserOut} isAuth={isAuth} realUser={realUser}/>}/>
+            <Route path="/dashboard" element={<DashboardContent setIsAuth={setIsAuth} signUserOut={signUserOut} isAuth={isAuth} realUser={realUser}/>}/>
           </Routes>
         </Router>
       </div>

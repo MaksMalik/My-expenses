@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { sendPasswordResetEmail } from "firebase/auth";
 import {authentication} from "../../Firebase/firebase";
-import ResponsiveAppBarBeforeLogin from "../ResponsiveAppBarBeforeLogin";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -15,6 +14,8 @@ import Grid from "@mui/material/Grid";
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {Alert, Snackbar} from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
 
 const theme = createTheme({
   palette: {
@@ -27,15 +28,11 @@ const theme = createTheme({
   }}
 )
 
-
 const ForgotPassword = () => {
 
   const [resetPasswordEmail, setResetPasswordEmail] = useState()
   const [resetPasswordEmailUpdated, setResetPasswordEmailUpdated] = useState()
   const [succeedResetPasswordEmail, setSucceedResetPasswordEmail] = useState(false)
-
-
-
 
   useEffect(() => {
     if (!resetPasswordEmailUpdated) return false
@@ -64,8 +61,14 @@ const ForgotPassword = () => {
 
   return (
     <>
-      <ResponsiveAppBarBeforeLogin/>
       <ThemeProvider theme={theme}>
+        <AppBar position="relative">
+          <Toolbar style={{display: 'flex', justifyContent: 'center'}}>
+            <Typography  variant="h5" color="inherit" noWrap>
+              My Expenses
+            </Typography>
+          </Toolbar>
+        </AppBar>
         <Container component="main" maxWidth="xs" style={{backgroundColor: "rgba(0,0,0,0.21)", boxShadow:"1px" +
             " 2px 5px black", borderRadius:"5px", marginTop:"100px", padding: "40px 30px" +
             " 40px 30px", width:"100%"}}>
@@ -81,7 +84,7 @@ const ForgotPassword = () => {
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography component="h1" variant="h5">
+            <Typography style={{color:"#fff"}} component="h1" variant="h5">
               Reset password
             </Typography>
             <Box component="form" noValidate sx={{ mt: 1 }}>

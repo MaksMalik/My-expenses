@@ -13,9 +13,9 @@ import {useNavigate} from "react-router-dom";
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="text.secondary" align="center">
+    <Typography style={{color:"rgba(255,255,255,0.66)"}} variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://my-expenses-final.netlify.app/">
+      <Link  style={{color:"rgba(255,255,255,0.66)"}}  href="https://my-expenses-final.netlify.app/">
         My Expenses
       </Link>{' '}
       {new Date().getFullYear()}
@@ -52,8 +52,8 @@ export default function Home() {
       <ThemeProvider theme={theme} >
         <CssBaseline />
         <AppBar position="relative">
-          <Toolbar>
-            <Typography variant="h5" color="inherit" noWrap>
+          <Toolbar style={{display: 'flex', justifyContent: 'center'}}>
+            <Typography  variant="h5" color="inherit" noWrap>
               My Expenses
             </Typography>
           </Toolbar>
@@ -76,7 +76,7 @@ export default function Home() {
               >
                 Welcome to<br></br>My Expenses
               </Typography>
-              <Typography variant="h5" align="center" color="text.secondary" paragraph>
+              <Typography style={{color:"rgba(255,255,255,0.74)"}} variant="h5" align="center" color="text.secondary" paragraph>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non dignissim leo, egestas suscipit dolor. Aenean turpis lectus, elementum id sagittis nec, malesuada ac neque. Nullam luctus vulputate ipsum. Mauris nec arcu convallis, varius tortor vel, egestas neque. Donec sollicitudin congue eros sed tincidunt.
               </Typography>
               <Stack

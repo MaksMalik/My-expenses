@@ -25,7 +25,7 @@ const theme = createTheme({
 const Expenses = ({realUser}) => {
   const [newExpense, setNewExpense] = useState(
     {
-      transactions: [],
+      transactions: [1,2],
       balance: 0,
       transactionName: "",
       transactionType: "",
@@ -68,7 +68,7 @@ const Expenses = ({realUser}) => {
 
   return (
     <>
-      <Box theme={theme} sx={{display: 'flex',justifyContent: 'center',flexWrap: 'wrap', '& > :not(style)': { m: 3, width: '70%', height: 'minContent',},}}>
+      <Box theme={theme} sx={{display: 'flex',justifyContent: 'center',flexWrap: 'wrap', '& > :not(style)': { m: 3, width: '100%', height: 'minContent',},}}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Paper style={{ maxHeight: 'minContent', padding:"30px", backgroundColor: 'rgba(0,0,0,0.21)'}}>
@@ -110,7 +110,15 @@ const Expenses = ({realUser}) => {
             </Paper>
           </Grid>
           <Grid item xs={8}>
-            <Paper style={{ height: '400px', maxHeight: '600px',backgroundColor: 'rgba(0,0,0,0.21)'}}/>
+            <Paper style={{ height: '400px', maxHeight: '600px',backgroundColor: 'rgba(0,0,0,0)'}}>
+              {newExpense.transactions.map((transaction, index) => {
+                return (
+                  <Paper  key={index} style={{ height: '40px', maxHeight: '40px',backgroundColor: 'rgba(0,0,0,0.21)', width:"100%"}}>
+                    {transaction.transactionType}
+                  </Paper>
+                )
+              })}
+            </Paper>
           </Grid>
           <Grid item xs={12}>
             <Paper style={{ height: '100px', maxHeight: '100px',  backgroundColor: 'rgba(0,0,0,0.21)'}}/>

@@ -13,8 +13,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {authentication, provider} from "../../Firebase/firebase";
 import {signInWithEmailAndPassword, signInWithPopup} from "firebase/auth";
 import {useState} from "react";
-import ResponsiveAppBarBeforeLogin from "../ResponsiveAppBarBeforeLogin";
 import {Alert, Snackbar} from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
 
 const theme = createTheme({
   palette: {
@@ -77,8 +78,14 @@ const Login = ({setIsAuth}) => {
 
   return (
     <>
-      <ResponsiveAppBarBeforeLogin/>
       <ThemeProvider theme={theme}>
+        <AppBar position="relative">
+          <Toolbar style={{display: 'flex', justifyContent: 'center'}}>
+            <Typography  variant="h5" color="inherit" noWrap>
+              My Expenses
+            </Typography>
+          </Toolbar>
+        </AppBar>
         <Container component="main" maxWidth="xs" style={{backgroundColor: "rgba(0,0,0,0.21)", boxShadow:"1px" +
             " 2px 5px black", borderRadius:"5px", marginTop:"100px", padding: "40px 30px" +
             " 40px 30px", width:"100%"}}>
@@ -94,7 +101,7 @@ const Login = ({setIsAuth}) => {
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography component="h1" variant="h5">
+            <Typography style={{color:"#fff"}} component="h1" variant="h5">
               Sign in
             </Typography>
             <Box component="form" onSubmit={SubmitLogin} noValidate sx={{ mt: 1 }}>
