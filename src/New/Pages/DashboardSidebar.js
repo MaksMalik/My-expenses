@@ -7,9 +7,10 @@ import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MenuIcon from "@mui/icons-material/Menu";
 import {useState} from "react";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import BarChartIcon from "@mui/icons-material/BarChart";
 
 export default function DashboardSidebar({setIsStatistics}) {
   const [state, setState] = useState({
@@ -41,14 +42,14 @@ export default function DashboardSidebar({setIsStatistics}) {
       <List style={{background: 'linear-gradient(0deg, rgba(12,55,52,1) 0%, rgba(4,22,19,1) 100%', minHeight:"100vh", color:'#fff'}}>
         <ListItem button  onClick={() => setIsStatistics(false)}>
           <ListItemIcon style={{color:'#fff'}} >
-            <InboxIcon />
+            <DashboardIcon style={{color: "#fff"}} />
           </ListItemIcon>
           <ListItemText primary="Expenses" />
         </ListItem>
 
         <ListItem button  onClick={() => setIsStatistics(true)}>
           <ListItemIcon style={{color:'#fff'}} >
-            <InboxIcon />
+            <BarChartIcon style={{color: "#fff"}}/>
           </ListItemIcon>
           <ListItemText primary="Statistics" />
         </ListItem>

@@ -121,7 +121,7 @@ const DashboardContent = ({realUser, isAuth, setIsAuth}) => {
           component="main"
           sx={{
             flexGrow: 1,
-            height: '100vh',
+            height: '100%',
             overflow: 'auto',
           }}
           style={{background: "radial-gradient(circle, rgba(16,94,89,1) 0%, rgba(4,22,19,1) 100%)", minHeight: "100vh", maxWidth:"100vw"}}
