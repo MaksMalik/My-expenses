@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import {db} from "../../Firebase/firebase";
-import {collection, addDoc, onSnapshot } from "firebase/firestore"
+import {collection, addDoc, onSnapshot, updateDoc, doc, deleteField, deleteDoc } from "firebase/firestore"
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
@@ -28,6 +28,7 @@ import FlightIcon from '@mui/icons-material/Flight';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import Divider from "@mui/material/Divider";
+
 
 
 
@@ -91,12 +92,19 @@ const Expenses = ({realUser,}) => {
         return a.id - b.id
       })).slice(-1).pop()?.expense
       setExpense(!newExpense ? 0 : newExpense)
-
     })
-
-
     return() => sub()
   }, [realUser?.uid])
+
+
+  const handleDelete = async (transaction) => {
+    const docRef = doc(db, "Transactions/users/" + realUser?.uid + "/" + transaction.id)
+    console.log(docRef.id)
+    await deleteDoc(docRef)
+    .then(() => {
+      console.log("teded")
+    })
+  }
 
   return (
     <>
@@ -215,7 +223,7 @@ const Expenses = ({realUser,}) => {
                   <Paper style={{ height:"minContent", marginLeft:"20px", marginRight:"10px", backgroundColor: 'rgb(13,77,44)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
                     <Typography variant="h7">INCOME</Typography>
 
-                    <Typography variant="h4">{income}</Typography>
+                    <Typography style={{paddingBottom:"15px"}} variant="h4">{income} zł</Typography>
 
                   </Paper>
                 </Grid>
@@ -228,7 +236,7 @@ const Expenses = ({realUser,}) => {
                 >
                   <Paper style={{ height:"minContent", marginRight:"20px", marginLeft:"10px", backgroundColor: 'rgba(93,19,15,0.46)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
                     <Typography variant="h7">EXPENSES</Typography>
-                    <Typography variant="h4">{expense}</Typography>
+                    <Typography style={{paddingBottom:"15px"}} variant="h4">{expense} zł</Typography>
 
                   </Paper>
                 </Grid>
@@ -258,7 +266,7 @@ const Expenses = ({realUser,}) => {
                           <ListItem
                             style={{backgroundColor:`${transaction.type === "income" ? "rgba(25,145,21,0.25)" : "rgba(145,21,21,0.35)"}`}}
                             secondaryAction={
-                            <IconButton edge="end">
+                            <IconButton edge="end" onClick={() => handleDelete(transaction)}>
                               <DeleteIcon style={{color: "#fff"}} />
                             </IconButton>
                           }
