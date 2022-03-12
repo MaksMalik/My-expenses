@@ -38,6 +38,9 @@ const Expenses = ({realUser,}) => {
   const [transactionType, setTransactionType] = useState('income')
   const [transactionCategory, setTransactionCategory] = useState('bills')
   const [transactionName, setTransactionName] = useState()
+  const [expense, setExpense] = useState(0)
+  const [income, setIncome] = useState(0)
+
 
   const transactionCollection = collection(db, 'Transactions/users/' + realUser?.uid)
 
@@ -59,10 +62,11 @@ const Expenses = ({realUser,}) => {
         type: transactionType,
         amount: amount,
         category: transactionCategory,
+        income: (transactionType === 'income' ? income + parseFloat(amount) : income),
+        expense: (transactionType === 'expense' ? expense + parseFloat(amount) : expense),
         user_id: `${realUser?.uid}`,
         balance: (transactionType === 'income' ? balance + parseFloat(amount) : balance - parseFloat(amount))
-        }
-      )
+      })
       setOpen(false)
     }
   }
@@ -76,9 +80,20 @@ const Expenses = ({realUser,}) => {
       const newBalance = (mySnapShot.sort((a, b) => {
         return a.id - b.id
       })).slice(-1).pop()?.balance
-
       setBalance(!newBalance ? 0 : newBalance)
+
+      const newIncome = (mySnapShot.sort((a, b) => {
+        return a.id - b.id
+      })).slice(-1).pop()?.income
+      setIncome(!newIncome ? 0 : newIncome)
+
+      const newExpense = (mySnapShot.sort((a, b) => {
+        return a.id - b.id
+      })).slice(-1).pop()?.expense
+      setExpense(!newExpense ? 0 : newExpense)
+
     })
+
 
     return() => sub()
   }, [realUser?.uid])
@@ -102,8 +117,8 @@ const Expenses = ({realUser,}) => {
               xs={12}
             >
               <Paper style={{ maxHeight: 'minContent', padding:"30px", backgroundColor: 'rgba(0,0,0,0.21)'}}>
-                <Typography style={{color: "rgba(255,255,255,0.85)", textAlign: "center"}} variant="h5" >
-                  {realUser?.displayName ? <>{realUser.displayName} <Divider/>Balance:</> : ("Your" +
+                <Typography style={{textTransform:"uppercase",color: "rgba(255,255,255,0.85)", textAlign: "center"}} variant="h4" >
+                  {realUser?.displayName ? <>{realUser.displayName} <Divider /> Balance:</> : ("Your" +
                     " balance:")} {balance} zł
                 </Typography>
               </Paper>
@@ -123,7 +138,7 @@ const Expenses = ({realUser,}) => {
                 </DialogTitle>
                 <DialogContent style={{background: "linear-gradient(180deg, rgba(12,55,52,1) 0%, rgb(5,28,24) 100%)"}}>
                   <TextField
-
+                    style={{padding:"10px"}}
                     fullWidth
                     id="outlined-number"
                     label="Amount"
@@ -132,13 +147,14 @@ const Expenses = ({realUser,}) => {
                   />
 
                   <TextField
+                    style={{padding:"10px"}}
                     fullWidth
                     id="outlined-password-input"
                     label="Purpose"
                     onChange={(event) => setTransactionName(event.target.value)}
                   />
 
-                  <FormControl fullWidth>
+                  <FormControl fullWidth style={{padding:"10px"}}>
                     <InputLabel id="demo-simple-select-label">Type</InputLabel>
                     <Select
                       labelId="demo-simple-select-label"
@@ -152,7 +168,8 @@ const Expenses = ({realUser,}) => {
                     </Select>
                   </FormControl>
 
-                  <FormControl fullWidth>
+                  <FormControl fullWidth style={{padding:"10px"}}
+                  >
                     <InputLabel id="demo-simple-select-label">Category</InputLabel>
                     <Select
                       labelId="demo-simple-select-label"
@@ -176,6 +193,10 @@ const Expenses = ({realUser,}) => {
                 </DialogActions>
               </Dialog>
             </div>
+
+
+
+
             <Grid
               item
               lg={7}
@@ -183,12 +204,53 @@ const Expenses = ({realUser,}) => {
               xl={7}
               xs={12}
             >
+              <Box display="flex" style={{paddingBottom:"30px", justifyContent: 'center'}}>
+                <Grid
+                  item
+                  lg={4}
+                  sm={12}
+                  xl={4}
+                  xs={10}
+                >
+                  <Paper style={{ height:"minContent", marginLeft:"20px", marginRight:"10px", backgroundColor: 'rgb(13,77,44)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
+                    <Typography variant="h7">INCOME</Typography>
+
+                    <Typography variant="h4">{income}</Typography>
+
+                  </Paper>
+                </Grid>
+                <Grid
+                  item
+                  lg={4}
+                  sm={12}
+                  xl={4}
+                  xs={10}
+                >
+                  <Paper style={{ height:"minContent", marginRight:"20px", marginLeft:"10px", backgroundColor: 'rgba(93,19,15,0.46)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
+                    <Typography variant="h7">EXPENSES</Typography>
+                    <Typography variant="h4">{expense}</Typography>
+
+                  </Paper>
+                </Grid>
+              </Box>
+
+
               <Paper style={{ height:"minContent", backgroundColor: 'rgba(0,0,0,0.21)'}}>
                 <Box sx={{display: 'flex',justifyContent: 'center',flexWrap: 'wrap', '& > :not(style)': { m: 3, width: '100%', height: 'minContent',},}}>
                   <Grid item xs={12} md={12}>
+
                     <Button style={{color:"#fff"}} variant="outlined" onClick={handleClickOpen}>
                       Add new transaction
                     </Button>
+
+
+                    <TextField
+                      fullWidth
+                      id="outlined-password-input"
+                      label="Search"
+                      onChange={() => console.log("Hejka")}
+                    />
+
                     <List>
                       {transactions.map((transaction, index) => (
                         <div key={index}>
@@ -229,6 +291,9 @@ const Expenses = ({realUser,}) => {
                       ))}
                     </List>
                   </Grid>
+
+
+
                 </Box>
               </Paper>
             </Grid>
