@@ -113,7 +113,6 @@ const Expenses = ({realUser,}) => {
 
             <div>
               <Dialog
-                style={{backgroundColor:"rgba(9,9,9,0.45)"}}
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
@@ -122,7 +121,7 @@ const Expenses = ({realUser,}) => {
                 <DialogTitle style={{backgroundColor:"rgba(12,55,52,1)", color:"#fff"}} id="alert-dialog-title">
                   {"Add new transaction"}
                 </DialogTitle>
-                <DialogContent style={{background: "linear-gradient(180deg, rgba(12,55,52,1) 0%, rgba(4,22,19,1) 100%)"}}>
+                <DialogContent style={{background: "linear-gradient(180deg, rgba(12,55,52,1) 0%, rgb(5,28,24) 100%)"}}>
                   <TextField
 
                     fullWidth
@@ -171,7 +170,7 @@ const Expenses = ({realUser,}) => {
                   </FormControl>
 
                 </DialogContent >
-                <DialogActions style={{backgroundColor:"rgba(4,22,19,1)", color:"#fff"}}>
+                <DialogActions style={{backgroundColor:"rgb(5,28,24)", color:"#fff"}}>
                   <Button style={{ color:"#fff"}} onClick={handleChange} autoFocus>Add</Button>
                   <Button style={{color:"#fff"}} onClick={handleClose} autoFocus>Cancel</Button>
                 </DialogActions>

@@ -34,7 +34,7 @@ const App = () => {
 
   return (
     <>
-      <div  style={{background: "radial-gradient(circle, rgba(16,94,89,1) 0%, rgba(4,22,19,1) 100%)", minHeight: "100vh"}}>
+      <div  style={{background: "radial-gradient(circle, rgba(16,94,89,1) 0%, rgba(4,22,19,1) 100%)", minHeight: "100vh", backgroundAttachment: "fixed"}}>
         <Router>
           <Routes>
             <Route path="/" element={<Home/>}/>
