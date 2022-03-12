@@ -15,7 +15,6 @@ const App = () => {
   const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"))
   const [realUser, setRealUser] = useState({})
 
-
   const signUserOut = () => {
     signOut(authentication)
     .then(() => {
@@ -32,9 +31,6 @@ const App = () => {
 
     return () => {unsubscribe()}
   }, [])
-
-
-
 
   return (
     <>
