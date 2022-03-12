@@ -13,7 +13,7 @@ import DashboardContent from "./New/Pages/DashboardContent";
 const App = () => {
 
   const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"))
-  const [realUser, setRealUser] = useState({})
+  const [realUser, setRealUser] = useState("User not logged in")
 
 
   const signUserOut = () => {
@@ -26,10 +26,13 @@ const App = () => {
   }
 
   useEffect(() => {
-    onAuthStateChanged(authentication, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(authentication, (currentUser) => {
       setRealUser(currentUser)
     })
+    return () => {unsubscribe()}
   }, [])
+
+
 
 
   return (

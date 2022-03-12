@@ -12,48 +12,63 @@ import {useNavigate} from "react-router-dom";
 import Container from "@mui/material/Container";
 
 
-const Expenses = ({realUser,}) => {
-  const [transactions, setTransactions] = useState([])
-  const [balance, setBalance] = useState(0)
-  const [amount, setAmount] = useState()
-  const [transactionType, setTransactionType] = useState('income')
-  const [transactionCategory, setTransactionCategory] = useState('bills')
-
-  const [transactionName, setTransactionName] = useState()
+const Expenses = ({realUser}) => {
+  const [newExpense, setNewExpense] = useState(
+    {
+      transactions: [],
+      balance: 0,
+      transactionName: "",
+      transactionType: "",
+      amount: "",
+      currentUID: realUser?.uid,
+    })
 
   const transactionCollection = collection(db, 'Transactions/users/' + realUser?.uid)
 
   let navigate = useNavigate()
 
-  const handleChange =  async () => {
-    if (transactionType && transactionName && amount && transactionCategory) {
-      await addDoc(transactionCollection, {
-        id: transactions.length + 1,
-        name: transactionName,
-        type: transactionType,
-        amount: amount,
-        category: transactionCategory,
-        user_id: `${realUser?.uid}`,
-        balance: (transactionType === 'income' ? balance + parseFloat(amount) : balance - parseFloat(amount))
-        }
-      )
-      .catch(err => console.log(err))
+  const handleChange = async () => {
+    if (newExpense.transactionType && newExpense.transactionName && newExpense.amount) {
+      const BackUpState = newExpense.transactions
+      BackUpState.push({
+        id: BackUpState.length + 1,
+        name: newExpense.transactionName,
+        type: newExpense.transactionType,
+        amount: newExpense.amount,
+        user_id: newExpense.currentUID
+      })
+      try {addDoc(transactionCollection, {
+        id: BackUpState.length + 1,
+        name: newExpense.transactionName,
+        type: newExpense.transactionType,
+        amount: newExpense.amount,
+        user_id: newExpense.currentUID,
+        balance: newExpense.transactionType === 'income' ? newExpense.balance + parseFloat(newExpense.amount) : newExpense.balance - parseFloat(newExpense.amount)
+      })
+      .then(() =>{
+        console.log("Successfully added")
+        setNewExpense({...newExpense, transactionType: "", transactionName: "", amount: "", balance: newExpense.transactionType === 'income' ? newExpense.balance + parseFloat(newExpense.amount) : newExpense.balance - parseFloat(newExpense.amount)})
+      })}
+      catch (error) {
+        navigate('/login')
+      }
     }
   }
 
   useEffect(() => {
-    onSnapshot(collection(db, "Transactions/users/" + realUser?.uid), (snapshot) => {
-      setTransactions((snapshot.docs.map(doc => doc.data())).sort((a, b) => {
-        return a.id - b.id
-      }))
-      const newBalance = (((snapshot.docs.map(doc => doc.data())).sort((a, b) => {
-        return a.id - b.id
-      })).slice(-1).pop()?.balance)
-      setBalance(!newBalance ? 0 : newBalance)
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const BackUpState = newExpense.transactions
+    let totalMoney = newExpense.amount
 
-  }, [])
+    onSnapshot(collection(db, "Transactions/users/" + realUser?.uid), (snapshot) => {
+      const transactions = (snapshot.docs.map(doc => doc.data()))
+      transactions.forEach(transaction => {
+        newExpense.balance = transaction.type === 'income' ?
+          Number(transaction.amount) + newExpense.balance :
+          newExpense.balance - Number(transaction.amount)
+      })
+
+    })
+  }, [realUser, newExpense])
 
   return (
     <>
@@ -78,7 +93,7 @@ const Expenses = ({realUser,}) => {
             >
               <Paper style={{ maxHeight: 'minContent', padding:"30px", backgroundColor: 'rgba(0,0,0,0.21)'}}>
                 <Typography style={{color: "rgba(255,255,255,0.85)", textAlign: "center"}} variant="h5" >
-                  {realUser?.displayName ? <>{realUser.displayName}, your balance:</> : ("Your balance:")} {balance} zł
+                  {realUser?.displayName ? <>{realUser.displayName}, your balance:</> : ("Your balance:")} {newExpense?.balance} zł
                 </Typography>
               </Paper>
             </Grid>
@@ -96,46 +111,27 @@ const Expenses = ({realUser,}) => {
                     id="outlined-number"
                     label="Amount"
                     type="number"
-                    onChange={(event) =>  setAmount(event.target.value)}
+                    value={newExpense.amount}
+                    onChange={(event) => setNewExpense({...newExpense, amount: event.target.value})}
                   />
-
                   <TextField
                     id="outlined-password-input"
                     label="Purpose"
-                    onChange={(event) => setTransactionName(event.target.value)}
+                    onChange={(event) => setNewExpense({...newExpense, transactionName: event.target.value})}
                   />
-
                   <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">Type</InputLabel>
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      value={transactionType}
+                      value={newExpense.transactionType}
                       label="Type"
-                      onChange={(event) => setTransactionType(event.target.value)}
+                      onChange={(event) => setNewExpense({...newExpense, transactionType: event.target.value})}
                     >
                       <MenuItem value="expense">Expense</MenuItem>
                       <MenuItem value="income">Income</MenuItem>
                     </Select>
                   </FormControl>
-
-                  <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Category</InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={transactionCategory}
-                      label="Category"
-                      onChange={(event) => setTransactionCategory(event.target.value)}
-                    >
-                      <MenuItem value="bills">Bills</MenuItem>
-                      <MenuItem value="food">Food</MenuItem>
-                      <MenuItem value="car">Car</MenuItem>
-                      <MenuItem value="travel">Travel</MenuItem>
-                      <MenuItem value="gift">Gift</MenuItem>
-                    </Select>
-                  </FormControl>
-
                   <button onClick={handleChange}>Dodaj</button>
                 </Box>
               </Paper>
@@ -150,17 +146,19 @@ const Expenses = ({realUser,}) => {
             >
               <Paper style={{ height: '400px', maxHeight: '600px',backgroundColor: 'rgba(0,0,0,0)'}}>
                 <ul> Latest Transactions
-                  {transactions.map((transaction, index) => (
+                  {newExpense.transactions.map((transaction, index) => (
                     <li key={index}>
                       <div>{transaction.name}</div>
-                      <div>{transaction.type === "income" ?
+                      <div>{transaction.transactionType === "income" ?
                         (<span className="deposit">+ {transaction.amount}</span>) :
                         (<span className="income">- {transaction.amount}</span>)}
                       </div>
                     </li>
                     )
                   )}
+
                 </ul>
+
               </Paper>
             </Grid>
           </Grid>
