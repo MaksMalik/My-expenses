@@ -54,7 +54,7 @@ const Expenses = ({realUser,}) => {
   const handleChange =  async () => {
     if (transactionType && transactionName && amount && transactionCategory) {
       await addDoc(transactionCollection, {
-        id: transactions.slice(-1).pop().id + 1,
+        id: (transactions.length === 0 ? 1 : transactions.slice(-1).pop().id + 1),
         name: transactionName,
         type: transactionType,
         amount: amount,
