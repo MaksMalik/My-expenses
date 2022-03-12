@@ -54,7 +54,7 @@ const Expenses = ({realUser,}) => {
   const handleChange =  async () => {
     if (transactionType && transactionName && amount && transactionCategory) {
       await addDoc(transactionCollection, {
-        id: transactions.length + 1,
+        id: transactions.slice(-1).pop().id + 1,
         name: transactionName,
         type: transactionType,
         amount: amount,
@@ -63,42 +63,40 @@ const Expenses = ({realUser,}) => {
         balance: (transactionType === 'income' ? balance + parseFloat(amount) : balance - parseFloat(amount))
         }
       )
-      .catch(err => console.log(err))
+      setOpen(false)
     }
   }
 
   useEffect(() => {
     const sub = onSnapshot(collection(db, "Transactions/users/" + realUser?.uid), (snapshot) => {
-      setTransactions((snapshot.docs.map(doc => doc.data())).sort((a, b) => {
+      let mySnapShot = (snapshot.docs.map(doc => doc.data()))
+      setTransactions((mySnapShot.sort((a, b) => {
         return a.id - b.id
-      }))
-      const newBalance = (((snapshot.docs.map(doc => doc.data())).sort((a, b) => {
+      })))
+      const newBalance = (mySnapShot.sort((a, b) => {
         return a.id - b.id
-      })).slice(-1).pop()?.balance)
+      })).slice(-1).pop()?.balance
       setBalance(!newBalance ? 0 : newBalance)
     })
-    return () => sub()
-  }, [realUser, transactionType, transactions, transactionName, transactionCategory, amount, balance])
+    return() => sub()
+  }, [realUser?.uid])
 
   return (
     <>
       <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          py: 0
-        }}
+        sx={{ display: 'flex', justifyContent: 'center'}}
       >
         <Container maxWidth={false}>
           <Grid
             container
             spacing={4}
+            style={{justifyContent: 'center'}}
           >
             <Grid
               item
-              lg={12}
+              lg={8}
               sm={12}
-              xl={12}
+              xl={8}
               xs={12}
             >
               <Paper style={{ maxHeight: 'minContent', padding:"30px", backgroundColor: 'rgba(0,0,0,0.21)'}}>
@@ -175,13 +173,11 @@ const Expenses = ({realUser,}) => {
                 </DialogActions>
               </Dialog>
             </div>
-
-
             <Grid
               item
-              lg={12}
+              lg={7}
               sm={12}
-              xl={12}
+              xl={7}
               xs={12}
             >
               <Paper style={{ height:"minContent", backgroundColor: 'rgba(0,0,0,0.21)'}}>
@@ -192,43 +188,41 @@ const Expenses = ({realUser,}) => {
                     </Button>
                     <List>
                       {transactions.map((transaction, index) => (
-                        <ListItem
-                          key={index}
-                          secondaryAction={
-                          <IconButton edge="end">
-                            <DeleteIcon style={{color: "#fff"}} />
-                          </IconButton>
-                        }
-                        >
-                          <ListItemAvatar>
-                            {(transaction.category === 'food') &&
-                              <RestaurantIcon style={{color: "#fff"}} />
-                            }
-
-                            {(transaction.category === 'car') &&
-                              <DirectionsCarIcon style={{color: "#fff"}} />
-                            }
-
-                            {(transaction.category === 'bills') &&
-                              <FlightIcon style={{color: "#fff"}} />
-                            }
-
-                            {(transaction.category === 'travel') &&
-                              <FlightIcon style={{color: "#fff"}} />
-                            }
-
-                            {(transaction.category === 'gift') &&
-                              <CardGiftcardIcon style={{color: "#fff"}} />
-                            }
-                          </ListItemAvatar>
-
-                          <ListItemText
-                            primary={transaction.name}
-                            secondary={transaction.type === "income" ?
-                              (<span className="deposit">+ {transaction.amount} zł</span>) :
-                              (<span className="expense">- {transaction.amount} zł</span>)}
-                          />
-                        </ListItem>
+                        <div key={index}>
+                          <Divider/>
+                          <ListItem
+                            style={{backgroundColor:`${transaction.type === "income" ? "rgba(25,145,21,0.25)" : "rgba(145,21,21,0.35)"}`}}
+                            secondaryAction={
+                            <IconButton edge="end">
+                              <DeleteIcon style={{color: "#fff"}} />
+                            </IconButton>
+                          }
+                          >
+                            <ListItemAvatar>
+                              {(transaction.category === 'food') &&
+                                <RestaurantIcon style={{color: "#fff"}} />
+                              }
+                              {(transaction.category === 'car') &&
+                                <DirectionsCarIcon style={{color: "#fff"}} />
+                              }
+                              {(transaction.category === 'bills') &&
+                                <FlightIcon style={{color: "#fff"}} />
+                              }
+                              {(transaction.category === 'travel') &&
+                                <FlightIcon style={{color: "#fff"}} />
+                              }
+                              {(transaction.category === 'gift') &&
+                                <CardGiftcardIcon style={{color: "#fff"}} />
+                              }
+                            </ListItemAvatar>
+                            <ListItemText
+                              primary={<div style={{textTransform: 'uppercase', color:"#fff"}}>{transaction.name}</div>}
+                              secondary={transaction.type === "income" ?
+                                (<span style={{color:"#fff"}}>+ {transaction.amount} zł</span>) :
+                                (<span style={{color:"#fff"}}>- {transaction.amount} zł</span>)}
+                            />
+                          </ListItem>
+                        </div>
                       ))}
                     </List>
                   </Grid>
