@@ -55,12 +55,11 @@ export default function Home() {
             }}
           >
             <Typography
-              component="h2"
-              variant="h4"
+              component="h1"
               align="center"
               color="text.primary"
               gutterBottom
-              style={{color:"rgb(67,67,67)"}}
+              style={{color:"rgb(67,67,67)", fontSize:"48px", fontWeight:"200"}}
             >
               welcome to
             </Typography>
