@@ -14,7 +14,7 @@ import * as React from "react";
 import {createTheme} from "@mui/material/styles";
 
 
-const DialogEditTransaction = ({open, handleClose, setAmount, setTransactionName, setTransactionType, setTransactionCategory, handleEdit, transactionCategory, transactionType}) => {
+const DialogEditTransaction = ({editTransaction, open, handleClose, setAmount, setTransactionName, setTransactionType, setTransactionCategory, handleEdit, transactionCategory, transactionType}) => {
 
   const theme = createTheme({
     palette: {
@@ -47,6 +47,8 @@ const DialogEditTransaction = ({open, handleClose, setAmount, setTransactionName
               id="outlined-number"
               label="Amount"
               type="number"
+              value={editTransaction.amount}
+
               onChange={(event) =>  setAmount(event.target.value)}
             />
             <TextField
@@ -54,6 +56,7 @@ const DialogEditTransaction = ({open, handleClose, setAmount, setTransactionName
               fullWidth
               id="outlined-password-input"
               label="Purpose"
+              value={editTransaction.name}
               onChange={(event) => setTransactionName(event.target.value)}
             />
             <FormControl fullWidth style={{padding:"10px"}}>
@@ -61,7 +64,7 @@ const DialogEditTransaction = ({open, handleClose, setAmount, setTransactionName
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={transactionType}
+                value={editTransaction.type}
                 label="Type"
                 onChange={(event) => setTransactionType(event.target.value)}
               >
@@ -75,7 +78,7 @@ const DialogEditTransaction = ({open, handleClose, setAmount, setTransactionName
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={transactionCategory}
+                value={editTransaction.category}
                 label="Category"
                 onChange={(event) => setTransactionCategory(event.target.value)}
               >

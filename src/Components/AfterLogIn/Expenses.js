@@ -49,11 +49,12 @@ const Expenses = ({realUser,}) => {
     setOpen(false);
   };
 
-
   const [openEdit, setOpenEdit] = useState(false);
 
 
+  const [editTransactionID, setEditTransactionID] = useState();
   const [editTransaction, setEditTransaction] = useState();
+
 
   const handleCloseEdit = () => {
     setOpenEdit(false);
@@ -61,13 +62,15 @@ const Expenses = ({realUser,}) => {
 
   const handleOpenEdit = (transaction) => {
     setOpenEdit(true);
-    setEditTransaction(transaction.id)
+    setEditTransactionID(transaction.id)
+    setEditTransaction(transaction)
+
   };
 
   const handleEdit = () => {
     if (transactionType && transactionName && amount && transactionCategory) {
-      updateDoc(doc(db, `Transactions/users/${realUser?.uid}/${editTransaction}`), {
-        id: editTransaction,
+      updateDoc(doc(db, `Transactions/users/${realUser?.uid}/${editTransactionID}`), {
+        id: editTransactionID,
         name: transactionName,
         type: transactionType,
         amount: amount,
@@ -82,10 +85,8 @@ const Expenses = ({realUser,}) => {
         setTransactionName("")
         setAmount("")
       })
-
     }
   }
-
 
   const handleChange =  async () => {
     if (transactionType && transactionName && amount && transactionCategory) {
@@ -151,7 +152,7 @@ const Expenses = ({realUser,}) => {
 
   return (
     <>
-      <DialogEditTransaction open={openEdit} handleClose={handleCloseEdit} setAmount={setAmount} setTransactionCategory={setTransactionCategory} setTransactionType={setTransactionType} setTransactionName={setTransactionName} handleEdit={handleEdit} transactionType={transactionType} transactionCategory={transactionCategory}/>
+      <DialogEditTransaction  editTransaction={editTransaction} editTransactionID={editTransactionID} open={openEdit} handleClose={handleCloseEdit} setAmount={setAmount} setTransactionCategory={setTransactionCategory} setTransactionType={setTransactionType} setTransactionName={setTransactionName} handleEdit={handleEdit} transactionType={transactionType} transactionCategory={transactionCategory}/>
       <Box
         sx={{ display: 'flex', justifyContent: 'center'}}
       >
