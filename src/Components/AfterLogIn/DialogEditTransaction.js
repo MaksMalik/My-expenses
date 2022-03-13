@@ -14,7 +14,7 @@ import * as React from "react";
 import {createTheme} from "@mui/material/styles";
 
 
-const DialogEditTransaction = ({editTransactionAmount, editTransactionType, editTransactionName, editTransactionCategory, open, handleClose, setEditTransactionAmount, setEditTransactionName, setEditTransactionType,  setEditTransactionCategory, handleEdit}) => {
+const DialogEditTransaction = ({editTransactionAmount, editTransactionType, editTransactionName, editTransactionCategory, openEdit, handleClose, setEditTransactionAmount, setEditTransactionName, setEditTransactionType,  setEditTransactionCategory, handleEdit}) => {
 
   const theme = createTheme({
     palette: {
@@ -32,7 +32,7 @@ const DialogEditTransaction = ({editTransactionAmount, editTransactionType, edit
     <ThemeProvider theme={theme}>
       <div>
         <Dialog
-          open={open}
+          open={openEdit}
           onClose={handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"

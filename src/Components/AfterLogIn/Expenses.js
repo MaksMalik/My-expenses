@@ -53,7 +53,6 @@ const Expenses = ({realUser,}) => {
 
 
   const [editTransactionID, setEditTransactionID] = useState();
-  const [editTransaction, setEditTransaction] = useState();
 
   const [editTransactionCategory, setEditTransactionCategory] = useState()
   const [editTransactionAmount, setEditTransactionAmount] = useState()
@@ -67,12 +66,10 @@ const Expenses = ({realUser,}) => {
   const handleOpenEdit = (transaction) => {
     setOpenEdit(true);
     setEditTransactionID(transaction.id)
-    setEditTransaction(transaction)
     setEditTransactionCategory(transaction.category)
     setEditTransactionAmount(transaction.amount)
     setEditTransactionName(transaction.name)
     setEditTransactionType(transaction.type)
-
   };
 
   const handleEdit = () => {
@@ -160,7 +157,7 @@ const Expenses = ({realUser,}) => {
 
   return (
     <>
-      <DialogEditTransaction  editTransactionAmount={editTransactionAmount} editTransactionCategory={editTransactionCategory} editTransactionType={editTransactionType} editTransactionName={editTransactionName}  setEditTransactionCategory={setEditTransactionCategory} setEditTransactionType={setEditTransactionType} setEditTransactionAmount={setEditTransactionAmount} setEditTransactionName={setEditTransactionName}  editTransaction={editTransaction} editTransactionID={editTransactionID} open={openEdit} handleClose={handleCloseEdit} setAmount={setAmount} setTransactionCategory={setTransactionCategory} setTransactionType={setTransactionType} setTransactionName={setTransactionName} handleEdit={handleEdit} transactionType={transactionType} transactionCategory={transactionCategory}/>
+      <DialogEditTransaction  editTransactionAmount={editTransactionAmount} editTransactionCategory={editTransactionCategory} editTransactionType={editTransactionType} editTransactionName={editTransactionName}  setEditTransactionCategory={setEditTransactionCategory} setEditTransactionType={setEditTransactionType} setEditTransactionAmount={setEditTransactionAmount} setEditTransactionName={setEditTransactionName}  openEdit={openEdit} handleClose={handleCloseEdit} handleEdit={handleEdit}/>
       <Box
         sx={{ display: 'flex', justifyContent: 'center'}}
       >
