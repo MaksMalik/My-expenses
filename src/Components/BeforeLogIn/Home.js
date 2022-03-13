@@ -40,7 +40,7 @@ export default function Home() {
     <>
       <ThemeProvider theme={theme}>
         <AppBarBeforeLogIn/>
-        <Container component="main" maxWidth="lg" style={{marginTop:"80px",backgroundColor: "rgba(255,255,255,0.9)", boxShadow:"0px" +
+        <Container component="main" maxWidth="md" style={{marginTop:"80px",backgroundColor: "rgba(255,255,255,0.9)", boxShadow:"0px" +
             " 0px 10px rgb(0,153,189)", padding: "40px 30px" +
             " 40px 30px", width:"100%", }}>
           <CssBaseline />
@@ -55,8 +55,8 @@ export default function Home() {
             }}
           >
             <Typography
-              component="h1"
-              variant="h2"
+              component="h2"
+              variant="h4"
               align="center"
               color="text.primary"
               gutterBottom
@@ -64,15 +64,15 @@ export default function Home() {
             >
               welcome to
             </Typography>
-            <img style={{width:"60%"}}  src="https://i.ibb.co/H48VngT/IMG-0073.png" alt="My Expenses"/>
+            <img style={{width:"80%"}}  src="https://i.ibb.co/H48VngT/IMG-0073.png" alt="My Expenses"/>
 
-            <Divider style={{marginBottom:"20px", marginTop:"20px", backgroundColor:"rgb(0,152,188)", width:"200px", height:"1px", boxShadow:"0px" +
+            <Divider style={{marginBottom:"20px", marginTop:"20px", backgroundColor:"rgb(0,152,188)", width:"80%", height:"1px", boxShadow:"0px" +
                 " 0px 10px 1px rgb(0,153,189)"}}/>
 
             <Typography style={{color:"rgb(67,67,67)"}} variant="h5" align="center" color="text.secondary" paragraph>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non dignissim leo, egestas suscipit dolor. Aenean turpis lectus, elementum id sagittis nec, malesuada ac neque. Nullam luctus vulputate ipsum. Mauris nec arcu convallis, varius tortor vel, egestas neque. Donec sollicitudin congue eros sed tincidunt.
             </Typography>
-            <Divider style={{marginBottom:"20px", marginTop:"20px", backgroundColor:"rgb(0,152,188)", width:"200px", height:"1px", boxShadow:"0px" +
+            <Divider style={{marginBottom:"20px", marginTop:"20px", backgroundColor:"rgb(0,152,188)", width:"60%", height:"1px", boxShadow:"0px" +
                 " 0px 10px 1px rgb(0,153,189)"}}/>
           </Box>
           <Stack

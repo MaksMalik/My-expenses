@@ -81,7 +81,7 @@ const Login = ({setIsAuth}) => {
       <ThemeProvider theme={theme}>
 
         <AppBarBeforeLogIn/>
-        <Container component="main" maxWidth="xs" style={{marginTop:"40px",backgroundColor: "rgba(255,255,255,0.9)", boxShadow:"0px" +
+        <Container component="main" maxWidth="xs" style={{marginTop:"80px",backgroundColor: "rgba(255,255,255,0.9)", boxShadow:"0px" +
             " 0px 10px rgb(0,153,189)", padding: "40px 30px" +
             " 40px 30px", width:"100%", }}>
           <CssBaseline />
