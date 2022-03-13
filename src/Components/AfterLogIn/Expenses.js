@@ -55,6 +55,10 @@ const Expenses = ({realUser,}) => {
   const [editTransactionID, setEditTransactionID] = useState();
   const [editTransaction, setEditTransaction] = useState();
 
+  const [editTransactionCategory, setEditTransactionCategory] = useState()
+  const [editTransactionAmount, setEditTransactionAmount] = useState()
+  const [editTransactionName, setEditTransactionName] = useState()
+  const [editTransactionType, setEditTransactionType] = useState()
 
   const handleCloseEdit = () => {
     setOpenEdit(false);
@@ -64,21 +68,25 @@ const Expenses = ({realUser,}) => {
     setOpenEdit(true);
     setEditTransactionID(transaction.id)
     setEditTransaction(transaction)
+    setEditTransactionCategory(transaction.category)
+    setEditTransactionAmount(transaction.amount)
+    setEditTransactionName(transaction.name)
+    setEditTransactionType(transaction.type)
 
   };
 
   const handleEdit = () => {
-    if (transactionType && transactionName && amount && transactionCategory) {
+    if (editTransactionType && editTransactionName && editTransactionAmount && editTransactionCategory) {
       updateDoc(doc(db, `Transactions/users/${realUser?.uid}/${editTransactionID}`), {
         id: editTransactionID,
-        name: transactionName,
-        type: transactionType,
-        amount: amount,
-        category: transactionCategory,
-        income: (transactionType === 'income' ? parseFloat(amount) : 0),
-        expense: (transactionType === 'expense' ? parseFloat(amount) : 0),
+        name: editTransactionName,
+        type: editTransactionType,
+        amount: editTransactionAmount,
+        category: editTransactionCategory,
+        income: (editTransactionType === 'income' ? parseFloat(editTransactionAmount) : 0),
+        expense: (editTransactionType === 'expense' ? parseFloat(editTransactionAmount) : 0),
         user_id: `${realUser?.uid}`,
-        balance: (transactionType === 'income' ? balance + parseFloat(amount) : balance - parseFloat(amount))
+        balance: (editTransactionType === 'income' ? balance + parseFloat(editTransactionAmount) : balance - parseFloat(editTransactionAmount))
       })
       .then(() => {
         setOpenEdit(false)
@@ -152,7 +160,7 @@ const Expenses = ({realUser,}) => {
 
   return (
     <>
-      <DialogEditTransaction  editTransaction={editTransaction} editTransactionID={editTransactionID} open={openEdit} handleClose={handleCloseEdit} setAmount={setAmount} setTransactionCategory={setTransactionCategory} setTransactionType={setTransactionType} setTransactionName={setTransactionName} handleEdit={handleEdit} transactionType={transactionType} transactionCategory={transactionCategory}/>
+      <DialogEditTransaction  editTransactionAmount={editTransactionAmount} editTransactionCategory={editTransactionCategory} editTransactionType={editTransactionType} editTransactionName={editTransactionName}  setEditTransactionCategory={setEditTransactionCategory} setEditTransactionType={setEditTransactionType} setEditTransactionAmount={setEditTransactionAmount} setEditTransactionName={setEditTransactionName}  editTransaction={editTransaction} editTransactionID={editTransactionID} open={openEdit} handleClose={handleCloseEdit} setAmount={setAmount} setTransactionCategory={setTransactionCategory} setTransactionType={setTransactionType} setTransactionName={setTransactionName} handleEdit={handleEdit} transactionType={transactionType} transactionCategory={transactionCategory}/>
       <Box
         sx={{ display: 'flex', justifyContent: 'center'}}
       >
