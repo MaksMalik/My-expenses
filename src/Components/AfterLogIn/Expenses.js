@@ -5,19 +5,13 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import {
-  Dialog, DialogActions,
-  DialogContent, DialogTitle,
-  FormControl,
-  InputLabel,
   ListItem,
   ListItemAvatar,
   ListItemText,
-  Select,
   TextField
 } from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
 import {db} from "../../Firebase/firebase";
-import {collection, addDoc, onSnapshot, updateDoc, doc, deleteField, deleteDoc } from "firebase/firestore"
+import {collection, onSnapshot, doc, deleteDoc, setDoc } from "firebase/firestore"
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
@@ -28,9 +22,8 @@ import FlightIcon from '@mui/icons-material/Flight';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import Divider from "@mui/material/Divider";
-
-
-
+import DialogNewTransaction from "./DialogNewTransaction";
+import {Copyright} from "../Copyright";
 
 const Expenses = ({realUser,}) => {
   const [transactions, setTransactions] = useState([])
@@ -41,9 +34,9 @@ const Expenses = ({realUser,}) => {
   const [transactionName, setTransactionName] = useState()
   const [expense, setExpense] = useState(0)
   const [income, setIncome] = useState(0)
+  const [ID, setID] = useState(1)
 
-
-  const transactionCollection = collection(db, 'Transactions/users/' + realUser?.uid)
+  // const transactionCollection = collection(db, 'Transactions/users/' + realUser?.uid)
 
   const [open, setOpen] = useState(false);
 
@@ -57,53 +50,58 @@ const Expenses = ({realUser,}) => {
 
   const handleChange =  async () => {
     if (transactionType && transactionName && amount && transactionCategory) {
-      await addDoc(transactionCollection, {
+      await setDoc(doc(db, `Transactions/users/${realUser?.uid}/${ID + 1}`), {
         id: (transactions.length === 0 ? 1 : transactions.slice(-1).pop().id + 1),
         name: transactionName,
         type: transactionType,
         amount: amount,
         category: transactionCategory,
-        income: (transactionType === 'income' ? income + parseFloat(amount) : income),
-        expense: (transactionType === 'expense' ? expense + parseFloat(amount) : expense),
+        income: (transactionType === 'income' ? parseFloat(amount) : 0),
+        expense: (transactionType === 'expense' ? parseFloat(amount) : 0),
         user_id: `${realUser?.uid}`,
         balance: (transactionType === 'income' ? balance + parseFloat(amount) : balance - parseFloat(amount))
       })
       setOpen(false)
+      setTransactionName("")
+      setAmount("")
     }
   }
 
   useEffect(() => {
     const sub = onSnapshot(collection(db, "Transactions/users/" + realUser?.uid), (snapshot) => {
       let mySnapShot = (snapshot.docs.map(doc => doc.data()))
+
       setTransactions((mySnapShot.sort((a, b) => {
         return a.id - b.id
       })))
+
       const newBalance = (mySnapShot.sort((a, b) => {
         return a.id - b.id
       })).slice(-1).pop()?.balance
       setBalance(!newBalance ? 0 : newBalance)
 
-      const newIncome = (mySnapShot.sort((a, b) => {
-        return a.id - b.id
-      })).slice(-1).pop()?.income
-      setIncome(!newIncome ? 0 : newIncome)
+      setIncome((mySnapShot.length === 0)
+        ? 0
+        : (mySnapShot.length === 1 ? mySnapShot.map((snap) => snap.income) : (mySnapShot.map((snap) => snap.income)).reduce((acc,total) =>  acc + total)))
 
-      const newExpense = (mySnapShot.sort((a, b) => {
+      setExpense((mySnapShot.length === 0)
+        ? 0
+        : (mySnapShot.length === 1 ? mySnapShot.map((snap) => snap.expense) : (mySnapShot.map((snap) => snap.expense)).reduce((acc,total) =>  acc + total)))
+
+      const newID = (mySnapShot.sort((a, b) => {
         return a.id - b.id
-      })).slice(-1).pop()?.expense
-      setExpense(!newExpense ? 0 : newExpense)
+      })).slice(-1).pop()?.id
+
+      setID(!newID ? 0 : newID)
+
     })
     return() => sub()
   }, [realUser?.uid])
 
 
   const handleDelete = async (transaction) => {
-    const docRef = doc(db, "Transactions/users/" + realUser?.uid + "/" + transaction.id)
-    console.log(docRef.id)
+    const docRef = doc(db, `Transactions/users/${realUser?.uid}/${transaction.id}`)
     await deleteDoc(docRef)
-    .then(() => {
-      console.log("teded")
-    })
   }
 
   return (
@@ -134,74 +132,7 @@ const Expenses = ({realUser,}) => {
 
 
 
-            <div>
-              <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-              >
-                <DialogTitle style={{backgroundColor:"rgba(12,55,52,1)", color:"#fff"}} id="alert-dialog-title">
-                  {"Add new transaction"}
-                </DialogTitle>
-                <DialogContent style={{background: "linear-gradient(180deg, rgba(12,55,52,1) 0%, rgb(5,28,24) 100%)"}}>
-                  <TextField
-                    style={{padding:"10px"}}
-                    fullWidth
-                    id="outlined-number"
-                    label="Amount"
-                    type="number"
-                    onChange={(event) =>  setAmount(event.target.value)}
-                  />
-
-                  <TextField
-                    style={{padding:"10px"}}
-                    fullWidth
-                    id="outlined-password-input"
-                    label="Purpose"
-                    onChange={(event) => setTransactionName(event.target.value)}
-                  />
-
-                  <FormControl fullWidth style={{padding:"10px"}}>
-                    <InputLabel id="demo-simple-select-label">Type</InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={transactionType}
-                      label="Type"
-                      onChange={(event) => setTransactionType(event.target.value)}
-                    >
-                      <MenuItem value="expense">Expense</MenuItem>
-                      <MenuItem value="income">Income</MenuItem>
-                    </Select>
-                  </FormControl>
-
-                  <FormControl fullWidth style={{padding:"10px"}}
-                  >
-                    <InputLabel id="demo-simple-select-label">Category</InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={transactionCategory}
-                      label="Category"
-                      onChange={(event) => setTransactionCategory(event.target.value)}
-                    >
-                      <MenuItem value="bills">Bills</MenuItem>
-                      <MenuItem value="food">Food</MenuItem>
-                      <MenuItem value="car">Car</MenuItem>
-                      <MenuItem value="travel">Travel</MenuItem>
-                      <MenuItem value="gift">Gift</MenuItem>
-                    </Select>
-                  </FormControl>
-
-                </DialogContent >
-                <DialogActions style={{backgroundColor:"rgb(5,28,24)", color:"#fff"}}>
-                  <Button style={{ color:"#fff"}} onClick={handleChange} autoFocus>Add</Button>
-                  <Button style={{color:"#fff"}} onClick={handleClose} autoFocus>Cancel</Button>
-                </DialogActions>
-              </Dialog>
-            </div>
-
+            <DialogNewTransaction open={open} handleClose={handleClose} setAmount={setAmount} setTransactionCategory={setTransactionCategory} setTransactionType={setTransactionType} setTransactionName={setTransactionName} handleChange={handleChange} transactionType={transactionType} transactionCategory={transactionCategory}/>
 
 
 
@@ -234,11 +165,25 @@ const Expenses = ({realUser,}) => {
                   xl={4}
                   xs={10}
                 >
-                  <Paper style={{ height:"minContent", marginRight:"20px", marginLeft:"10px", backgroundColor: 'rgba(93,19,15,0.46)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
+                  <Paper style={{ height:"minContent", marginRight:"20px", marginLeft:"10px", backgroundColor: 'rgba(164,18,11,0.77)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
                     <Typography variant="h7">EXPENSES</Typography>
                     <Typography style={{paddingBottom:"15px"}} variant="h4">{expense} zł</Typography>
 
                   </Paper>
+                </Grid>
+
+              </Box>
+
+              <Box style={{display:"flex", justifyContent: 'center'}}>
+                <Grid
+                  item
+                  lg={7}
+                  sm={7}
+                  xl={7}
+                  xs={12}>
+                  <Button style={{color:"#00d2ff", width:"100%", padding:"10px", marginBottom:"30px", backgroundColor:"#434343"}} variant="contained" onClick={handleClickOpen}>
+                    Add new transaction
+                  </Button>
                 </Grid>
               </Box>
 
@@ -246,11 +191,6 @@ const Expenses = ({realUser,}) => {
               <Paper style={{ height:"minContent", backgroundColor: 'rgba(0,0,0,0.21)'}}>
                 <Box sx={{display: 'flex',justifyContent: 'center',flexWrap: 'wrap', '& > :not(style)': { m: 3, width: '100%', height: 'minContent',},}}>
                   <Grid item xs={12} md={12}>
-
-                    <Button style={{color:"#fff"}} variant="outlined" onClick={handleClickOpen}>
-                      Add new transaction
-                    </Button>
-
 
                     <TextField
                       fullWidth
@@ -264,7 +204,7 @@ const Expenses = ({realUser,}) => {
                         <div key={index}>
                           <Divider/>
                           <ListItem
-                            style={{backgroundColor:`${transaction.type === "income" ? "rgba(25,145,21,0.25)" : "rgba(145,21,21,0.35)"}`}}
+                            style={{backgroundColor:`${transaction.type === "income" ? "rgb(13,77,44)" : 'rgba(164,18,11,0.77)'}`}}
                             secondaryAction={
                             <IconButton edge="end" onClick={() => handleDelete(transaction)}>
                               <DeleteIcon style={{color: "#fff"}} />
@@ -306,6 +246,7 @@ const Expenses = ({realUser,}) => {
               </Paper>
             </Grid>
           </Grid>
+          <Copyright/>
         </Container>
       </Box>
     </>

@@ -14,16 +14,16 @@ import {useState} from "react";
 import {createUserWithEmailAndPassword} from "firebase/auth";
 import {authentication} from "../../Firebase/firebase";
 import {Alert, Snackbar} from "@mui/material";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
+import {Copyright} from "../Copyright";
+import {AppBarBeforeLogIn} from "./AppBarBeforeLogIn";
 
 const theme = createTheme({
   palette: {
     secondary: {
-      main: '#093531'
+      main: '#434343'
     },
     primary: {
-      main: 'rgba(7,38,35,0.79)'
+      main: 'rgb(0,153,189)'
     }
   }}
 )
@@ -72,18 +72,12 @@ const Register = () => {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
 
-        <AppBar position="relative">
-          <Toolbar style={{display: 'flex', justifyContent: 'center'}}>
-            <Typography   variant="h5" color="inherit" noWrap>
-              My Expenses
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <Container component="main" maxWidth="xs" style={{backgroundColor: "rgba(0,0,0,0.21)", boxShadow:"1px" +
-            " 2px 5px black", borderRadius:"5px", marginTop:"100px", padding: "40px 30px" +
-            " 40px 30px", width:"100%"}}>
+        <AppBarBeforeLogIn/>
+        <Container component="main" maxWidth="xs" style={{marginTop:"40px",backgroundColor: "rgba(255,255,255,0.9)", boxShadow:"0px" +
+            " 0px 10px rgb(0,153,189)", padding: "40px 30px" +
+            " 40px 30px", width:"100%", }}>
+
           <CssBaseline />
           <Box
             sx={{
@@ -96,7 +90,7 @@ const Register = () => {
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography style={{color:"#fff"}} component="h1" variant="h5">
+            <Typography style={{color:"#434343"}} component="h1" variant="h5">
               Sign up
             </Typography>
             <Box component="form" onSubmit={handleSubmitRegister} noValidate sx={{ mt: 1 }}>
@@ -122,7 +116,7 @@ const Register = () => {
                 id="password"
                 autoComplete="current-password"
               />
-              {failedRegister && (<div style={{color: 'rgba(255,0,0,0.57)', textAlign: 'center', paddingTop:"10px"}}>Wrong e-mail or password</div>)}
+              {failedRegister && (<div style={{color: 'rgb(255,0,0)', textAlign: 'center', paddingTop:"10px"}}>Wrong e-mail or password</div>)}
               {succeededRegister && (<div style={{color: 'rgba(47,255,0,0.2)'}}>Successfully registered. Redirecting to login page.</div>)}
               <Button
                 type="submit"
@@ -140,7 +134,7 @@ const Register = () => {
               </Snackbar>
 
               <Snackbar open={failedRegister} autoHideDuration={6000} onClose={handleClose}>
-                <Alert style={{backgroundColor: 'rgba(255,0,0,0.2)', color: 'rgba(255,255,255,0.55)'}} onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                <Alert style={{backgroundColor: 'rgb(164,0,0)', color: 'rgb(255,255,255)'}} onClose={handleClose} severity="error" sx={{ width: '100%' }}>
                   Wrong e-mail or password. Try again
                 </Alert>
               </Snackbar>
@@ -150,7 +144,7 @@ const Register = () => {
                 <Grid item xs>
                 </Grid>
                 <Grid item>
-                  <Link to='/login' style={{color: 'rgba(255,255,255,0.68)'}}>
+                  <Link to='/login' style={{color: 'rgb(67,67,67)'}}>
                     Already have and account
                   </Link>
                 </Grid>
@@ -158,6 +152,7 @@ const Register = () => {
             </Box>
           </Box>
         </Container>
+        <Copyright/>
       </ThemeProvider>
     </>
   );

@@ -14,16 +14,16 @@ import {authentication, provider} from "../../Firebase/firebase";
 import {signInWithEmailAndPassword, signInWithPopup} from "firebase/auth";
 import {useState} from "react";
 import {Alert, Snackbar} from "@mui/material";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
+import {Copyright} from "../Copyright";
+import {AppBarBeforeLogIn} from "./AppBarBeforeLogIn";
 
 const theme = createTheme({
   palette: {
     secondary: {
-      main: '#093531'
+      main: '#434343'
     },
     primary: {
-      main: 'rgba(7,38,35,0.79)'
+      main: 'rgb(0,153,189)'
     }
   }}
 )
@@ -79,16 +79,11 @@ const Login = ({setIsAuth}) => {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <AppBar position="relative">
-          <Toolbar style={{display: 'flex', justifyContent: 'center'}}>
-            <Typography  variant="h5" color="inherit" noWrap>
-              My Expenses
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <Container component="main" maxWidth="xs" style={{backgroundColor: "rgba(0,0,0,0.21)", boxShadow:"1px" +
-            " 2px 5px black", borderRadius:"5px", marginTop:"100px", padding: "40px 30px" +
-            " 40px 30px", width:"100%"}}>
+
+        <AppBarBeforeLogIn/>
+        <Container component="main" maxWidth="xs" style={{marginTop:"40px",backgroundColor: "rgba(255,255,255,0.9)", boxShadow:"0px" +
+            " 0px 10px rgb(0,153,189)", padding: "40px 30px" +
+            " 40px 30px", width:"100%", }}>
           <CssBaseline />
           <Box
             sx={{
@@ -96,12 +91,14 @@ const Login = ({setIsAuth}) => {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              justifyContent: 'center',
+              alignContent:"center",
             }}
           >
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography style={{color:"#fff"}} component="h1" variant="h5">
+            <Typography style={{color:"#434343"}} component="h1" variant="h5">
               Sign in
             </Typography>
             <Box component="form" onSubmit={SubmitLogin} noValidate sx={{ mt: 1 }}>
@@ -128,7 +125,7 @@ const Login = ({setIsAuth}) => {
                 id="password"
                 autoComplete="current-password"
               />
-              {failedLogIn && (<div style={{color: 'rgba(255,0,0,0.57)', textAlign: 'center', paddingTop:"10px"}}>Wrong e-mail or password</div>)}
+              {failedLogIn && (<div style={{color: 'rgb(255,0,0)', textAlign: 'center', paddingTop:"10px"}}>Wrong e-mail or password</div>)}
               <Button
                 type="submit"
                 fullWidth
@@ -141,7 +138,7 @@ const Login = ({setIsAuth}) => {
           </Box>
 
           <Snackbar open={failedLogIn} autoHideDuration={6000} onClose={handleClose}>
-            <Alert  style={{backgroundColor: 'rgba(255,0,0,0.2)', color: 'rgba(255,255,255,0.55)'}}  onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+            <Alert  style={{backgroundColor: 'rgb(164,0,0)', color: 'rgb(255,255,255)'}}  onClose={handleClose} severity="error" sx={{ width: '100%' }}>
               Wrong e-mail or password. Try again
             </Alert>
           </Snackbar>
@@ -150,27 +147,25 @@ const Login = ({setIsAuth}) => {
             onClick={SignInWithGoogle}
             type="submit"
             fullWidth
-            variant="contained"
+            variant="outlined"
             sx={{ mt: 1, mb: 2 }}
-            style={{backgroundColor: 'rgba(40,58,211,0.22)', color: 'rgb(255,255,255)'}}
           >
             Sign In With Google
           </Button>
           <Grid container>
             <Grid item xs>
-              <nav>
-                <Link to='/ForgotPassword' style={{color: 'rgba(255,255,255,0.68)'}}>
-                  Forgot password?
-                </Link>
-              </nav>
+              <Link to='/ForgotPassword' style={{color: 'rgb(67,67,67)'}}>
+                Forgot password?
+              </Link>
             </Grid>
             <Grid item>
-              <Link to='/register' style={{color: 'rgba(255,255,255,0.68)'}}>
+              <Link to='/register' style={{color: 'rgb(67,67,67))'}}>
                 Don't have an account?
               </Link>
             </Grid>
           </Grid>
         </Container>
+        <Copyright/>
       </ThemeProvider>
     </>
   );

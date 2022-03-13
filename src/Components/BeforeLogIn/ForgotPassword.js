@@ -14,16 +14,16 @@ import Grid from "@mui/material/Grid";
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {Alert, Snackbar} from "@mui/material";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
+import {Copyright} from "../Copyright";
+import {AppBarBeforeLogIn} from "./AppBarBeforeLogIn";
 
 const theme = createTheme({
   palette: {
     secondary: {
-      main: '#093531'
+      main: '#434343'
     },
     primary: {
-      main: 'rgba(7,38,35,0.79)'
+      main: 'rgb(0,153,189)'
     }
   }}
 )
@@ -62,17 +62,13 @@ const ForgotPassword = () => {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <AppBar theme={theme} position="relative">
-          <Toolbar style={{display: 'flex', justifyContent: 'center'}}>
-            <Typography  variant="h5" color="inherit" noWrap>
-              My Expenses
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <Container component="main" maxWidth="xs" style={{backgroundColor: "rgba(0,0,0,0.21)", boxShadow:"1px" +
-            " 2px 5px black", borderRadius:"5px", marginTop:"100px", padding: "40px 30px" +
-            " 40px 30px", width:"100%"}}>
-          <CssBaseline />
+
+        <AppBarBeforeLogIn/>
+        <Container component="main" maxWidth="xs" style={{marginTop:"40px",backgroundColor: "rgba(255,255,255,0.9)", boxShadow:"0px" +
+            " 0px 10px rgb(0,153,189)", padding: "40px 30px" +
+            " 40px 30px", width:"100%", }}>
+
+        <CssBaseline />
           <Box
             sx={{
               marginTop: 0,
@@ -84,7 +80,7 @@ const ForgotPassword = () => {
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography style={{color:"#fff"}} component="h1" variant="h5">
+            <Typography style={{color:"#434343"}} component="h1" variant="h5">
               Reset password
             </Typography>
             <Box component="form" noValidate sx={{ mt: 1 }}>
@@ -113,7 +109,7 @@ const ForgotPassword = () => {
           </Box>
 
           <Snackbar open={succeedResetPasswordEmail} autoHideDuration={6000} onClose={handleClose}>
-            <Alert style={{backgroundColor: 'rgba(47,255,0,0.13)', color: 'rgba(255,255,255,0.55)'}} onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+            <Alert style={{backgroundColor: 'rgba(30,168,0,0.58)', color: 'rgb(255,255,255)'}} onClose={handleClose} severity="success" sx={{ width: '100%' }}>
               E-mail sent successfully. Redirecting to main page.
             </Alert>
           </Snackbar>
@@ -121,18 +117,19 @@ const ForgotPassword = () => {
           <Grid container>
             <Grid item xs>
               <nav>
-                <Link to='/login' style={{color: 'rgba(255,255,255,0.68)'}}>
+                <Link to='/login' style={{color: 'rgb(67,67,67)'}}>
                   Sign In
                 </Link>
               </nav>
             </Grid>
             <Grid item>
-              <Link to='/register' style={{color: 'rgba(255,255,255,0.68)'}}>
+              <Link to='/register' style={{color: 'rgb(67,67,67)'}}>
                 Don't have an account? Sign Up
               </Link>
             </Grid>
           </Grid>
         </Container>
+        <Copyright/>
       </ThemeProvider>
     </>
   )

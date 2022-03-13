@@ -17,6 +17,7 @@ export default function DashboardSidebar({setIsStatistics}) {
     left: false,
   });
 
+
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event &&
@@ -39,7 +40,7 @@ export default function DashboardSidebar({setIsStatistics}) {
       onKeyDown={toggleDrawer(anchor, false)}
       style={{overflow: 'hidden'}}
     >
-      <List style={{background: 'linear-gradient(0deg, rgba(12,55,52,1) 0%, rgba(4,22,19,1) 100%', minHeight:"100vh", color:'#fff'}}>
+      <List style={{background: 'linear-gradient(180deg, rgba(57,80,85,1) 0%, rgba(43,99,111,1) 31%, rgba(0,153,189,1) 67%, rgba(141,184,194,1) 100%)', minHeight:"100vh", color:'#fff'}}>
         <ListItem button  onClick={() => setIsStatistics(false)}>
           <ListItemIcon style={{color:'#fff'}} >
             <DashboardIcon style={{color: "#fff"}} />

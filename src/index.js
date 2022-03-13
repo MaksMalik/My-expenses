@@ -2,13 +2,13 @@ import React, {useEffect, useState} from 'react'
 import ReactDOM from 'react-dom'
 import "./index.scss"
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom"
-import Login from './New/Pages/Login'
-import Register from './New/Pages/Register'
+import Login from './Components/BeforeLogIn/Login'
+import Register from './Components/BeforeLogIn/Register'
 import {onAuthStateChanged, signOut} from "firebase/auth";
 import {authentication} from "./Firebase/firebase";
-import Home from "./New/Pages/Home";
-import ForgotPassword from "./New/Pages/ForgotPassword";
-import DashboardContent from "./New/Pages/DashboardContent";
+import Home from "./Components/BeforeLogIn/Home";
+import ForgotPassword from "./Components/BeforeLogIn/ForgotPassword";
+import DashboardContent from "./Components/AfterLogIn/DashboardContent";
 
 const App = () => {
 
@@ -31,10 +31,9 @@ const App = () => {
 
     return () => {unsubscribe()}
   }, [])
-
   return (
     <>
-      <div  style={{background: "radial-gradient(circle, rgba(16,94,89,1) 0%, rgba(4,22,19,1) 100%)", minHeight: "100vh", backgroundAttachment: "fixed"}}>
+      <div  style={{background: "linear-gradient(180deg, rgba(57,80,85,1) 0%, rgba(43,99,111,1) 31%, rgba(0,153,189,1) 67%, rgba(141,184,194,1) 100%)", minHeight: "100vh", backgroundAttachment: "fixed"}}>
         <Router>
           <Routes>
             <Route path="/" element={<Home/>}/>
