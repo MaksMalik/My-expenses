@@ -56,14 +56,15 @@ export default function Home() {
           >
             <Typography
               component="h1"
+              variant="h5"
               align="center"
               color="text.primary"
               gutterBottom
-              style={{color:"rgb(67,67,67)", fontSize:"48px", fontWeight:"200"}}
+              style={{color:"rgb(67,67,67)"}}
             >
               welcome to
             </Typography>
-            <img style={{width:"80%"}}  src="https://i.ibb.co/H48VngT/IMG-0073.png" alt="My Expenses"/>
+            <img style={{width:"60%"}}  src="https://i.ibb.co/H48VngT/IMG-0073.png" alt="My Expenses"/>
 
             <Divider style={{marginBottom:"20px", marginTop:"20px", backgroundColor:"rgb(0,152,188)", width:"80%", height:"1px", boxShadow:"0px" +
                 " 0px 10px 1px rgb(0,153,189)"}}/>
