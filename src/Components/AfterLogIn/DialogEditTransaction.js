@@ -47,7 +47,7 @@ const DialogEditTransaction = ({editTransaction, open, handleClose, setAmount, s
               id="outlined-number"
               label="Amount"
               type="number"
-              value={editTransaction.amount}
+              value={editTransaction?.amount}
 
               onChange={(event) =>  setAmount(event.target.value)}
             />
@@ -56,7 +56,7 @@ const DialogEditTransaction = ({editTransaction, open, handleClose, setAmount, s
               fullWidth
               id="outlined-password-input"
               label="Purpose"
-              value={editTransaction.name}
+              value={editTransaction?.name}
               onChange={(event) => setTransactionName(event.target.value)}
             />
             <FormControl fullWidth style={{padding:"10px"}}>
@@ -64,7 +64,7 @@ const DialogEditTransaction = ({editTransaction, open, handleClose, setAmount, s
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={editTransaction.type}
+                value={editTransaction?.type}
                 label="Type"
                 onChange={(event) => setTransactionType(event.target.value)}
               >
@@ -78,7 +78,7 @@ const DialogEditTransaction = ({editTransaction, open, handleClose, setAmount, s
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={editTransaction.category}
+                value={editTransaction?.category }
                 label="Category"
                 onChange={(event) => setTransactionCategory(event.target.value)}
               >

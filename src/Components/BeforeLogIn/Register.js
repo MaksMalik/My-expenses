@@ -88,7 +88,7 @@ const Register = () => {
             }}
           >
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <LockOutlinedIcon />
+              <LockOutlinedIcon style={{color:"rgb(0,153,189)"}}  />
             </Avatar>
             <Typography style={{color:"#434343"}} component="h1" variant="h5">
               Sign up
