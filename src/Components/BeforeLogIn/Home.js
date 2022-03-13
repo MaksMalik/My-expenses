@@ -60,16 +60,16 @@ export default function Home() {
               align="center"
               color="text.primary"
               gutterBottom
-              style={{color:"rgb(67,67,67)"}}
+              style={{color:"rgb(67,67,67)", fontFamily:"Avenir Next LT Pro"}}
             >
               welcome to
             </Typography>
             <img style={{width:"60%"}}  src="https://i.ibb.co/H48VngT/IMG-0073.png" alt="My Expenses"/>
 
-            <Divider style={{marginBottom:"20px", marginTop:"20px", backgroundColor:"rgb(0,152,188)", width:"80%", height:"1px", boxShadow:"0px" +
+            <Divider style={{marginBottom:"20px", marginTop:"20px", backgroundColor:"rgb(0,152,188)", width:"60%", height:"1px", boxShadow:"0px" +
                 " 0px 10px 1px rgb(0,153,189)"}}/>
 
-            <Typography style={{color:"rgb(67,67,67)"}} variant="h5" align="center" color="text.secondary" paragraph>
+            <Typography style={{color:"rgb(67,67,67)", fontFamily:"Avenir Next LT Pro"}} variant="h5" align="center" color="text.secondary" paragraph>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non dignissim leo, egestas suscipit dolor. Aenean turpis lectus, elementum id sagittis nec, malesuada ac neque. Nullam luctus vulputate ipsum. Mauris nec arcu convallis, varius tortor vel, egestas neque. Donec sollicitudin congue eros sed tincidunt.
             </Typography>
             <Divider style={{marginBottom:"20px", marginTop:"20px", backgroundColor:"rgb(0,152,188)", width:"60%", height:"1px", boxShadow:"0px" +

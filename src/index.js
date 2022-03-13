@@ -33,7 +33,7 @@ const App = () => {
   }, [])
   return (
     <>
-      <div  style={{background: "linear-gradient(180deg, rgba(57,80,85,1) 0%, rgba(43,99,111,1) 31%, rgba(0,153,189,1) 67%, rgba(141,184,194,1) 100%)", minHeight: "100vh", backgroundAttachment: "fixed"}}>
+      <div  style={{background: "linear-gradient(180deg, rgba(50,151,186,1) 0%, rgba(121,169,186,1) 26%, rgba(254,255,255,1) 100%)", minHeight: "100vh", backgroundAttachment: "fixed"}}>
         <Router>
           <Routes>
             <Route path="/" element={<Home/>}/>

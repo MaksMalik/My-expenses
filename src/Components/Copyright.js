@@ -7,10 +7,9 @@ export const Copyright = () => {
     <Typography style={{color:"rgb(67,67,67)", marginTop:"20px"}} variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
       <Link  style={{color:"rgb(67,67,67)"}}  href="https://my-expenses-final.netlify.app/">
-        my EXPENSES
+        myEXPENSES
       </Link>{' '}
       {new Date().getFullYear()}
-      {'.'}
     </Typography>
   );
 }

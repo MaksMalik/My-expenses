@@ -21,6 +21,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FlightIcon from '@mui/icons-material/Flight';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import ReceiptIcon from '@mui/icons-material/Receipt';
 import Divider from "@mui/material/Divider";
 import DialogNewTransaction from "./DialogNewTransaction";
 import {Copyright} from "../Copyright";
@@ -35,8 +36,6 @@ const Expenses = ({realUser,}) => {
   const [expense, setExpense] = useState(0)
   const [income, setIncome] = useState(0)
   const [ID, setID] = useState(1)
-
-  // const transactionCollection = collection(db, 'Transactions/users/' + realUser?.uid)
 
   const [open, setOpen] = useState(false);
 
@@ -104,6 +103,11 @@ const Expenses = ({realUser,}) => {
     await deleteDoc(docRef)
   }
 
+
+  // const handleEdit = (transaction) => {
+  //
+  // }
+
   return (
     <>
       <Box
@@ -117,13 +121,13 @@ const Expenses = ({realUser,}) => {
           >
             <Grid
               item
-              lg={8}
+              lg={6}
               sm={12}
-              xl={8}
+              xl={6}
               xs={12}
             >
               <Paper style={{ maxHeight: 'minContent', padding:"30px", backgroundColor: 'rgba(0,0,0,0.21)'}}>
-                <Typography style={{textTransform:"uppercase",color: "rgba(255,255,255,0.85)", textAlign: "center"}} variant="h4" >
+                <Typography style={{fontFamily:"Avenir Next LT Pro", textTransform:"uppercase",color: "rgba(255,255,255,0.85)", textAlign: "center"}} variant="h4" >
                   {realUser?.displayName ? <>{realUser.displayName} <Divider /> Balance:</> : ("Your" +
                     " balance:")} {balance} zł
                 </Typography>
@@ -151,7 +155,7 @@ const Expenses = ({realUser,}) => {
                   xl={4}
                   xs={10}
                 >
-                  <Paper style={{ height:"minContent", marginLeft:"20px", marginRight:"10px", backgroundColor: 'rgb(13,77,44)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
+                  <Paper style={{ height:"minContent", marginLeft:"20px", marginRight:"10px", backgroundColor: 'rgb(60,152,185)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
                     <Typography variant="h7">INCOME</Typography>
 
                     <Typography style={{paddingBottom:"15px"}} variant="h4">{income} zł</Typography>
@@ -165,7 +169,7 @@ const Expenses = ({realUser,}) => {
                   xl={4}
                   xs={10}
                 >
-                  <Paper style={{ height:"minContent", marginRight:"20px", marginLeft:"10px", backgroundColor: 'rgba(164,18,11,0.77)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
+                  <Paper style={{ height:"minContent", marginRight:"20px", marginLeft:"10px", backgroundColor: 'rgb(67,67,67)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
                     <Typography variant="h7">EXPENSES</Typography>
                     <Typography style={{paddingBottom:"15px"}} variant="h4">{expense} zł</Typography>
 
@@ -181,7 +185,7 @@ const Expenses = ({realUser,}) => {
                   sm={7}
                   xl={7}
                   xs={12}>
-                  <Button style={{color:"#00d2ff", width:"100%", padding:"10px", marginBottom:"30px", backgroundColor:"#434343"}} variant="contained" onClick={handleClickOpen}>
+                  <Button style={{color:"#2a7891", width:"100%", padding:"10px", marginBottom:"30px", backgroundColor:"rgba(255,255,255,0.75)"}} variant="contained" onClick={handleClickOpen}>
                     Add new transaction
                   </Button>
                 </Grid>
@@ -204,7 +208,7 @@ const Expenses = ({realUser,}) => {
                         <div key={index}>
                           <Divider/>
                           <ListItem
-                            style={{backgroundColor:`${transaction.type === "income" ? "rgb(13,77,44)" : 'rgba(164,18,11,0.77)'}`}}
+                            style={{backgroundColor:`${transaction.type === "income" ? "rgb(60,151,184)" : 'rgb(67,67,67)'}`}}
                             secondaryAction={
                             <IconButton edge="end" onClick={() => handleDelete(transaction)}>
                               <DeleteIcon style={{color: "#fff"}} />
@@ -219,7 +223,7 @@ const Expenses = ({realUser,}) => {
                                 <DirectionsCarIcon style={{color: "#fff"}} />
                               }
                               {(transaction.category === 'bills') &&
-                                <FlightIcon style={{color: "#fff"}} />
+                                <ReceiptIcon style={{color: "#fff"}} />
                               }
                               {(transaction.category === 'travel') &&
                                 <FlightIcon style={{color: "#fff"}} />
@@ -239,9 +243,6 @@ const Expenses = ({realUser,}) => {
                       ))}
                     </List>
                   </Grid>
-
-
-
                 </Box>
               </Paper>
             </Grid>
