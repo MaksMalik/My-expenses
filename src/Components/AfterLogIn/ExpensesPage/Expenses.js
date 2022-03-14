@@ -120,25 +120,28 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
 
   useEffect(() => {
     const sub = onSnapshot(collection(db, "Transactions/users/" + realUser?.uid), (snapshot) => {
-      let mySnapShot = (snapshot.docs.map(doc => doc.data()))
+      let mySnapShot = (snapshot.docs.map(childSnapshot => childSnapshot.data()))
       setTransactions((mySnapShot.sort((a, b) => {
         return a.id - b.id
       })))
-      setIncome((mySnapShot.length === 0)
-        ? 0
-        : (mySnapShot.length === 1 ? mySnapShot.map((snap) => snap.income) : (mySnapShot.map((snap) => snap.income)).reduce((acc,total) =>  acc + total)))
-      setExpense(
-        (mySnapShot.length === 0)
+
+      const mappedMySnapShotIncome =
+        (mySnapShot.map((snap) => snap.income).length === 0
           ? 0
-          : (mySnapShot.length === 1 ? mySnapShot.map((snap) => snap.expense) : (mySnapShot.map((snap) => snap.expense)).reduce((acc,total) =>  acc + total)))
-      setBalance(
-        ((mySnapShot.length === 0)
+          : mySnapShot.map((snap) => snap.income).reduce((acc,total) =>  acc + total))
+
+
+      const mappedMySnapShotExpense =
+        (mySnapShot.map((snap) => snap.expense).length === 0
           ? 0
-          : (mySnapShot.length === 1 ? mySnapShot.map((snap) => snap.income) : (mySnapShot.map((snap) => snap.income)).reduce((acc,total) =>  acc + total))) -
-        ((mySnapShot.length === 0)
-          ? 0
-          : (mySnapShot.length === 1 ? mySnapShot.map((snap) => snap.expense) : (mySnapShot.map((snap) => snap.expense)).reduce((acc,total) =>  acc + total)))
-      )
+          : mySnapShot.map((snap) => snap.expense).reduce((acc,total) =>  acc + total))
+
+      setIncome(mappedMySnapShotIncome)
+
+      setExpense(mappedMySnapShotExpense)
+
+      setBalance(mappedMySnapShotIncome - mappedMySnapShotExpense)
+
       const newID = (mySnapShot.sort((a, b) => {
         return a.id - b.id
       })).slice(-1).pop()?.id
@@ -153,7 +156,7 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
   const [filterAmount, setFilterAmount] = useState()
 
   const filterByFilterType = (filterType !== 'allTypes')
-    ? transactions.filter(transactionType => transactionType.type === `${filterType}`)
+    ? transactions.filter(transaction => transaction.type === `${filterType}`)
     : transactions
 
   const filterByFilterCategoryAndType = (filterCategory !== 'allCategories')
