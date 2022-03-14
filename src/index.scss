@@ -25,4 +25,30 @@
 //	font-display: swap;
 //}
 
+.expense {
+	position: relative;
+}
 
+.expense::after {
+	position: absolute;
+	content: "";
+	height: 71px;
+	background-color: red;
+	width: 4px;
+	top: -38px;
+	left:-65px;
+}
+
+.income {
+	position: relative;
+}
+
+.income::after {
+	position: absolute;
+	content: "";
+	height: 71px;
+	background-color: rgba(38, 163, 18, 0.71);
+	width: 4px;
+	top: -38px;
+	left:-65px;
+}

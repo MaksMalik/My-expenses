@@ -263,7 +263,7 @@ const Expenses = ({realUser,}) => {
                                 <EditIcon style={{color: "rgba(255,255,255,0.84)"}} />
                               </IconButton>
                               <IconButton edge="end" onClick={() => handleDelete(transaction)}>
-                                <DeleteIcon style={{color: "rgba(182,0,0,0.84)"}} />
+                                <DeleteIcon style={{color: "rgba(255,255,255,0.84)"}} />
                               </IconButton>
                             </>
                           }
@@ -288,8 +288,8 @@ const Expenses = ({realUser,}) => {
                             <ListItemText
                               primary={<div style={{textTransform: 'uppercase', color:"#fff"}}>{transaction.name}</div>}
                               secondary={transaction.type === "income" ?
-                                (<span style={{color:"#fff"}}>+ {transaction.amount} zł</span>) :
-                                (<span style={{color:"#fff"}}>- {transaction.amount} zł</span>)}
+                                (<span className="income" style={{color:"#fff"}}>+ {transaction.amount} zł</span>) :
+                                (<span className="expense" style={{color:"#fff"}}>- {transaction.amount} zł</span>)}
                             />
                           </ListItem>
                         </div>
