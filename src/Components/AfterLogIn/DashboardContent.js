@@ -11,7 +11,6 @@ import {AppBarAfterLogin} from "./AppBarAfterLogin";
 
 
 
-
 const DashboardContent = ({realUser, isAuth}) => {
 
   const mdTheme = createTheme({
@@ -25,7 +24,13 @@ const DashboardContent = ({realUser, isAuth}) => {
     }}
   )
 
+  const [balance, setBalance] = useState(0)
+  const [expense, setExpense] = useState(0)
+  const [income, setIncome] = useState(0)
+  const [transactions, setTransactions] = useState([])
+
   const [isStatistics, setIsStatistics] = useState(false)
+
 
   let navigate = useNavigate()
 
@@ -55,11 +60,15 @@ const DashboardContent = ({realUser, isAuth}) => {
           <Toolbar  />
 
 
-          {!isStatistics ? <Expenses realUser={realUser}/> : <Statistics realUser={realUser}/>}
+
+          {!isStatistics
+            ? <Expenses transactions={transactions} income={income} setIncome={setIncome} expense={expense} setExpense={setExpense} realUser={realUser} balance={balance} setBalance={setBalance} setTransactions={setTransactions}/>
+            : <Statistics transactions={transactions} income={income} expense={expense} realUser={realUser} balance={balance} setBalance={setBalance}/>}
 
             </Box>
       </Box>
     </ThemeProvider>
+
   );
 }
 

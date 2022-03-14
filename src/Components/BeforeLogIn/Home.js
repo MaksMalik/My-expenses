@@ -64,7 +64,7 @@ export default function Home() {
             >
               welcome to
             </Typography>
-            <img style={{width:"60%"}}  src="https://i.ibb.co/H48VngT/IMG-0073.png" alt="My Expenses"/>
+            <img style={{width:"60%"}}  src="https://i.ibb.co/j4kJK4r/Grey.png" alt="My Expenses"/>
 
             <Divider style={{marginBottom:"20px", marginTop:"20px", backgroundColor:"rgb(0,152,188)", width:"60%", height:"1px", boxShadow:"0px" +
                 " 0px 10px 1px rgb(0,153,189)"}}/>

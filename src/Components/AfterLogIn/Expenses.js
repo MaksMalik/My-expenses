@@ -31,21 +31,17 @@ import DialogEditTransaction from "./DialogEditTransaction";
 import DialogDeleteTransaction from "./DialogDeleteTransaction";
 import MenuItem from "@mui/material/MenuItem";
 
-const Expenses = ({realUser,}) => {
+const Expenses = ({realUser, balance, setBalance, expense, setExpense, income, setIncome, transactions, setTransactions}) => {
 
 
   /// ADD NEW TRANSACTION  / DIALOG NEW TRANSACTION
   /// ADD NEW TRANSACTION  / DIALOG NEW TRANSACTION
   /// ADD NEW TRANSACTION  / DIALOG NEW TRANSACTION
 
-  const [transactions, setTransactions] = useState([])
-  const [balance, setBalance] = useState(0)
   const [amount, setAmount] = useState()
   const [transactionType, setTransactionType] = useState('income')
   const [transactionCategory, setTransactionCategory] = useState('bills')
   const [transactionName, setTransactionName] = useState()
-  const [expense, setExpense] = useState(0)
-  const [income, setIncome] = useState(0)
   const [ID, setID] = useState(1)
 
   const [open, setOpen] = useState(false);
@@ -178,7 +174,7 @@ const Expenses = ({realUser,}) => {
 
     })
     return() => sub()
-  }, [realUser?.uid])
+  }, [realUser?.uid, setBalance, setExpense, setIncome, setTransactions ])
 
 
   const [filterCategory, setFilterCategory] = useState('allCategories')

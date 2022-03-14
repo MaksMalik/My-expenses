@@ -32,7 +32,7 @@ export const AppBarBeforeLogIn = () => {
         <AppBar position="relative">
           <Box display="flex" style={{justifyContent: 'left'}}>
             <Toolbar>
-              <img onClick={MoveToMainPage} style={{height:"50px", cursor:"pointer"}} src="https://i.ibb.co/C7rKBFz/IMG-0074.png" alt="My Expenses"/>
+              <img onClick={MoveToMainPage} style={{height:"50px", cursor:"pointer"}} src="https://i.ibb.co/091ZV3C/White.png" alt="My Expenses"/>
             </Toolbar>
           </Box>
         </AppBar>
