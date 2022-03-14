@@ -178,6 +178,8 @@ const Expenses = ({realUser, balance, setBalance, expense, setExpense, income, s
 
 
   const [filterCategory, setFilterCategory] = useState('allCategories')
+  const [filterType, setFilterType] = useState('allTypes')
+
 
   return (
     <>
@@ -269,6 +271,22 @@ const Expenses = ({realUser, balance, setBalance, expense, setExpense, income, s
 
                     <FormControl fullWidth style={{padding:"10px"}}
                     >
+                      <InputLabel id="demo-simple-select-label">Type of transaction</InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        label="Type of transaction"
+                        value={filterType}
+                        onChange={(event) => setFilterType(event.target.value)}
+                      >
+                        <MenuItem value="allTypes">All types of transaction</MenuItem>
+                        <MenuItem value="income">Income</MenuItem>
+                        <MenuItem value="expense">Expense</MenuItem>
+                      </Select>
+                    </FormControl>
+
+                    <FormControl fullWidth style={{padding:"10px"}}
+                    >
                       <InputLabel id="demo-simple-select-label">Category</InputLabel>
                       <Select
                         labelId="demo-simple-select-label"
@@ -287,7 +305,7 @@ const Expenses = ({realUser, balance, setBalance, expense, setExpense, income, s
                     </FormControl>
 
                     <List>
-                      {((filterCategory !== 'allCategories') ? (transactions.filter(transaction => transaction.category === `${filterCategory}`)) : (transactions)).map((transaction, index) => (
+                      {((filterCategory !== 'allCategories') ? (((filterType !== 'allTypes') ? transactions.filter(transactionType => transactionType.type === `${filterType}`) : (transactions)).filter(transaction => transaction.category === `${filterCategory}`)) : ((filterType !== 'allTypes') ? transactions.filter(transactionType => transactionType.type === `${filterType}`) : (transactions))).map((transaction, index) => (
                         <div key={index}>
                           <Divider/>
                           <ListItem
