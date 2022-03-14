@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { FormControl, InputLabel, ListItem, ListItemAvatar,ListItemText, Select} from "@mui/material";
+import {FormControl, InputLabel, ListItem, ListItemAvatar, ListItemText, Select, TextField} from "@mui/material";
 import {db} from "../../../Firebase/firebase";
 import {collection, onSnapshot, doc, deleteDoc, setDoc, updateDoc } from "firebase/firestore"
 import Button from "@mui/material/Button";
@@ -22,7 +22,7 @@ import DialogEditTransaction from "./DialogEditTransaction";
 import DialogDeleteTransaction from "./DialogDeleteTransaction";
 import MenuItem from "@mui/material/MenuItem";
 
-const Expenses = ({realUser, balance, setBalance, expense, setExpense, income, setIncome, transactions, setTransactions}) => {
+const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transactions, setTransactions}) => {
 
   /// ADD NEW TRANSACTION  / DIALOG NEW TRANSACTION
 
@@ -149,6 +149,21 @@ const Expenses = ({realUser, balance, setBalance, expense, setExpense, income, s
 
   const [filterCategory, setFilterCategory] = useState('allCategories')
   const [filterType, setFilterType] = useState('allTypes')
+  const [searchTransaction, setSearchTransaction] = useState()
+
+  const filterByFilterType = (filterType !== 'allTypes')
+    ? transactions.filter(transactionType => transactionType.type === `${filterType}`)
+    : transactions
+
+  const filterByFilterCategoryAndType = (filterCategory !== 'allCategories')
+    ? filterByFilterType
+    .filter(transaction => transaction.category === `${filterCategory}`)
+    : filterByFilterType
+
+  const filterByFilterCategoryAndTypeAndName = (!searchTransaction)
+    ? filterByFilterCategoryAndType
+    : (filterByFilterCategoryAndType.filter(transaction => transaction.name.includes(`${searchTransaction}`)))
+
 
   return (
     <>
@@ -167,41 +182,56 @@ const Expenses = ({realUser, balance, setBalance, expense, setExpense, income, s
       <Paper style={{ height:"minContent", backgroundColor: 'rgba(0,0,0,0.21)'}}>
         <Box sx={{display: 'flex',justifyContent: 'center',flexWrap: 'wrap', '& > :not(style)': { m: 3, width: '100%', height: 'minContent',},}}>
           <Grid item xs={12} md={12}>
-            <FormControl fullWidth style={{padding:"10px"}}>
-              <InputLabel id="demo-simple-select-label">Type of transaction</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Type of transaction"
-                value={filterType}
-                onChange={(event) => setFilterType(event.target.value)}
-              >
-                <MenuItem value="allTypes">All types of transaction</MenuItem>
-                <MenuItem value="income">Income</MenuItem>
-                <MenuItem value="expense">Expense</MenuItem>
-              </Select>
-            </FormControl>
 
-            <FormControl fullWidth style={{padding:"10px"}}>
-              <InputLabel id="demo-simple-select-label">Category</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Category"
-                value={filterCategory}
-                onChange={(event) => setFilterCategory(event.target.value)}
-              >
-                <MenuItem value="allCategories">All categories</MenuItem>
-                <MenuItem value="bills">Bills</MenuItem>
-                <MenuItem value="food">Food</MenuItem>
-                <MenuItem value="car">Car</MenuItem>
-                <MenuItem value="travel">Travel</MenuItem>
-                <MenuItem value="gift">Gift</MenuItem>
-              </Select>
-            </FormControl>
+            <TextField
+              style={{padding:"10px"}}
+              fullWidth
+              id="outlined-password-input"
+              label="Search by name"
+              value={searchTransaction}
+              onChange={(event) => setSearchTransaction(event.target.value)}
+            />
+
+            <Grid container spacing={2}>
+              <Grid item xs={6} md={6}>
+                <FormControl fullWidth style={{padding:"10px"}}>
+                  <InputLabel id="demo-simple-select-label">Type of transaction</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Type of transaction"
+                    value={filterType}
+                    onChange={(event) => setFilterType(event.target.value)}
+                  >
+                    <MenuItem value="allTypes">All types of transaction</MenuItem>
+                    <MenuItem value="income">Income</MenuItem>
+                    <MenuItem value="expense">Expense</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={6} md={6}>
+                <FormControl fullWidth style={{padding:"10px"}}>
+                  <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Category"
+                    value={filterCategory}
+                    onChange={(event) => setFilterCategory(event.target.value)}
+                  >
+                    <MenuItem value="allCategories">All categories</MenuItem>
+                    <MenuItem value="bills">Bills</MenuItem>
+                    <MenuItem value="food">Food</MenuItem>
+                    <MenuItem value="car">Car</MenuItem>
+                    <MenuItem value="travel">Travel</MenuItem>
+                    <MenuItem value="gift">Gift</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
 
             <List>
-              {((filterCategory !== 'allCategories') ? (((filterType !== 'allTypes') ? transactions.filter(transactionType => transactionType.type === `${filterType}`) : (transactions)).filter(transaction => transaction.category === `${filterCategory}`)) : ((filterType !== 'allTypes') ? transactions.filter(transactionType => transactionType.type === `${filterType}`) : (transactions))).map((transaction, index) => (
+              {filterByFilterCategoryAndTypeAndName.map((transaction, index) => (
                 <div key={index}>
                   <Divider/>
                   <ListItem

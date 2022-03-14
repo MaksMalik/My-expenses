@@ -21,13 +21,33 @@ const Statistics = ({transactions}) => {
             <Grid item lg={6} sm={12} xl={6} xs={10}>
               <Paper style={{ height:"minContent", backgroundColor: 'rgb(60,152,185)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
                 <Typography variant="h7">INCOME</Typography>
-                <Typography style={{paddingBottom:"15px"}} variant="h4">{((transactions.filter(transaction => transaction.category === `${category}`)).map(transaction => transaction.income)).length === 0 ? 0  : ((transactions.filter(transaction => transaction.category === `${category}`)).map(transaction => transaction.income)).reduce((acc, transaction) => {return acc + transaction})}zł</Typography>
+                <Typography style={{paddingBottom:"15px"}} variant="h4">
+                  {((transactions
+                  .filter(transaction => transaction.category === `${category}`))
+                  .map(transaction => transaction.income)).length === 0
+                    ? 0
+                    : ((transactions
+                    .filter(transaction => transaction.category === `${category}`))
+                    .map(transaction => transaction.income))
+                    .reduce((acc, transaction) => {return acc + transaction})}
+                  zł
+                </Typography>
               </Paper>
             </Grid>
             <Grid item lg={6} sm={12} xl={6} xs={10}>
               <Paper style={{ height:"minContent", backgroundColor: 'rgb(67,67,67)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
                 <Typography variant="h7">EXPENSES</Typography>
-                <Typography style={{paddingBottom:"15px"}} variant="h4">{((transactions.filter(transaction => transaction.category === `${category}`)).map(transaction => transaction.expense)).length === 0 ? 0  : ((transactions.filter(transaction => transaction.category === `${category}`)).map(transaction => transaction.expense)).reduce((acc, transaction) => {return acc + transaction})}zł</Typography>
+                <Typography style={{paddingBottom:"15px"}} variant="h4">
+                  {((transactions
+                  .filter(transaction => transaction.category === `${category}`))
+                  .map(transaction => transaction.expense)).length === 0
+                    ? 0
+                    : ((transactions
+                    .filter(transaction => transaction.category === `${category}`))
+                    .map(transaction => transaction.expense))
+                    .reduce((acc, transaction) => {return acc + transaction})}
+                  zł
+                </Typography>
               </Paper>
             </Grid>
           </Box>
