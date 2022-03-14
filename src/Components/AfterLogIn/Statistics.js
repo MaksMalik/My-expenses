@@ -6,7 +6,7 @@ import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 
-const Statistics = ({realUser, income, balance, expense }) => {
+const Statistics = ({realUser, income, balance, expense, transactions }) => {
   return (
     <>
       <Box
@@ -18,13 +18,7 @@ const Statistics = ({realUser, income, balance, expense }) => {
             spacing={4}
             style={{justifyContent: 'center'}}
           >
-            <Grid
-              item
-              lg={6}
-              sm={12}
-              xl={6}
-              xs={12}
-            >
+            <Grid item lg={6} sm={12} xl={6} xs={12}>
               <Paper style={{ maxHeight: 'minContent', padding:"30px", backgroundColor: 'rgba(0,0,0,0.21)'}}>
                 <Typography style={{fontFamily:"Avenir Next LT Pro", textTransform:"uppercase",color: "rgba(255,255,255,0.85)", textAlign: "center"}} variant="h4" >
                   {realUser?.displayName ? <>{realUser.displayName} <Divider /> Balance:</> : ("Your" +
@@ -33,21 +27,9 @@ const Statistics = ({realUser, income, balance, expense }) => {
               </Paper>
             </Grid>
 
-            <Grid
-              item
-              lg={7}
-              sm={12}
-              xl={7}
-              xs={12}
-            >
+            <Grid item lg={7} sm={12} xl={7} xs={12}>
               <Box display="flex" style={{paddingBottom:"30px", justifyContent: 'center'}}>
-                <Grid
-                  item
-                  lg={4}
-                  sm={12}
-                  xl={4}
-                  xs={10}
-                >
+                <Grid item lg={4} sm={12} xl={4} xs={10}>
                   <Paper style={{ height:"minContent", marginLeft:"20px", marginRight:"10px", backgroundColor: 'rgb(60,152,185)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
                     <Typography variant="h7">INCOME</Typography>
 
@@ -55,70 +37,59 @@ const Statistics = ({realUser, income, balance, expense }) => {
                   </Paper>
                 </Grid>
 
-                <Grid
-                  item
-                  lg={4}
-                  sm={12}
-                  xl={4}
-                  xs={10}
-                >
+                <Grid item lg={4} sm={12} xl={4} xs={10}>
                   <Paper style={{ height:"minContent", marginRight:"20px", marginLeft:"10px", backgroundColor: 'rgb(67,67,67)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
                     <Typography variant="h7">EXPENSES</Typography>
                     <Typography style={{paddingBottom:"15px"}} variant="h4">{expense} zł</Typography>
 
                   </Paper>
                 </Grid>
-
-
               </Box>
 
-              <Box>
-                <Grid
-                  item
-                  lg={4}
-                  sm={12}
-                  xl={4}
-                  xs={10}
-                >
+              <Box display="flex" style={{paddingBottom:"30px", justifyContent: 'center'}}>
+                <Grid item lg={4} sm={12} xl={4} xs={10}>
                   <Paper style={{ height:"minContent", marginLeft:"20px", marginRight:"10px", backgroundColor: 'rgb(60,152,185)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
-                    <Typography variant="h7">GIFT</Typography>
-
-                    <Typography style={{paddingBottom:"15px"}} variant="h4">{income} zł</Typography>
+                    <Typography variant="h7">GIFT</Typography><br/>
+                    <Typography variant="h7">INCOME</Typography>
+                    <Typography style={{paddingBottom:"15px"}} variant="h4">{((transactions.filter(transaction => transaction.category === 'gift')).map(transaction => transaction.income)).reduce((acc, transaction) => {return acc + transaction})}zł</Typography>
+                    <Typography variant="h7">EXPENSES</Typography>
+                    <Typography style={{paddingBottom:"15px"}} variant="h4">{((transactions.filter(transaction => transaction.category === 'gift')).map(transaction => transaction.expense)).reduce((acc, transaction) => {return acc + transaction})}zł</Typography>
                   </Paper>
                 </Grid>
 
-                <Grid
-                  item
-                  lg={4}
-                  sm={12}
-                  xl={4}
-                  xs={10}
-                >
+                <Grid item lg={4} sm={12} xl={4} xs={10}>
                   <Paper style={{ height:"minContent", marginLeft:"20px", marginRight:"10px", backgroundColor: 'rgb(60,152,185)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
-                    <Typography variant="h7">CAR</Typography>
-
-                    <Typography style={{paddingBottom:"15px"}} variant="h4">{income} zł</Typography>
-                  </Paper>
-                </Grid>
-
-                <Grid
-                  item
-                  lg={4}
-                  sm={12}
-                  xl={4}
-                  xs={10}
-                >
-                  <Paper style={{ height:"minContent", marginLeft:"20px", marginRight:"10px", backgroundColor: 'rgb(60,152,185)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
-                    <Typography variant="h7">TRAVEL</Typography>
-
-                    <Typography style={{paddingBottom:"15px"}} variant="h4">{income} zł</Typography>
+                    <Typography variant="h7">CAR</Typography><br/>
+                    <Typography variant="h7">INCOME</Typography>
+                    <Typography style={{paddingBottom:"15px"}} variant="h4">{((transactions.filter(transaction => transaction.category === 'car')).map(transaction => transaction.income)).reduce((acc, transaction) => {return acc + transaction})}zł</Typography>
+                    <Typography variant="h7">EXPENSES</Typography>
+                    <Typography style={{paddingBottom:"15px"}} variant="h4">{((transactions.filter(transaction => transaction.category === 'car')).map(transaction => transaction.expense)).reduce((acc, transaction) => {return acc + transaction})}zł</Typography>
                   </Paper>
                 </Grid>
               </Box>
 
+              <Box display="flex" style={{paddingBottom:"30px", justifyContent: 'center'}}>
+                <Grid item lg={4} sm={12} xl={4} xs={10}>
+                  <Paper style={{ height:"minContent", marginLeft:"20px", marginRight:"10px", backgroundColor: 'rgb(60,152,185)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
+                    <Typography variant="h7">TRAVEL</Typography><br/>
+                    <Typography variant="h7">INCOME</Typography>
+                    <Typography style={{paddingBottom:"15px"}} variant="h4">{((transactions.filter(transaction => transaction.category === 'travel')).map(transaction => transaction.income)).reduce((acc, transaction) => {return acc + transaction})}zł</Typography>
+                    <Typography variant="h7">EXPENSES</Typography>
+                    <Typography style={{paddingBottom:"15px"}} variant="h4">{((transactions.filter(transaction => transaction.category === 'travel')).map(transaction => transaction.expense)).reduce((acc, transaction) => {return acc + transaction})}zł</Typography>
+                  </Paper>
+                </Grid>
+
+                <Grid item lg={4} sm={12} xl={4} xs={10}>
+                  <Paper style={{ height:"minContent", marginLeft:"20px", marginRight:"10px", backgroundColor: 'rgb(60,152,185)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
+                    <Typography variant="h7">FOOD</Typography><br/>
+                    <Typography variant="h7">INCOME</Typography>
+                    <Typography style={{paddingBottom:"15px"}} variant="h4">{((transactions.filter(transaction => transaction.category === 'food')).map(transaction => transaction.income)).reduce((acc, transaction) => {return acc + transaction})}zł</Typography>
+                    <Typography variant="h7">EXPENSES</Typography>
+                    <Typography style={{paddingBottom:"15px"}} variant="h4">{((transactions.filter(transaction => transaction.category === 'food')).map(transaction => transaction.expense)).reduce((acc, transaction) => {return acc + transaction})}zł</Typography>
+                  </Paper>
+                </Grid>
+              </Box>
             </Grid>
-
-
           </Grid>
         </Container>
       </Box>

@@ -4,13 +4,7 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import {
-  FormControl,
-  InputLabel,
-  ListItem,
-  ListItemAvatar,
-  ListItemText, Select
-} from "@mui/material";
+import { FormControl, InputLabel, ListItem, ListItemAvatar,ListItemText, Select} from "@mui/material";
 import {db} from "../../Firebase/firebase";
 import {collection, onSnapshot, doc, deleteDoc, setDoc, updateDoc } from "firebase/firestore"
 import Container from "@mui/material/Container";
@@ -33,9 +27,6 @@ import MenuItem from "@mui/material/MenuItem";
 
 const Expenses = ({realUser, balance, setBalance, expense, setExpense, income, setIncome, transactions, setTransactions}) => {
 
-
-  /// ADD NEW TRANSACTION  / DIALOG NEW TRANSACTION
-  /// ADD NEW TRANSACTION  / DIALOG NEW TRANSACTION
   /// ADD NEW TRANSACTION  / DIALOG NEW TRANSACTION
 
   const [amount, setAmount] = useState()
@@ -73,9 +64,6 @@ const Expenses = ({realUser, balance, setBalance, expense, setExpense, income, s
     }
   }
 
-
-  /// EDIT TRANSACTION  / DIALOG EDIT TRANSACTION
-  /// EDIT TRANSACTION  / DIALOG EDIT TRANSACTION
   /// EDIT TRANSACTION  / DIALOG EDIT TRANSACTION
 
   const [editTransaction, setEditTransaction] = useState({})
@@ -112,9 +100,6 @@ const Expenses = ({realUser, balance, setBalance, expense, setExpense, income, s
     }
   }
 
-
-  /// DELETE TRANSACTION  / DIALOG DELETE TRANSACTION
-  /// DELETE TRANSACTION  / DIALOG DELETE TRANSACTION
   /// DELETE TRANSACTION  / DIALOG DELETE TRANSACTION
 
   const [deleteTransaction, setDeleteTransaction] = useState()
@@ -136,26 +121,19 @@ const Expenses = ({realUser, balance, setBalance, expense, setExpense, income, s
     setOpenDelete(false)
   }
 
-
-
-
   useEffect(() => {
     const sub = onSnapshot(collection(db, "Transactions/users/" + realUser?.uid), (snapshot) => {
       let mySnapShot = (snapshot.docs.map(doc => doc.data()))
-
       setTransactions((mySnapShot.sort((a, b) => {
         return a.id - b.id
       })))
-
       setIncome((mySnapShot.length === 0)
         ? 0
         : (mySnapShot.length === 1 ? mySnapShot.map((snap) => snap.income) : (mySnapShot.map((snap) => snap.income)).reduce((acc,total) =>  acc + total)))
-
       setExpense(
         (mySnapShot.length === 0)
           ? 0
           : (mySnapShot.length === 1 ? mySnapShot.map((snap) => snap.expense) : (mySnapShot.map((snap) => snap.expense)).reduce((acc,total) =>  acc + total)))
-
       setBalance(
         ((mySnapShot.length === 0)
           ? 0
@@ -164,29 +142,21 @@ const Expenses = ({realUser, balance, setBalance, expense, setExpense, income, s
           ? 0
           : (mySnapShot.length === 1 ? mySnapShot.map((snap) => snap.expense) : (mySnapShot.map((snap) => snap.expense)).reduce((acc,total) =>  acc + total)))
       )
-
       const newID = (mySnapShot.sort((a, b) => {
         return a.id - b.id
       })).slice(-1).pop()?.id
-
       setID(!newID ? 0 : newID)
-
-
     })
     return() => sub()
   }, [realUser?.uid, setBalance, setExpense, setIncome, setTransactions ])
 
-
   const [filterCategory, setFilterCategory] = useState('allCategories')
   const [filterType, setFilterType] = useState('allTypes')
-
 
   return (
     <>
       <DialogNewTransaction open={open} handleClose={handleClose} setAmount={setAmount} setTransactionCategory={setTransactionCategory} setTransactionType={setTransactionType} setTransactionName={setTransactionName} handleChange={handleChange} transactionType={transactionType} transactionCategory={transactionCategory}/>
-
       <DialogEditTransaction setEditTransaction={setEditTransaction} editTransaction={editTransaction} openEdit={openEdit} handleClose={handleCloseEdit} handleEdit={handleEdit}/>
-
       <DialogDeleteTransaction openDelete={openDelete} handleOpenDelete={handleOpenDelete} deleteTransaction={deleteTransaction} handleCloseDelete={handleCloseDelete} handleDelete={handleDelete}/>
 
       <Box
@@ -198,13 +168,7 @@ const Expenses = ({realUser, balance, setBalance, expense, setExpense, income, s
             spacing={4}
             style={{justifyContent: 'center'}}
           >
-            <Grid
-              item
-              lg={6}
-              sm={12}
-              xl={6}
-              xs={12}
-            >
+            <Grid item lg={6} sm={12} xl={6} xs={12}>
               <Paper style={{ maxHeight: 'minContent', padding:"30px", backgroundColor: 'rgba(0,0,0,0.21)'}}>
                 <Typography style={{fontFamily:"Avenir Next LT Pro", textTransform:"uppercase",color: "rgba(255,255,255,0.85)", textAlign: "center"}} variant="h4" >
                   {realUser?.displayName ? <>{realUser.displayName} <Divider /> Balance:</> : ("Your" +
@@ -213,64 +177,34 @@ const Expenses = ({realUser, balance, setBalance, expense, setExpense, income, s
               </Paper>
             </Grid>
 
-            <Grid
-              item
-              lg={7}
-              sm={12}
-              xl={7}
-              xs={12}
-            >
+            <Grid item lg={7} sm={12} xl={7} xs={12}>
               <Box display="flex" style={{paddingBottom:"30px", justifyContent: 'center'}}>
-                <Grid
-                  item
-                  lg={4}
-                  sm={12}
-                  xl={4}
-                  xs={10}
-                >
+                <Grid item lg={4} sm={12} xl={4} xs={10}>
                   <Paper style={{ height:"minContent", marginLeft:"20px", marginRight:"10px", backgroundColor: 'rgb(60,152,185)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
                     <Typography variant="h7">INCOME</Typography>
-
                     <Typography style={{paddingBottom:"15px"}} variant="h4">{income} zł</Typography>
-
                   </Paper>
                 </Grid>
-                <Grid
-                  item
-                  lg={4}
-                  sm={12}
-                  xl={4}
-                  xs={10}
-                >
+                <Grid item lg={4} sm={12} xl={4} xs={10}>
                   <Paper style={{ height:"minContent", marginRight:"20px", marginLeft:"10px", backgroundColor: 'rgb(67,67,67)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
                     <Typography variant="h7">EXPENSES</Typography>
                     <Typography style={{paddingBottom:"15px"}} variant="h4">{expense} zł</Typography>
-
                   </Paper>
                 </Grid>
-
               </Box>
 
               <Box style={{display:"flex", justifyContent: 'center'}}>
-                <Grid
-                  item
-                  lg={7}
-                  sm={7}
-                  xl={7}
-                  xs={12}>
+                <Grid item lg={7} sm={7} xl={7} xs={12}>
                   <Button style={{color:"#2a7891", width:"100%", padding:"10px", marginBottom:"30px", backgroundColor:"rgba(255,255,255,0.75)"}} variant="contained" onClick={handleClickOpen}>
                     Add new transaction
                   </Button>
                 </Grid>
               </Box>
 
-
               <Paper style={{ height:"minContent", backgroundColor: 'rgba(0,0,0,0.21)'}}>
                 <Box sx={{display: 'flex',justifyContent: 'center',flexWrap: 'wrap', '& > :not(style)': { m: 3, width: '100%', height: 'minContent',},}}>
                   <Grid item xs={12} md={12}>
-
-                    <FormControl fullWidth style={{padding:"10px"}}
-                    >
+                    <FormControl fullWidth style={{padding:"10px"}}>
                       <InputLabel id="demo-simple-select-label">Type of transaction</InputLabel>
                       <Select
                         labelId="demo-simple-select-label"
@@ -285,8 +219,7 @@ const Expenses = ({realUser, balance, setBalance, expense, setExpense, income, s
                       </Select>
                     </FormControl>
 
-                    <FormControl fullWidth style={{padding:"10px"}}
-                    >
+                    <FormControl fullWidth style={{padding:"10px"}}>
                       <InputLabel id="demo-simple-select-label">Category</InputLabel>
                       <Select
                         labelId="demo-simple-select-label"
@@ -322,33 +255,22 @@ const Expenses = ({realUser, balance, setBalance, expense, setExpense, income, s
                             }
                           >
                             <ListItemAvatar>
-                              {(transaction.category === 'food') &&
-                                <RestaurantIcon style={{color: "#fff"}} />
-                              }
-                              {(transaction.category === 'car') &&
-                                <DirectionsCarIcon style={{color: "#fff"}} />
-                              }
-                              {(transaction.category === 'bills') &&
-                                <ReceiptIcon style={{color: "#fff"}} />
-                              }
-                              {(transaction.category === 'travel') &&
-                                <FlightIcon style={{color: "#fff"}} />
-                              }
-                              {(transaction.category === 'gift') &&
-                                <CardGiftcardIcon style={{color: "#fff"}} />
-                              }
+                              {(transaction.category === 'food') && <RestaurantIcon style={{color: "#fff"}} />}
+                              {(transaction.category === 'car') && <DirectionsCarIcon style={{color: "#fff"}} />}
+                              {(transaction.category === 'bills') && <ReceiptIcon style={{color: "#fff"}} />}
+                              {(transaction.category === 'travel') && <FlightIcon style={{color: "#fff"}} />}
+                              {(transaction.category === 'gift') && <CardGiftcardIcon style={{color: "#fff"}} />}
                             </ListItemAvatar>
                             <ListItemText
                               primary={<div style={{textTransform: 'uppercase', color:"#fff"}}>{transaction.name}</div>}
-                              secondary={transaction.type === "income" ?
-                                (<span className="income" style={{color:"#fff"}}>+ {transaction.amount} zł</span>) :
+                              secondary={transaction.type === "income"
+                                ? (<span className="income" style={{color:"#fff"}}>+ {transaction.amount} zł</span>) :
                                 (<span className="expense" style={{color:"#fff"}}>- {transaction.amount} zł</span>)}
                             />
                           </ListItem>
                         </div>
                       ))}
                     </List>
-
                   </Grid>
                 </Box>
               </Paper>
