@@ -27,6 +27,7 @@ import Divider from "@mui/material/Divider";
 import DialogNewTransaction from "./DialogNewTransaction";
 import {Copyright} from "../Copyright";
 import DialogEditTransaction from "./DialogEditTransaction";
+import DialogDeleteTransaction from "./DialogDeleteTransaction";
 
 const Expenses = ({realUser,}) => {
   const [transactions, setTransactions] = useState([])
@@ -40,6 +41,8 @@ const Expenses = ({realUser,}) => {
   const [ID, setID] = useState(1)
 
   const [open, setOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -49,8 +52,13 @@ const Expenses = ({realUser,}) => {
     setOpen(false);
   };
 
-  const [openEdit, setOpenEdit] = useState(false);
+  const handleCloseEdit = () => {
+    setOpenEdit(false);
+  };
 
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
 
   const [editTransactionID, setEditTransactionID] = useState();
 
@@ -58,10 +66,6 @@ const Expenses = ({realUser,}) => {
   const [editTransactionAmount, setEditTransactionAmount] = useState()
   const [editTransactionName, setEditTransactionName] = useState()
   const [editTransactionType, setEditTransactionType] = useState()
-
-  const handleCloseEdit = () => {
-    setOpenEdit(false);
-  };
 
   const handleOpenEdit = (transaction) => {
     setOpenEdit(true);
@@ -92,6 +96,14 @@ const Expenses = ({realUser,}) => {
       })
     }
   }
+
+  const [deleteTransaction, setDeleteTransaction] = useState()
+
+  const handleOpenDelete = (transaction) => {
+    setOpenDelete(true)
+    setDeleteTransaction(transaction.id)
+  }
+
 
   const handleChange =  async () => {
     if (transactionType && transactionName && amount && transactionCategory) {
@@ -148,16 +160,18 @@ const Expenses = ({realUser,}) => {
     return() => sub()
   }, [realUser?.uid])
 
-
-  const handleDelete = async (transaction) => {
-    const docRef = doc(db, `Transactions/users/${realUser?.uid}/${transaction.id}`)
+  const handleDelete = async () => {
+    const docRef = doc(db, `Transactions/users/${realUser?.uid}/${deleteTransaction}`)
     await deleteDoc(docRef)
+    setOpenDelete(false)
   }
-
 
   return (
     <>
       <DialogEditTransaction  editTransactionAmount={editTransactionAmount} editTransactionCategory={editTransactionCategory} editTransactionType={editTransactionType} editTransactionName={editTransactionName}  setEditTransactionCategory={setEditTransactionCategory} setEditTransactionType={setEditTransactionType} setEditTransactionAmount={setEditTransactionAmount} setEditTransactionName={setEditTransactionName}  openEdit={openEdit} handleClose={handleCloseEdit} handleEdit={handleEdit}/>
+
+      <DialogDeleteTransaction openDelete={openDelete} handleOpenDelete={handleOpenDelete} deleteTransaction={deleteTransaction} handleCloseDelete={handleCloseDelete} handleDelete={handleDelete}/>
+
       <Box
         sx={{ display: 'flex', justifyContent: 'center'}}
       >
@@ -262,7 +276,7 @@ const Expenses = ({realUser,}) => {
                               <IconButton edge="end" onClick={() => handleOpenEdit(transaction)}>
                                 <EditIcon style={{color: "rgba(255,255,255,0.84)"}} />
                               </IconButton>
-                              <IconButton edge="end" onClick={() => handleDelete(transaction)}>
+                              <IconButton edge="end" onClick={() => handleOpenDelete(transaction)}>
                                 <DeleteIcon style={{color: "rgba(255,255,255,0.84)"}} />
                               </IconButton>
                             </>
