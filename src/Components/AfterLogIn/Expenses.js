@@ -5,10 +5,11 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import {
+  FormControl,
+  InputLabel,
   ListItem,
   ListItemAvatar,
-  ListItemText,
-  TextField
+  ListItemText, Select
 } from "@mui/material";
 import {db} from "../../Firebase/firebase";
 import {collection, onSnapshot, doc, deleteDoc, setDoc, updateDoc } from "firebase/firestore"
@@ -28,8 +29,15 @@ import DialogNewTransaction from "./DialogNewTransaction";
 import {Copyright} from "../Copyright";
 import DialogEditTransaction from "./DialogEditTransaction";
 import DialogDeleteTransaction from "./DialogDeleteTransaction";
+import MenuItem from "@mui/material/MenuItem";
 
 const Expenses = ({realUser,}) => {
+
+
+  /// ADD NEW TRANSACTION  / DIALOG NEW TRANSACTION
+  /// ADD NEW TRANSACTION  / DIALOG NEW TRANSACTION
+  /// ADD NEW TRANSACTION  / DIALOG NEW TRANSACTION
+
   const [transactions, setTransactions] = useState([])
   const [balance, setBalance] = useState(0)
   const [amount, setAmount] = useState()
@@ -41,69 +49,14 @@ const Expenses = ({realUser,}) => {
   const [ID, setID] = useState(1)
 
   const [open, setOpen] = useState(false);
-  const [openEdit, setOpenEdit] = useState(false);
-  const [openDelete, setOpenDelete] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleCloseEdit = () => {
-    setOpenEdit(false);
+  const handleClickOpen = () => {
+    setOpen(true);
   };
-
-  const handleCloseDelete = () => {
-    setOpenDelete(false);
-  };
-
-  const [editTransactionID, setEditTransactionID] = useState();
-
-  const [editTransactionCategory, setEditTransactionCategory] = useState()
-  const [editTransactionAmount, setEditTransactionAmount] = useState()
-  const [editTransactionName, setEditTransactionName] = useState()
-  const [editTransactionType, setEditTransactionType] = useState()
-
-  const handleOpenEdit = (transaction) => {
-    setOpenEdit(true);
-    setEditTransactionID(transaction.id)
-    setEditTransactionCategory(transaction.category)
-    setEditTransactionAmount(transaction.amount)
-    setEditTransactionName(transaction.name)
-    setEditTransactionType(transaction.type)
-  };
-
-  const handleEdit = () => {
-    if (editTransactionType && editTransactionName && editTransactionAmount && editTransactionCategory) {
-      updateDoc(doc(db, `Transactions/users/${realUser?.uid}/${editTransactionID}`), {
-        id: editTransactionID,
-        name: editTransactionName,
-        type: editTransactionType,
-        amount: editTransactionAmount,
-        category: editTransactionCategory,
-        income: (editTransactionType === 'income' ? parseFloat(editTransactionAmount) : 0),
-        expense: (editTransactionType === 'expense' ? parseFloat(editTransactionAmount) : 0),
-        user_id: `${realUser?.uid}`,
-        balance: (editTransactionType === 'income' ? balance + parseFloat(editTransactionAmount) : balance - parseFloat(editTransactionAmount))
-      })
-      .then(() => {
-        setOpenEdit(false)
-        setTransactionName("")
-        setAmount("")
-      })
-    }
-  }
-
-  const [deleteTransaction, setDeleteTransaction] = useState()
-
-  const handleOpenDelete = (transaction) => {
-    setOpenDelete(true)
-    setDeleteTransaction(transaction.id)
-  }
-
 
   const handleChange =  async () => {
     if (transactionType && transactionName && amount && transactionCategory) {
@@ -123,6 +76,72 @@ const Expenses = ({realUser,}) => {
       setAmount("")
     }
   }
+
+
+  /// EDIT TRANSACTION  / DIALOG EDIT TRANSACTION
+  /// EDIT TRANSACTION  / DIALOG EDIT TRANSACTION
+  /// EDIT TRANSACTION  / DIALOG EDIT TRANSACTION
+
+  const [editTransaction, setEditTransaction] = useState({})
+
+  const [openEdit, setOpenEdit] = useState(false);
+
+  const handleOpenEdit =  (transaction) => {
+    setOpenEdit(true);
+    setEditTransaction(transaction)
+  };
+
+  const handleCloseEdit = () => {
+    setOpenEdit(false);
+  };
+
+  const handleEdit = () => {
+    if (editTransaction.type && editTransaction.name && editTransaction.amount && editTransaction.category) {
+      updateDoc(doc(db, `Transactions/users/${realUser?.uid}/${editTransaction.id}`), {
+        id: editTransaction.id,
+        name: editTransaction.name,
+        type: editTransaction.type,
+        amount: editTransaction.amount,
+        category: editTransaction.category,
+        income: (editTransaction.type === 'income' ? parseFloat(editTransaction.amount) : 0),
+        expense: (editTransaction.type === 'expense' ? parseFloat(editTransaction.amount) : 0),
+        user_id: `${realUser?.uid}`,
+        balance: (editTransaction.type === 'income' ? balance + parseFloat(editTransaction.amount) : balance - parseFloat(editTransaction.amount))
+      })
+      .then(() => {
+        setOpenEdit(false)
+        setTransactionName("")
+        setAmount("")
+      })
+    }
+  }
+
+
+  /// DELETE TRANSACTION  / DIALOG DELETE TRANSACTION
+  /// DELETE TRANSACTION  / DIALOG DELETE TRANSACTION
+  /// DELETE TRANSACTION  / DIALOG DELETE TRANSACTION
+
+  const [deleteTransaction, setDeleteTransaction] = useState()
+
+  const [openDelete, setOpenDelete] = useState(false);
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
+
+  const handleOpenDelete = (transaction) => {
+    setOpenDelete(true)
+    setDeleteTransaction(transaction.id)
+  }
+
+  const handleDelete = async () => {
+    const docRef = doc(db, `Transactions/users/${realUser?.uid}/${deleteTransaction}`)
+    await deleteDoc(docRef)
+    setOpenDelete(false)
+  }
+
+
+
 
   useEffect(() => {
     const sub = onSnapshot(collection(db, "Transactions/users/" + realUser?.uid), (snapshot) => {
@@ -156,19 +175,19 @@ const Expenses = ({realUser,}) => {
 
       setID(!newID ? 0 : newID)
 
+
     })
     return() => sub()
   }, [realUser?.uid])
 
-  const handleDelete = async () => {
-    const docRef = doc(db, `Transactions/users/${realUser?.uid}/${deleteTransaction}`)
-    await deleteDoc(docRef)
-    setOpenDelete(false)
-  }
+
+  const [filterCategory, setFilterCategory] = useState('allCategories')
 
   return (
     <>
-      <DialogEditTransaction  editTransactionAmount={editTransactionAmount} editTransactionCategory={editTransactionCategory} editTransactionType={editTransactionType} editTransactionName={editTransactionName}  setEditTransactionCategory={setEditTransactionCategory} setEditTransactionType={setEditTransactionType} setEditTransactionAmount={setEditTransactionAmount} setEditTransactionName={setEditTransactionName}  openEdit={openEdit} handleClose={handleCloseEdit} handleEdit={handleEdit}/>
+      <DialogNewTransaction open={open} handleClose={handleClose} setAmount={setAmount} setTransactionCategory={setTransactionCategory} setTransactionType={setTransactionType} setTransactionName={setTransactionName} handleChange={handleChange} transactionType={transactionType} transactionCategory={transactionCategory}/>
+
+      <DialogEditTransaction setEditTransaction={setEditTransaction} editTransaction={editTransaction} openEdit={openEdit} handleClose={handleCloseEdit} handleEdit={handleEdit}/>
 
       <DialogDeleteTransaction openDelete={openDelete} handleOpenDelete={handleOpenDelete} deleteTransaction={deleteTransaction} handleCloseDelete={handleCloseDelete} handleDelete={handleDelete}/>
 
@@ -195,12 +214,6 @@ const Expenses = ({realUser,}) => {
                 </Typography>
               </Paper>
             </Grid>
-
-
-
-            <DialogNewTransaction open={open} handleClose={handleClose} setAmount={setAmount} setTransactionCategory={setTransactionCategory} setTransactionType={setTransactionType} setTransactionName={setTransactionName} handleChange={handleChange} transactionType={transactionType} transactionCategory={transactionCategory}/>
-
-
 
             <Grid
               item
@@ -258,29 +271,41 @@ const Expenses = ({realUser,}) => {
                 <Box sx={{display: 'flex',justifyContent: 'center',flexWrap: 'wrap', '& > :not(style)': { m: 3, width: '100%', height: 'minContent',},}}>
                   <Grid item xs={12} md={12}>
 
-                    <TextField
-                      fullWidth
-                      id="outlined-password-input"
-                      label="Search"
-                      onChange={() => console.log("Hejka")}
-                    />
+                    <FormControl fullWidth style={{padding:"10px"}}
+                    >
+                      <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        label="Category"
+                        value={filterCategory}
+                        onChange={(event) => setFilterCategory(event.target.value)}
+                      >
+                        <MenuItem value="allCategories">All categories</MenuItem>
+                        <MenuItem value="bills">Bills</MenuItem>
+                        <MenuItem value="food">Food</MenuItem>
+                        <MenuItem value="car">Car</MenuItem>
+                        <MenuItem value="travel">Travel</MenuItem>
+                        <MenuItem value="gift">Gift</MenuItem>
+                      </Select>
+                    </FormControl>
 
                     <List>
-                      {transactions.map((transaction, index) => (
+                      {((filterCategory !== 'allCategories') ? (transactions.filter(transaction => transaction.category === `${filterCategory}`)) : (transactions)).map((transaction, index) => (
                         <div key={index}>
                           <Divider/>
                           <ListItem
                             style={{backgroundColor:`${transaction.type === "income" ? "rgb(60,151,184)" : 'rgb(67,67,67)'}`}}
                             secondaryAction={
-                            <>
-                              <IconButton edge="end" onClick={() => handleOpenEdit(transaction)}>
-                                <EditIcon style={{color: "rgba(255,255,255,0.84)"}} />
-                              </IconButton>
-                              <IconButton edge="end" onClick={() => handleOpenDelete(transaction)}>
-                                <DeleteIcon style={{color: "rgba(255,255,255,0.84)"}} />
-                              </IconButton>
-                            </>
-                          }
+                              <>
+                                <IconButton edge="end" onClick={() => handleOpenEdit(transaction)}>
+                                  <EditIcon style={{color: "rgba(255,255,255,0.84)"}} />
+                                </IconButton>
+                                <IconButton edge="end" onClick={() => handleOpenDelete(transaction)}>
+                                  <DeleteIcon style={{color: "rgba(255,255,255,0.84)"}} />
+                                </IconButton>
+                              </>
+                            }
                           >
                             <ListItemAvatar>
                               {(transaction.category === 'food') &&
@@ -309,6 +334,7 @@ const Expenses = ({realUser,}) => {
                         </div>
                       ))}
                     </List>
+
                   </Grid>
                 </Box>
               </Paper>

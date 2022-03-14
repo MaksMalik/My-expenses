@@ -14,7 +14,7 @@ import * as React from "react";
 import {createTheme} from "@mui/material/styles";
 
 
-const DialogEditTransaction = ({editTransactionAmount, editTransactionType, editTransactionName, editTransactionCategory, openEdit, handleClose, setEditTransactionAmount, setEditTransactionName, setEditTransactionType,  setEditTransactionCategory, handleEdit}) => {
+const DialogEditTransaction = ({setEditTransaction, editTransaction, openEdit, handleClose, handleEdit}) => {
 
   const theme = createTheme({
     palette: {
@@ -47,25 +47,25 @@ const DialogEditTransaction = ({editTransactionAmount, editTransactionType, edit
               id="outlined-number"
               label="Amount"
               type="number"
-              value={editTransactionAmount}
-              onChange={(event) =>  setEditTransactionAmount(event.target.value)}
+              value={editTransaction?.amount}
+              onChange={(event) =>  setEditTransaction({...editTransaction, amount: event.target.value})}
             />
             <TextField
               style={{padding:"10px"}}
               fullWidth
               id="outlined-password-input"
               label="Purpose"
-              value={editTransactionName}
-              onChange={(event) => setEditTransactionName(event.target.value)}
+              value={editTransaction.name}
+              onChange={(event) => setEditTransaction({...editTransaction, name: event.target.value})}
             />
             <FormControl fullWidth style={{padding:"10px"}}>
               <InputLabel id="demo-simple-select-label">Type</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={editTransactionType}
+                value={editTransaction.type}
                 label="Type"
-                onChange={(event) => setEditTransactionType(event.target.value)}
+                onChange={(event) => setEditTransaction({...editTransaction, type: event.target.value})}
               >
                 <MenuItem value="expense">Expense</MenuItem>
                 <MenuItem value="income">Income</MenuItem>
@@ -77,9 +77,9 @@ const DialogEditTransaction = ({editTransactionAmount, editTransactionType, edit
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={editTransactionCategory}
+                value={editTransaction.category}
                 label="Category"
-                onChange={(event) => setEditTransactionCategory(event.target.value)}
+                onChange={(event) => setEditTransaction({...editTransaction, category: event.target.value})}
               >
                 <MenuItem value="bills">Bills</MenuItem>
                 <MenuItem value="food">Food</MenuItem>
