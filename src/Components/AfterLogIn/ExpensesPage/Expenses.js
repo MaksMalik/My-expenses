@@ -125,22 +125,22 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
         return a.id - b.id
       })))
 
-      const mappedMySnapShotIncome =
+      const mappedAndReducedMySnapShotIncome =
         (mySnapShot.map((snap) => snap.income).length === 0
           ? 0
           : mySnapShot.map((snap) => snap.income).reduce((acc,total) =>  acc + total))
 
 
-      const mappedMySnapShotExpense =
+      const mappedAndReducedMySnapShotExpense =
         (mySnapShot.map((snap) => snap.expense).length === 0
           ? 0
           : mySnapShot.map((snap) => snap.expense).reduce((acc,total) =>  acc + total))
 
-      setIncome(mappedMySnapShotIncome)
+      setIncome(mappedAndReducedMySnapShotIncome)
 
-      setExpense(mappedMySnapShotExpense)
+      setExpense(mappedAndReducedMySnapShotExpense)
 
-      setBalance(mappedMySnapShotIncome - mappedMySnapShotExpense)
+      setBalance(mappedAndReducedMySnapShotIncome - mappedAndReducedMySnapShotExpense)
 
       const newID = (mySnapShot.sort((a, b) => {
         return a.id - b.id
