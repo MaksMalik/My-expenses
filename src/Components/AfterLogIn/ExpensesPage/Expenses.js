@@ -149,7 +149,8 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
 
   const [filterCategory, setFilterCategory] = useState('allCategories')
   const [filterType, setFilterType] = useState('allTypes')
-  const [searchTransaction, setSearchTransaction] = useState()
+  const [filterName, setFilterName] = useState()
+  const [filterAmount, setFilterAmount] = useState()
 
   const filterByFilterType = (filterType !== 'allTypes')
     ? transactions.filter(transactionType => transactionType.type === `${filterType}`)
@@ -160,10 +161,13 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
     .filter(transaction => transaction.category === `${filterCategory}`)
     : filterByFilterType
 
-  const filterByFilterCategoryAndTypeAndName = (!searchTransaction)
+  const filterByFilterCategoryAndTypeAndName = (!filterName)
     ? filterByFilterCategoryAndType
-    : (filterByFilterCategoryAndType.filter(transaction => transaction.name.includes(`${searchTransaction}`)))
+    : (filterByFilterCategoryAndType.filter(transaction => transaction.name.includes(`${filterName}`)))
 
+  const filterByFilterCategoryAndTypeAndNameAndAmount = (!filterAmount)
+    ? filterByFilterCategoryAndTypeAndName
+    : (filterByFilterCategoryAndTypeAndName.filter(transaction => transaction.amount.includes(`${filterAmount}`)))
 
   return (
     <>
@@ -183,14 +187,26 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
         <Box sx={{display: 'flex',justifyContent: 'center',flexWrap: 'wrap', '& > :not(style)': { m: 3, width: '100%', height: 'minContent',},}}>
           <Grid item xs={12} md={12}>
 
-            <TextField
-              style={{padding:"10px"}}
-              fullWidth
-              id="outlined-password-input"
-              label="Search by name"
-              value={searchTransaction}
-              onChange={(event) => setSearchTransaction(event.target.value)}
-            />
+            <Grid container spacing={2}>
+              <Grid item xs={6} md={6}>
+                <TextField
+                  style={{padding:"10px"}}
+                  fullWidth
+                  id="outlined-password-input"
+                  label="Search by name"
+                  onChange={(event) => setFilterName(event.target.value)}
+                />
+              </Grid>
+              <Grid item xs={6} md={6}>
+                <TextField
+                  style={{padding:"10px"}}
+                  fullWidth
+                  id="outlined-password-input"
+                  label="Search by amount"
+                  onChange={(event) => setFilterAmount(event.target.value)}
+                />
+              </Grid>
+            </Grid>
 
             <Grid container spacing={2}>
               <Grid item xs={6} md={6}>
@@ -231,7 +247,7 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
             </Grid>
 
             <List>
-              {filterByFilterCategoryAndTypeAndName.map((transaction, index) => (
+              {filterByFilterCategoryAndTypeAndNameAndAmount.map((transaction, index) => (
                 <div key={index}>
                   <Divider/>
                   <ListItem
