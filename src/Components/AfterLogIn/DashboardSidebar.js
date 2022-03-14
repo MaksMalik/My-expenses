@@ -17,7 +17,6 @@ export default function DashboardSidebar({setIsStatistics}) {
     left: false,
   });
 
-
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event &&
@@ -29,8 +28,6 @@ export default function DashboardSidebar({setIsStatistics}) {
 
     setState({ ...state, [anchor]: open });
   };
-
-
 
   const list = (anchor) => (
     <Box

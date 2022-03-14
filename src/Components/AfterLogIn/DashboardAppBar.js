@@ -26,9 +26,7 @@ const theme = createTheme({
   }}
 )
 
-
-
-export const AppBarAfterLogin = ({realUser, setIsStatistics}) => {
+export const DashboardAppBar = ({realUser, setIsStatistics}) => {
 
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -56,37 +54,34 @@ export const AppBarAfterLogin = ({realUser, setIsStatistics}) => {
         <CssBaseline />
         <AppBar position="relative">
           <Toolbar style={{display: 'flex', justifyContent: 'space-between', backgroundColor:"rgb(67,67,67)" }}>
-            <DashboardSidebar setIsStatistics={setIsStatistics}/>
-            <img style={{height:"30px"}} src="https://i.ibb.co/091ZV3C/White.png" alt="My Expenses"/>
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip  title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src={realUser?.photoURL} />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: '45px' }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                <MenuItem onClick={signUserOut}>
-                  <Typography textAlign="center">Logout
-                  </Typography>
-                </MenuItem>
-              </Menu>
-            </Box>
-          </Toolbar>
+            <DashboardSidebar setIsStatistics={setIsStatistics}/><img style={{height:"30px"}} src="https://i.ibb.co/091ZV3C/White.png" alt="My Expenses"/><Box sx={{ flexGrow: 0 }}>
+            <Tooltip  title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Remy Sharp" src={realUser?.photoURL} />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              <MenuItem onClick={signUserOut}>
+                <Typography textAlign="center">Logout
+                </Typography>
+              </MenuItem>
+            </Menu>
+          </Box></Toolbar>
         </AppBar>
       </ThemeProvider>
     </>

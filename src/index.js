@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import ReactDOM from 'react-dom'
-import "./index.scss"
+import "./styles/index.scss"
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom"
 import Login from './Components/BeforeLogIn/Login'
 import Register from './Components/BeforeLogIn/Register'
