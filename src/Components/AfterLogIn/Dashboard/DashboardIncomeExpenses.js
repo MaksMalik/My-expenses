@@ -7,7 +7,7 @@ import * as React from "react";
 export const DashboardIncomeExpenses = ({income, expense, }) => {
 
   return (
-    <Box display="flex" style={{paddingBottom:"30px", justifyContent: 'center'}}>
+    <Box display="flex" style={{paddingBottom:"30px", justifyContent: 'center', marginTop: "30px"}}>
       <Grid item lg={4} sm={12} xl={4} xs={10}>
         <Paper style={{ height:"minContent", marginLeft:"20px", marginRight:"10px", backgroundColor: 'rgb(60,152,185)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
           <Typography variant="h7">INCOME</Typography>

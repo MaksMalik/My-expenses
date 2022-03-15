@@ -13,6 +13,7 @@ import Container from "@mui/material/Container";
 import {Copyright} from "../Copyright";
 import {DashboardIncomeExpenses} from "./Dashboard/DashboardIncomeExpenses";
 import {DashboardBalance} from "./Dashboard/DashboardBalance";
+import Profile from "./ProfilePage/Profile";
 
 const Dashboard = ({realUser, isAuth}) => {
 
@@ -32,7 +33,9 @@ const Dashboard = ({realUser, isAuth}) => {
   const [income, setIncome] = useState(0)
   const [transactions, setTransactions] = useState([])
   const [isStatistics, setIsStatistics] = useState(false)
-  const categories = ["Bills", "Gift", "Food", "Travel", "Car"]
+  const [isProfile, setIsProfile] = useState(false)
+
+  const categories = ["Bills", "Gift", "Food", "Travel", "Car", "Salary"]
 
   let navigate = useNavigate()
 
@@ -45,7 +48,7 @@ const Dashboard = ({realUser, isAuth}) => {
 
   return (
     <ThemeProvider  theme={mdTheme} >
-      <DashboardAppBar setIsStatistics={setIsStatistics} realUser={realUser} />
+      <DashboardAppBar  setIsProfile={setIsProfile} setIsStatistics={setIsStatistics} realUser={realUser} />
 
       <Box  sx={{ display: 'flex' }}>
         <CssBaseline />
@@ -55,19 +58,24 @@ const Dashboard = ({realUser, isAuth}) => {
           <Toolbar />
           <Box sx={{ display: 'flex', justifyContent: 'center'}}>
             <Container maxWidth={false}>
-              <Grid container spacing={4} style={{justifyContent: 'center'}}>
+              <Grid container spacing={0} style={{justifyContent: 'center'}}>
 
-                <DashboardBalance balance={balance} realUser={realUser}/>
-
-                <Grid item lg={7} sm={12} xl={7} xs={12}>
-                  <DashboardIncomeExpenses income={income} expense={expense}/>
-                </Grid>
-
-                <Grid item lg={7} sm={12} xl={7} xs={12}>
-                  {!isStatistics
-                    ? <Expenses categories={categories} transactions={transactions} income={income} setIncome={setIncome} expense={expense} setExpense={setExpense} realUser={realUser} balance={balance} setBalance={setBalance} setTransactions={setTransactions}/>
-                    : <Statistics categories={categories} transactions={transactions} income={income} expense={expense} realUser={realUser} balance={balance} setBalance={setBalance}/>}
-                </Grid>
+                {!isProfile
+                  ? (
+                    <>
+                      <DashboardBalance balance={balance} realUser={realUser}/>
+                      <Grid item lg={7} sm={12} xl={7} xs={12}>
+                        <DashboardIncomeExpenses income={income} expense={expense}/>
+                      </Grid>
+                      <Grid item lg={7} sm={12} xl={7} xs={12}>
+                        {!isStatistics
+                          ? <Expenses categories={categories} transactions={transactions} income={income} setIncome={setIncome} expense={expense} setExpense={setExpense} realUser={realUser} balance={balance} setBalance={setBalance} setTransactions={setTransactions}/>
+                          : <Statistics categories={categories} transactions={transactions} income={income} expense={expense} realUser={realUser} balance={balance} setBalance={setBalance}/>}
+                      </Grid>
+                    </>
+                  )
+                  : <Profile realUser={realUser}/>
+                }
 
               </Grid>
             </Container>

@@ -26,7 +26,7 @@ const theme = createTheme({
   }}
 )
 
-export const DashboardAppBar = ({realUser, setIsStatistics}) => {
+export const DashboardAppBar = ({realUser, setIsStatistics, setIsProfile}) => {
 
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -48,13 +48,14 @@ export const DashboardAppBar = ({realUser, setIsStatistics}) => {
     })
   }
 
+
   return (
     <>
       <ThemeProvider theme={theme} >
         <CssBaseline />
         <AppBar position="relative">
           <Toolbar style={{display: 'flex', justifyContent: 'space-between', backgroundColor:"rgb(67,67,67)" }}>
-            <DashboardSidebar setIsStatistics={setIsStatistics}/><img style={{height:"30px"}} src="https://i.ibb.co/091ZV3C/White.png" alt="My Expenses"/><Box sx={{ flexGrow: 0 }}>
+            <DashboardSidebar setIsProfile={setIsProfile} setIsStatistics={setIsStatistics}/><img style={{height:"30px"}} src="https://i.ibb.co/091ZV3C/White.png" alt="My Expenses"/><Box sx={{ flexGrow: 0 }}>
             <Tooltip  title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src={realUser?.photoURL} />
@@ -76,6 +77,10 @@ export const DashboardAppBar = ({realUser, setIsStatistics}) => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
+              <MenuItem onClick={()=> setIsProfile(true)} >
+                <Typography textAlign="center">Profile
+                </Typography>
+              </MenuItem>
               <MenuItem onClick={signUserOut}>
                 <Typography textAlign="center">Logout
                 </Typography>

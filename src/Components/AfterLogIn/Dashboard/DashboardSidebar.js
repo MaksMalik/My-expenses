@@ -12,7 +12,7 @@ import {useState} from "react";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import BarChartIcon from "@mui/icons-material/BarChart";
 
-export default function DashboardSidebar({setIsStatistics}) {
+export default function DashboardSidebar({setIsStatistics, setIsProfile}) {
   const [state, setState] = useState({
     left: false,
   });
@@ -29,6 +29,7 @@ export default function DashboardSidebar({setIsStatistics}) {
     setState({ ...state, [anchor]: open });
   };
 
+
   const list = (anchor) => (
     <Box
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
@@ -38,14 +39,14 @@ export default function DashboardSidebar({setIsStatistics}) {
       style={{overflow: 'hidden'}}
     >
       <List style={{backgroundColor:"#434343", minHeight:"100vh", color:'#fff'}}>
-        <ListItem button  onClick={() => setIsStatistics(false)}>
+        <ListItem button  onClick={() => setIsStatistics(false) & setIsProfile(false)}>
           <ListItemIcon style={{color:'#fff'}} >
             <DashboardIcon style={{color: "rgb(0,153,189)"}} />
           </ListItemIcon>
           <ListItemText primary="Expenses" />
         </ListItem>
 
-        <ListItem button  onClick={() => setIsStatistics(true)}>
+        <ListItem button  onClick={() => setIsStatistics(true) & setIsProfile(false)}>
           <ListItemIcon style={{color:'#fff'}} >
             <BarChartIcon style={{color: "rgb(0,153,189)"}}/>
           </ListItemIcon>

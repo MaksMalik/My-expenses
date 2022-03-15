@@ -7,13 +7,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FlightIcon from '@mui/icons-material/Flight';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import AddCardIcon from '@mui/icons-material/AddCard';
 import EditIcon from '@mui/icons-material/Edit';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import Divider from "@mui/material/Divider";
 
 export const ExpensesList = ({filterByFilterCategoryAndTypeAndNameAndAmount, handleOpenEdit, handleOpenDelete}) => {
-
-
 
   return (
     <List>
@@ -34,12 +33,17 @@ export const ExpensesList = ({filterByFilterCategoryAndTypeAndNameAndAmount, han
           }
           >
             <ListItemAvatar>
+
               {(transaction.category === 'Food') && <RestaurantIcon style={{color: "#fff"}} />}
               {(transaction.category === 'Car') && <DirectionsCarIcon style={{color: "#fff"}} />}
               {(transaction.category === 'Bills') && <ReceiptIcon style={{color: "#fff"}} />}
               {(transaction.category === 'Travel') && <FlightIcon style={{color: "#fff"}} />}
               {(transaction.category === 'Gift') && <CardGiftcardIcon style={{color: "#fff"}} />}
-            </ListItemAvatar>
+              {(transaction.category === 'Salary') && <AddCardIcon style={{color: "#fff"}} />}
+
+
+
+                </ListItemAvatar>
             <ListItemText
               primary={<div style={{textTransform: 'uppercase', color:"#fff"}}>{transaction.name}</div>}
               secondary={transaction.type === "income"

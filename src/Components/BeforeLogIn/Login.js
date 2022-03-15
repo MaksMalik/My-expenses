@@ -36,7 +36,6 @@ const Login = ({setIsAuth}) => {
 
   let navigate = useNavigate()
 
-
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;

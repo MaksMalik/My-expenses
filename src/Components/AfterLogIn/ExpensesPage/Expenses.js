@@ -128,9 +128,7 @@ const Expenses = ({categories, realUser, balance, setBalance, setExpense, setInc
     return() => sub()
   }, [realUser?.uid, setBalance, setExpense, setIncome, setTransactions ])
 
-
   /// FILTER TRANSACTION
-
   const [filterCategory, setFilterCategory] = useState('AllCategories')
   const [filterType, setFilterType] = useState('allTypes')
   const [filterName, setFilterName] = useState()
