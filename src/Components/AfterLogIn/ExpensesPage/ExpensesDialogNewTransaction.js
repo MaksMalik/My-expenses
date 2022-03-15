@@ -14,7 +14,7 @@ import * as React from "react";
 import {createTheme} from "@mui/material/styles";
 
 
-const DialogEditTransaction = ({categories, setEditTransaction, editTransaction, openEdit, handleClose, handleEdit}) => {
+const ExpensesDialogNewTransaction = ({categories, open, handleClose, setAmount, setTransactionName, setTransactionType, setTransactionCategory, handleChange, transactionCategory, transactionType}) => {
 
   const theme = createTheme({
     palette: {
@@ -32,13 +32,13 @@ const DialogEditTransaction = ({categories, setEditTransaction, editTransaction,
     <ThemeProvider theme={theme}>
       <div>
         <Dialog
-          open={openEdit}
+          open={open}
           onClose={handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle style={{backgroundColor:"rgb(255,255,255)", color:"rgb(0,153,189)"}} id="alert-dialog-title">
-            {"Edit transaction"}
+            {"Add new transaction"}
           </DialogTitle>
           <DialogContent style={{backgroundColor:"rgb(255,255,255)", marginTop: "10px"}}>
             <TextField
@@ -47,25 +47,23 @@ const DialogEditTransaction = ({categories, setEditTransaction, editTransaction,
               id="outlined-number"
               label="Amount"
               type="number"
-              value={editTransaction?.amount}
-              onChange={(event) =>  setEditTransaction({...editTransaction, amount: event.target.value})}
+              onChange={(event) =>  setAmount(event.target.value)}
             />
             <TextField
               style={{padding:"10px"}}
               fullWidth
               id="outlined-password-input"
               label="Purpose"
-              value={editTransaction.name}
-              onChange={(event) => setEditTransaction({...editTransaction, name: event.target.value})}
+              onChange={(event) => setTransactionName(event.target.value)}
             />
             <FormControl fullWidth style={{padding:"10px"}}>
               <InputLabel id="demo-simple-select-label">Type</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={editTransaction.type}
+                value={transactionType}
                 label="Type"
-                onChange={(event) => setEditTransaction({...editTransaction, type: event.target.value})}
+                onChange={(event) => setTransactionType(event.target.value)}
               >
                 <MenuItem value="expense">Expense</MenuItem>
                 <MenuItem value="income">Income</MenuItem>
@@ -77,20 +75,18 @@ const DialogEditTransaction = ({categories, setEditTransaction, editTransaction,
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={editTransaction.category}
+                value={transactionCategory}
                 label="Category"
-                onChange={(event) => setEditTransaction({...editTransaction, category: event.target.value})}
+                onChange={(event) => setTransactionCategory(event.target.value)}
               >
-                <MenuItem value='Bills'>Bills</MenuItem>
-                <MenuItem value='Travel'>Bills</MenuItem>
-                <MenuItem value='Car'>Car'</MenuItem>
-                <MenuItem value='Food'>Food</MenuItem>
-                <MenuItem value='Gift'>Gift</MenuItem>
+                {categories.map((category, index) => {
+                  return <MenuItem key={index} value={category}>{category}</MenuItem>
+                })}
               </Select>
             </FormControl>
           </DialogContent >
           <DialogActions style={{backgroundColor:"rgb(255,255,255)", color:"#0099bd"}}>
-            <Button style={{ color:"#0099bd"}} onClick={handleEdit} autoFocus>Edit</Button>
+            <Button style={{ color:"#0099bd"}} onClick={handleChange} autoFocus>Add</Button>
             <Button style={{color:"#0099bd"}} onClick={handleClose} autoFocus>Cancel</Button>
           </DialogActions>
         </Dialog>
@@ -98,4 +94,4 @@ const DialogEditTransaction = ({categories, setEditTransaction, editTransaction,
     </ThemeProvider>
   )
 }
-export default DialogEditTransaction
+export default ExpensesDialogNewTransaction

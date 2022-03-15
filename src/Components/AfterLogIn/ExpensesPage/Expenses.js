@@ -3,30 +3,18 @@ import {useEffect, useState} from "react";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import {FormControl, InputLabel, ListItem, ListItemAvatar, ListItemText, Select, TextField} from "@mui/material";
 import {db} from "../../../Firebase/firebase";
 import {collection, onSnapshot, doc, deleteDoc, setDoc, updateDoc } from "firebase/firestore"
-import Button from "@mui/material/Button";
-import List from "@mui/material/List";
-import IconButton from "@mui/material/IconButton";
-import RestaurantIcon from '@mui/icons-material/Restaurant';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FlightIcon from '@mui/icons-material/Flight';
-import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
-import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
-import EditIcon from '@mui/icons-material/Edit';
-import ReceiptIcon from '@mui/icons-material/Receipt';
-import Divider from "@mui/material/Divider";
-import DialogNewTransaction from "./DialogNewTransaction";
-import DialogEditTransaction from "./DialogEditTransaction";
-import DialogDeleteTransaction from "./DialogDeleteTransaction";
-import MenuItem from "@mui/material/MenuItem";
-// import DialogNewCategory from "./DialogNewCategory";
+import ExpensesDialogNewTransaction from "./ExpensesDialogNewTransaction";
+import ExpensesDialogEditTransaction from "./ExpensesDialogEditTransaction";
+import ExpensesDialogDeleteTransaction from "./ExpensesDialogDeleteTransaction";
+import {ExpensesFilter} from "./ExpensesFilter";
+import {ExpensesList} from "./ExpensesList";
+import {ExpensesButtonAddNewTransaction} from "./ExpensesButtonAddNewTransaction";
 
-const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transactions, setTransactions}) => {
+const Expenses = ({categories, realUser, balance, setBalance, setExpense, setIncome, transactions, setTransactions}) => {
 
   /// ADD NEW TRANSACTION  / DIALOG NEW TRANSACTION
-
   const [amount, setAmount] = useState()
   const [transactionType, setTransactionType] = useState('income')
   const [transactionCategory, setTransactionCategory] = useState('Bills')
@@ -63,9 +51,7 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
   }
 
   /// EDIT TRANSACTION  / DIALOG EDIT TRANSACTION
-
   const [editTransaction, setEditTransaction] = useState({})
-
   const [openEdit, setOpenEdit] = useState(false);
 
   const handleOpenEdit =  (transaction) => {
@@ -99,9 +85,7 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
   }
 
   /// DELETE TRANSACTION  / DIALOG DELETE TRANSACTION
-
   const [deleteTransaction, setDeleteTransaction] = useState()
-
   const [openDelete, setOpenDelete] = useState(false);
 
   const handleCloseDelete = () => {
@@ -125,23 +109,17 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
       setTransactions((mySnapShot.sort((a, b) => {
         return a.id - b.id
       })))
-
       const mappedAndReducedMySnapShotIncome =
         (mySnapShot.map((snap) => snap.income).length === 0
           ? 0
           : mySnapShot.map((snap) => snap.income).reduce((acc,total) =>  acc + total))
-
       const mappedAndReducedMySnapShotExpense =
         (mySnapShot.map((snap) => snap.expense).length === 0
           ? 0
           : mySnapShot.map((snap) => snap.expense).reduce((acc,total) =>  acc + total))
-
       setIncome(mappedAndReducedMySnapShotIncome)
-
       setExpense(mappedAndReducedMySnapShotExpense)
-
       setBalance(mappedAndReducedMySnapShotIncome - mappedAndReducedMySnapShotExpense)
-
       const newID = (mySnapShot.sort((a, b) => {
         return a.id - b.id
       })).slice(-1).pop()?.id
@@ -149,6 +127,9 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
     })
     return() => sub()
   }, [realUser?.uid, setBalance, setExpense, setIncome, setTransactions ])
+
+
+  /// FILTER TRANSACTION
 
   const [filterCategory, setFilterCategory] = useState('AllCategories')
   const [filterType, setFilterType] = useState('allTypes')
@@ -172,141 +153,21 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
     ? filterByFilterCategoryAndTypeAndName
     : (filterByFilterCategoryAndTypeAndName.filter(transaction => transaction.amount.includes(`${filterAmount}`)))
 
-
-  // const [openNewCategory, setOpenNewCategory] = useState(false);
-  //
-  // const handleCloseNewCategory = () => {
-  //   setOpenNewCategory(false)
-  // }
-  //
-  // const handleOpenNewCategory = () => {
-  //   setOpenNewCategory(true)
-  // }
-
-
   return (
     <>
-      <DialogNewTransaction  open={open} handleClose={handleClose} setAmount={setAmount} setTransactionCategory={setTransactionCategory} setTransactionType={setTransactionType} setTransactionName={setTransactionName} handleChange={handleChange} transactionType={transactionType} transactionCategory={transactionCategory}/>
-      <DialogEditTransaction setEditTransaction={setEditTransaction} editTransaction={editTransaction} openEdit={openEdit} handleClose={handleCloseEdit} handleEdit={handleEdit}/>
-      <DialogDeleteTransaction openDelete={openDelete} handleOpenDelete={handleOpenDelete} deleteTransaction={deleteTransaction} handleCloseDelete={handleCloseDelete} handleDelete={handleDelete}/>
-      {/*<DialogNewCategory setOpenNewCategory={setOpenNewCategory} setCategories={setCategories} handleCloseNewCategory={handleCloseNewCategory} openNewCategory={openNewCategory}/>*/}
+      <ExpensesDialogNewTransaction categories={categories} open={open} handleClose={handleClose} setAmount={setAmount} setTransactionCategory={setTransactionCategory} setTransactionType={setTransactionType} setTransactionName={setTransactionName} handleChange={handleChange} transactionType={transactionType} transactionCategory={transactionCategory}/>
+      <ExpensesDialogEditTransaction categories={categories} setEditTransaction={setEditTransaction} editTransaction={editTransaction} openEdit={openEdit} handleClose={handleCloseEdit} handleEdit={handleEdit}/>
+      <ExpensesDialogDeleteTransaction openDelete={openDelete} handleOpenDelete={handleOpenDelete} deleteTransaction={deleteTransaction} handleCloseDelete={handleCloseDelete} handleDelete={handleDelete}/>
 
-
-
-      <Box style={{display:"flex", justifyContent: 'center'}}>
-        <Grid item lg={7} sm={7} xl={7} xs={12}>
-          <Button style={{color:"#2a7891", width:"100%", padding:"10px", marginBottom:"30px", backgroundColor:"rgba(255,255,255,0.75)"}} variant="contained" onClick={handleClickOpen}>
-            Add new transaction
-          </Button>
-        </Grid>
-      </Box>
-
-      {/*<Box style={{display:"flex", justifyContent: 'center'}}>*/}
-      {/*  <Grid item lg={7} sm={7} xl={7} xs={12}>*/}
-      {/*    <Button style={{color:"#2a7891", width:"100%", padding:"10px", marginBottom:"30px", backgroundColor:"rgba(255,255,255,0.75)"}} variant="contained" onClick={handleOpenNewCategory}>*/}
-      {/*      Add new category*/}
-      {/*    </Button>*/}
-      {/*  </Grid>*/}
-      {/*</Box>*/}
+      <ExpensesButtonAddNewTransaction handleClickOpen={handleClickOpen}/>
 
       <Paper style={{ height:"minContent", backgroundColor: 'rgba(0,0,0,0.21)'}}>
         <Box sx={{display: 'flex',justifyContent: 'center',flexWrap: 'wrap', '& > :not(style)': { m: 3, width: '100%', height: 'minContent',},}}>
           <Grid item xs={12} md={12}>
 
-            <Grid container spacing={2}>
-              <Grid item xs={6} md={6}>
-                <TextField
-                  style={{padding:"10px"}}
-                  fullWidth
-                  id="outlined-password-input"
-                  label="Search by name"
-                  onChange={(event) => setFilterName((event.target.value).toLowerCase())}
-                />
-              </Grid>
-              <Grid item xs={6} md={6}>
-                <TextField
-                  style={{padding:"10px"}}
-                  fullWidth
-                  id="outlined-password-input"
-                  label="Search by amount"
-                  onChange={(event) => setFilterAmount((event.target.value).toLowerCase())}
-                />
-              </Grid>
-            </Grid>
+            <ExpensesFilter setFilterName={setFilterName} setFilterAmount={setFilterAmount} setFilterCategory={setFilterCategory} filterCategory={filterCategory} filterType={filterType} setFilterType={setFilterType} categories={categories}/>
 
-            <Grid container spacing={2}>
-              <Grid item xs={6} md={6}>
-                <FormControl fullWidth style={{padding:"10px"}}>
-                  <InputLabel id="demo-simple-select-label">Type of transaction</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="Type of transaction"
-                    value={filterType}
-                    onChange={(event) => setFilterType(event.target.value)}
-                  >
-                    <MenuItem value="allTypes">All types</MenuItem>
-                    <MenuItem value="income">Income</MenuItem>
-                    <MenuItem value="expense">Expense</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={6} md={6}>
-                <FormControl fullWidth style={{padding:"10px"}}>
-                  <InputLabel id="demo-simple-select-label">Category</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="Category"
-                    value={filterCategory}
-                    onChange={(event) => setFilterCategory(event.target.value)}
-                  >
-                    <MenuItem value="AllCategories">All categories</MenuItem>
-                    <MenuItem value='Bills'>Bills</MenuItem>
-                    <MenuItem value='Travel'>Bills</MenuItem>
-                    <MenuItem value='Car'>Car'</MenuItem>
-                    <MenuItem value='Food'>Food</MenuItem>
-                    <MenuItem value='Gift'>Gift</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-            </Grid>
-
-            <List>
-              {filterByFilterCategoryAndTypeAndNameAndAmount.map((transaction, index) => (
-                <div key={index}>
-                  <Divider/>
-                  <ListItem
-                    style={{backgroundColor:`${transaction.type === "income" ? "rgb(60,151,184)" : 'rgb(67,67,67)'}`}}
-                    secondaryAction={
-                    <>
-                      <IconButton edge="end" onClick={() => handleOpenEdit(transaction)}>
-                        <EditIcon style={{color: "rgba(255,255,255,0.84)"}} />
-                      </IconButton>
-                      <IconButton edge="end" onClick={() => handleOpenDelete(transaction)}>
-                        <DeleteIcon style={{color: "rgba(255,255,255,0.84)"}} />
-                      </IconButton>
-                    </>
-                  }
-                  >
-                    <ListItemAvatar>
-                      {(transaction.category === 'Food') && <RestaurantIcon style={{color: "#fff"}} />}
-                      {(transaction.category === 'Car') && <DirectionsCarIcon style={{color: "#fff"}} />}
-                      {(transaction.category === 'Bills') && <ReceiptIcon style={{color: "#fff"}} />}
-                      {(transaction.category === 'Travel') && <FlightIcon style={{color: "#fff"}} />}
-                      {(transaction.category === 'Gift') && <CardGiftcardIcon style={{color: "#fff"}} />}
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={<div style={{textTransform: 'uppercase', color:"#fff"}}>{transaction.name}</div>}
-                      secondary={transaction.type === "income"
-                        ? (<span className="income" style={{color:"#fff"}}>+ {transaction.amount} zł</span>)
-                        : (<span className="expense" style={{color:"#fff"}}>- {transaction.amount} zł</span>)}
-                    />
-                  </ListItem>
-                </div>
-              ))}
-            </List>
-
+            <ExpensesList filterByFilterCategoryAndTypeAndNameAndAmount={filterByFilterCategoryAndTypeAndNameAndAmount}  handleOpenEdit={handleOpenEdit} handleOpenDelete={handleOpenDelete}/>
 
           </Grid>
         </Box>

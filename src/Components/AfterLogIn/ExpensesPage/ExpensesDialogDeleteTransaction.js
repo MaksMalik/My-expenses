@@ -9,7 +9,7 @@ import * as React from "react";
 import {createTheme} from "@mui/material/styles";
 
 
-const DialogDeleteTransaction = ({ handleCloseDelete, handleDelete, openDelete}) => {
+const ExpensesDialogDeleteTransaction = ({ handleCloseDelete, handleDelete, openDelete}) => {
 
   const theme = createTheme({
     palette: {
@@ -21,7 +21,6 @@ const DialogDeleteTransaction = ({ handleCloseDelete, handleDelete, openDelete})
       }
     }}
   )
-
 
   return (
     <ThemeProvider theme={theme}>
@@ -44,4 +43,4 @@ const DialogDeleteTransaction = ({ handleCloseDelete, handleDelete, openDelete})
     </ThemeProvider>
   )
 }
-export default DialogDeleteTransaction
+export default ExpensesDialogDeleteTransaction

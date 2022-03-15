@@ -12,7 +12,7 @@ import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import {signOut} from "firebase/auth";
-import {authentication} from "../../Firebase/firebase";
+import {authentication} from "../../../Firebase/firebase";
 import {useNavigate} from "react-router-dom";
 
 const theme = createTheme({
