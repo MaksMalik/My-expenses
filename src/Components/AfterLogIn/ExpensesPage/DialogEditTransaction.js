@@ -14,7 +14,7 @@ import * as React from "react";
 import {createTheme} from "@mui/material/styles";
 
 
-const DialogEditTransaction = ({setEditTransaction, editTransaction, openEdit, handleClose, handleEdit}) => {
+const DialogEditTransaction = ({categories, setEditTransaction, editTransaction, openEdit, handleClose, handleEdit}) => {
 
   const theme = createTheme({
     palette: {
@@ -81,11 +81,9 @@ const DialogEditTransaction = ({setEditTransaction, editTransaction, openEdit, h
                 label="Category"
                 onChange={(event) => setEditTransaction({...editTransaction, category: event.target.value})}
               >
-                <MenuItem value="bills">Bills</MenuItem>
-                <MenuItem value="food">Food</MenuItem>
-                <MenuItem value="car">Car</MenuItem>
-                <MenuItem value="travel">Travel</MenuItem>
-                <MenuItem value="gift">Gift</MenuItem>
+                {categories.map((category, index) => {
+                  return <MenuItem style={{textTransform: "capitalize"}} key={index} value={category}>{category}</MenuItem>
+                })}
               </Select>
             </FormControl>
           </DialogContent >

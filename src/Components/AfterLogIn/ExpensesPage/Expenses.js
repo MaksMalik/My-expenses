@@ -21,8 +21,9 @@ import DialogNewTransaction from "./DialogNewTransaction";
 import DialogEditTransaction from "./DialogEditTransaction";
 import DialogDeleteTransaction from "./DialogDeleteTransaction";
 import MenuItem from "@mui/material/MenuItem";
+// import DialogNewCategory from "./DialogNewCategory";
 
-const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transactions, setTransactions}) => {
+const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transactions, setTransactions, categories}) => {
 
   /// ADD NEW TRANSACTION  / DIALOG NEW TRANSACTION
 
@@ -130,7 +131,6 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
           ? 0
           : mySnapShot.map((snap) => snap.income).reduce((acc,total) =>  acc + total))
 
-
       const mappedAndReducedMySnapShotExpense =
         (mySnapShot.map((snap) => snap.expense).length === 0
           ? 0
@@ -172,11 +172,26 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
     ? filterByFilterCategoryAndTypeAndName
     : (filterByFilterCategoryAndTypeAndName.filter(transaction => transaction.amount.includes(`${filterAmount}`)))
 
+
+  // const [openNewCategory, setOpenNewCategory] = useState(false);
+  //
+  // const handleCloseNewCategory = () => {
+  //   setOpenNewCategory(false)
+  // }
+  //
+  // const handleOpenNewCategory = () => {
+  //   setOpenNewCategory(true)
+  // }
+
+
   return (
     <>
-      <DialogNewTransaction open={open} handleClose={handleClose} setAmount={setAmount} setTransactionCategory={setTransactionCategory} setTransactionType={setTransactionType} setTransactionName={setTransactionName} handleChange={handleChange} transactionType={transactionType} transactionCategory={transactionCategory}/>
-      <DialogEditTransaction setEditTransaction={setEditTransaction} editTransaction={editTransaction} openEdit={openEdit} handleClose={handleCloseEdit} handleEdit={handleEdit}/>
+      <DialogNewTransaction categories={categories} open={open} handleClose={handleClose} setAmount={setAmount} setTransactionCategory={setTransactionCategory} setTransactionType={setTransactionType} setTransactionName={setTransactionName} handleChange={handleChange} transactionType={transactionType} transactionCategory={transactionCategory}/>
+      <DialogEditTransaction categories={categories} setEditTransaction={setEditTransaction} editTransaction={editTransaction} openEdit={openEdit} handleClose={handleCloseEdit} handleEdit={handleEdit}/>
       <DialogDeleteTransaction openDelete={openDelete} handleOpenDelete={handleOpenDelete} deleteTransaction={deleteTransaction} handleCloseDelete={handleCloseDelete} handleDelete={handleDelete}/>
+      {/*<DialogNewCategory setOpenNewCategory={setOpenNewCategory} setCategories={setCategories} handleCloseNewCategory={handleCloseNewCategory} openNewCategory={openNewCategory}/>*/}
+
+
 
       <Box style={{display:"flex", justifyContent: 'center'}}>
         <Grid item lg={7} sm={7} xl={7} xs={12}>
@@ -185,6 +200,14 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
           </Button>
         </Grid>
       </Box>
+
+      {/*<Box style={{display:"flex", justifyContent: 'center'}}>*/}
+      {/*  <Grid item lg={7} sm={7} xl={7} xs={12}>*/}
+      {/*    <Button style={{color:"#2a7891", width:"100%", padding:"10px", marginBottom:"30px", backgroundColor:"rgba(255,255,255,0.75)"}} variant="contained" onClick={handleOpenNewCategory}>*/}
+      {/*      Add new category*/}
+      {/*    </Button>*/}
+      {/*  </Grid>*/}
+      {/*</Box>*/}
 
       <Paper style={{ height:"minContent", backgroundColor: 'rgba(0,0,0,0.21)'}}>
         <Box sx={{display: 'flex',justifyContent: 'center',flexWrap: 'wrap', '& > :not(style)': { m: 3, width: '100%', height: 'minContent',},}}>
@@ -222,7 +245,7 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
                     value={filterType}
                     onChange={(event) => setFilterType(event.target.value)}
                   >
-                    <MenuItem value="allTypes">All types of transaction</MenuItem>
+                    <MenuItem value="allTypes">All types</MenuItem>
                     <MenuItem value="income">Income</MenuItem>
                     <MenuItem value="expense">Expense</MenuItem>
                   </Select>
@@ -239,11 +262,9 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
                     onChange={(event) => setFilterCategory(event.target.value)}
                   >
                     <MenuItem value="allCategories">All categories</MenuItem>
-                    <MenuItem value="bills">Bills</MenuItem>
-                    <MenuItem value="food">Food</MenuItem>
-                    <MenuItem value="car">Car</MenuItem>
-                    <MenuItem value="travel">Travel</MenuItem>
-                    <MenuItem value="gift">Gift</MenuItem>
+                    {categories.map((category, index) => {
+                      return <MenuItem style={{textTransform: "capitalize"}} key={index} value={category}>{category}</MenuItem>
+                    })}
                   </Select>
                 </FormControl>
               </Grid>

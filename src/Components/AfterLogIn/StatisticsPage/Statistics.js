@@ -4,9 +4,7 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
-const Statistics = ({transactions}) => {
-
-  const categories = ["bills", "gift", "food", "travel", "car"]
+const Statistics = ({transactions, categories}) => {
 
   return (
     <>

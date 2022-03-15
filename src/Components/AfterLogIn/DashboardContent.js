@@ -35,6 +35,8 @@ const DashboardContent = ({realUser, isAuth}) => {
   const [income, setIncome] = useState(0)
   const [transactions, setTransactions] = useState([])
   const [isStatistics, setIsStatistics] = useState(false)
+  const categories = ["bills", "gift", "food", "travel", "car"]
+
 
 
   let navigate = useNavigate()
@@ -93,8 +95,8 @@ const DashboardContent = ({realUser, isAuth}) => {
                   </Box>
 
                   {!isStatistics
-                    ? <Expenses transactions={transactions} income={income} setIncome={setIncome} expense={expense} setExpense={setExpense} realUser={realUser} balance={balance} setBalance={setBalance} setTransactions={setTransactions}/>
-                    : <Statistics transactions={transactions} income={income} expense={expense} realUser={realUser} balance={balance} setBalance={setBalance}/>}
+                    ? <Expenses categories={categories} transactions={transactions} income={income} setIncome={setIncome} expense={expense} setExpense={setExpense} realUser={realUser} balance={balance} setBalance={setBalance} setTransactions={setTransactions}/>
+                    : <Statistics categories={categories} transactions={transactions} income={income} expense={expense} realUser={realUser} balance={balance} setBalance={setBalance}/>}
 
                 </Grid>
               </Grid>
