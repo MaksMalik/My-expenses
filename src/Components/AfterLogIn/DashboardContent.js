@@ -35,7 +35,7 @@ const DashboardContent = ({realUser, isAuth}) => {
   const [income, setIncome] = useState(0)
   const [transactions, setTransactions] = useState([])
   const [isStatistics, setIsStatistics] = useState(false)
-  const categories = ["bills", "gift", "food", "travel", "car"]
+  const categories = ["Bills", "Gift", "Food", "Travel", "Car"]
 
 
 

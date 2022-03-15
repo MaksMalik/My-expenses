@@ -82,7 +82,7 @@ const DialogEditTransaction = ({categories, setEditTransaction, editTransaction,
                 onChange={(event) => setEditTransaction({...editTransaction, category: event.target.value})}
               >
                 {categories.map((category, index) => {
-                  return <MenuItem style={{textTransform: "capitalize"}} key={index} value={category}>{category}</MenuItem>
+                  return <MenuItem key={index} value={category}>{category}</MenuItem>
                 })}
               </Select>
             </FormControl>
