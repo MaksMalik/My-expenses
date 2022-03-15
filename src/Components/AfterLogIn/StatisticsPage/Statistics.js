@@ -13,13 +13,13 @@ const Statistics = ({transactions}) => {
       {categories.map((category, index) => {
         return (<div key={index}>
           <Grid item lg={12} sm={12} xl={12} xs={12}>
-            <Paper style={{ height:"minContent", backgroundColor: 'rgba(0,0,0,0.24)', color:"#fff", textAlign: 'center', padding:"20px 0 20px 0"}}>
+            <Paper style={{borderRadius:"4px 4px 0 0", height:"minContent", backgroundColor: 'rgba(0,0,0,0.24)', color:"#fff", textAlign: 'center', padding:"20px 0 20px 0"}}>
               <Typography variant="h7" style={{textTransform: 'uppercase'}}>{category}</Typography>
             </Paper>
           </Grid>
           <Box display="flex" style={{paddingBottom:"30px", justifyContent: 'center'}}>
             <Grid item lg={6} sm={12} xl={6} xs={10}>
-              <Paper style={{ height:"minContent", backgroundColor: 'rgb(60,152,185)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
+              <Paper style={{ borderRadius:"0 0 0 4px", height:"minContent", backgroundColor: 'rgb(60,152,185)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
                 <Typography variant="h7">INCOME</Typography>
                 <Typography style={{paddingBottom:"15px"}} variant="h4">
                   {((transactions
@@ -35,7 +35,7 @@ const Statistics = ({transactions}) => {
               </Paper>
             </Grid>
             <Grid item lg={6} sm={12} xl={6} xs={10}>
-              <Paper style={{ height:"minContent", backgroundColor: 'rgb(67,67,67)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
+              <Paper style={{borderRadius:"0 0 4px 0", height:"minContent", backgroundColor: 'rgb(67,67,67)', color:"#fff", textAlign: 'center', paddingTop:"20px"}}>
                 <Typography variant="h7">EXPENSES</Typography>
                 <Typography style={{paddingBottom:"15px"}} variant="h4">
                   {((transactions
