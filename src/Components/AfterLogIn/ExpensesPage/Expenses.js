@@ -29,7 +29,7 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
 
   const [amount, setAmount] = useState()
   const [transactionType, setTransactionType] = useState('income')
-  const [transactionCategory, setTransactionCategory] = useState('bills')
+  const [transactionCategory, setTransactionCategory] = useState('Bills')
   const [transactionName, setTransactionName] = useState()
   const [ID, setID] = useState(1)
 
@@ -150,7 +150,7 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
     return() => sub()
   }, [realUser?.uid, setBalance, setExpense, setIncome, setTransactions ])
 
-  const [filterCategory, setFilterCategory] = useState('allCategories')
+  const [filterCategory, setFilterCategory] = useState('AllCategories')
   const [filterType, setFilterType] = useState('allTypes')
   const [filterName, setFilterName] = useState()
   const [filterAmount, setFilterAmount] = useState()
@@ -159,7 +159,7 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
     ? transactions.filter(transaction => transaction.type === `${filterType}`)
     : transactions
 
-  const filterByFilterCategoryAndType = (filterCategory !== 'allCategories')
+  const filterByFilterCategoryAndType = (filterCategory !== 'AllCategories')
     ? filterByFilterType
     .filter(transaction => transaction.category === `${filterCategory}`)
     : filterByFilterType
@@ -261,7 +261,7 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
                     value={filterCategory}
                     onChange={(event) => setFilterCategory(event.target.value)}
                   >
-                    <MenuItem value="allCategories">All categories</MenuItem>
+                    <MenuItem value="AllCategories">All categories</MenuItem>
                     {categories.map((category, index) => {
                       return <MenuItem style={{textTransform: "capitalize"}} key={index} value={category}>{category}</MenuItem>
                     })}
