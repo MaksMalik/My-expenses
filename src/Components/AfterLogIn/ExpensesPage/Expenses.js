@@ -288,11 +288,11 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
                   }
                   >
                     <ListItemAvatar>
-                      {(transaction.category === 'food') && <RestaurantIcon style={{color: "#fff"}} />}
-                      {(transaction.category === 'car') && <DirectionsCarIcon style={{color: "#fff"}} />}
-                      {(transaction.category === 'bills') && <ReceiptIcon style={{color: "#fff"}} />}
-                      {(transaction.category === 'travel') && <FlightIcon style={{color: "#fff"}} />}
-                      {(transaction.category === 'gift') && <CardGiftcardIcon style={{color: "#fff"}} />}
+                      {(transaction.category === 'Food') && <RestaurantIcon style={{color: "#fff"}} />}
+                      {(transaction.category === 'Car') && <DirectionsCarIcon style={{color: "#fff"}} />}
+                      {(transaction.category === 'Bills') && <ReceiptIcon style={{color: "#fff"}} />}
+                      {(transaction.category === 'Travel') && <FlightIcon style={{color: "#fff"}} />}
+                      {(transaction.category === 'Gift') && <CardGiftcardIcon style={{color: "#fff"}} />}
                     </ListItemAvatar>
                     <ListItemText
                       primary={<div style={{textTransform: 'uppercase', color:"#fff"}}>{transaction.name}</div>}
