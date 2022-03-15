@@ -23,7 +23,7 @@ import DialogDeleteTransaction from "./DialogDeleteTransaction";
 import MenuItem from "@mui/material/MenuItem";
 // import DialogNewCategory from "./DialogNewCategory";
 
-const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transactions, setTransactions, categories}) => {
+const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transactions, setTransactions}) => {
 
   /// ADD NEW TRANSACTION  / DIALOG NEW TRANSACTION
 
@@ -186,8 +186,8 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
 
   return (
     <>
-      <DialogNewTransaction categories={categories} open={open} handleClose={handleClose} setAmount={setAmount} setTransactionCategory={setTransactionCategory} setTransactionType={setTransactionType} setTransactionName={setTransactionName} handleChange={handleChange} transactionType={transactionType} transactionCategory={transactionCategory}/>
-      <DialogEditTransaction categories={categories} setEditTransaction={setEditTransaction} editTransaction={editTransaction} openEdit={openEdit} handleClose={handleCloseEdit} handleEdit={handleEdit}/>
+      <DialogNewTransaction  open={open} handleClose={handleClose} setAmount={setAmount} setTransactionCategory={setTransactionCategory} setTransactionType={setTransactionType} setTransactionName={setTransactionName} handleChange={handleChange} transactionType={transactionType} transactionCategory={transactionCategory}/>
+      <DialogEditTransaction setEditTransaction={setEditTransaction} editTransaction={editTransaction} openEdit={openEdit} handleClose={handleCloseEdit} handleEdit={handleEdit}/>
       <DialogDeleteTransaction openDelete={openDelete} handleOpenDelete={handleOpenDelete} deleteTransaction={deleteTransaction} handleCloseDelete={handleCloseDelete} handleDelete={handleDelete}/>
       {/*<DialogNewCategory setOpenNewCategory={setOpenNewCategory} setCategories={setCategories} handleCloseNewCategory={handleCloseNewCategory} openNewCategory={openNewCategory}/>*/}
 
@@ -262,9 +262,11 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
                     onChange={(event) => setFilterCategory(event.target.value)}
                   >
                     <MenuItem value="AllCategories">All categories</MenuItem>
-                    {categories.map((category, index) => {
-                      return <MenuItem style={{textTransform: "capitalize"}} key={index} value={category}>{category}</MenuItem>
-                    })}
+                    <MenuItem value='Bills'>Bills</MenuItem>
+                    <MenuItem value='Travel'>Bills</MenuItem>
+                    <MenuItem value='Car'>Car'</MenuItem>
+                    <MenuItem value='Food'>Food</MenuItem>
+                    <MenuItem value='Gift'>Gift</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>

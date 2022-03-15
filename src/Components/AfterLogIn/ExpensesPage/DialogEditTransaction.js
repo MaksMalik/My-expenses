@@ -81,9 +81,11 @@ const DialogEditTransaction = ({categories, setEditTransaction, editTransaction,
                 label="Category"
                 onChange={(event) => setEditTransaction({...editTransaction, category: event.target.value})}
               >
-                {categories.map((category, index) => {
-                  return <MenuItem key={index} value={category}>{category}</MenuItem>
-                })}
+                <MenuItem value='Bills'>Bills</MenuItem>
+                <MenuItem value='Travel'>Bills</MenuItem>
+                <MenuItem value='Car'>Car'</MenuItem>
+                <MenuItem value='Food'>Food</MenuItem>
+                <MenuItem value='Gift'>Gift</MenuItem>
               </Select>
             </FormControl>
           </DialogContent >
