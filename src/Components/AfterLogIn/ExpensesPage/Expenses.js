@@ -166,7 +166,7 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
 
   const filterByFilterCategoryAndTypeAndName = (!filterName)
     ? filterByFilterCategoryAndType
-    : (filterByFilterCategoryAndType.filter(transaction => transaction.name.includes(`${filterName}`)))
+    : (filterByFilterCategoryAndType.filter(transaction => transaction.name.toLowerCase().includes(`${filterName}`)))
 
   const filterByFilterCategoryAndTypeAndNameAndAmount = (!filterAmount)
     ? filterByFilterCategoryAndTypeAndName
@@ -197,7 +197,7 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
                   fullWidth
                   id="outlined-password-input"
                   label="Search by name"
-                  onChange={(event) => setFilterName(event.target.value)}
+                  onChange={(event) => setFilterName((event.target.value).toLowerCase())}
                 />
               </Grid>
               <Grid item xs={6} md={6}>
@@ -206,7 +206,7 @@ const Expenses = ({realUser, balance, setBalance, setExpense, setIncome, transac
                   fullWidth
                   id="outlined-password-input"
                   label="Search by amount"
-                  onChange={(event) => setFilterAmount(event.target.value)}
+                  onChange={(event) => setFilterAmount((event.target.value).toLowerCase())}
                 />
               </Grid>
             </Grid>
