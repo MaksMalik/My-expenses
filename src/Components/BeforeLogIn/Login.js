@@ -59,10 +59,8 @@ const Login = ({setIsAuth}) => {
       })
       .catch(() => {
         setFailedLogIn(true)
-        console.log("1")
       })
     } catch (error) {
-      console.log("2")
     }
   };
 
