@@ -35,7 +35,7 @@ const ProfileChangeDisplayName = ({realUser}) => {
   };
 
   const updateProfileName = () => {
-    !updateDisplayName || updateDisplayName === realUser?.displayName || updateDisplayName.length < 6
+    !updateDisplayName || updateDisplayName === realUser?.displayName || updateDisplayName.length < 3
       ? setFailedUpdateDisplayName(true)
       : (updateProfile(realUser, {
         displayName: updateDisplayName })
@@ -55,7 +55,7 @@ const ProfileChangeDisplayName = ({realUser}) => {
 
         <Snackbar open={failedUpdateDisplayName === true} autoHideDuration={6000} onClose={handleClose}>
           <Alert  style={{backgroundColor: 'rgb(164,0,0)', color: 'rgb(255,255,255)'}}  onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-            New name is shorter than 6 character or matches previous one
+            New name is shorter than 3 character or matches previous one
           </Alert>
         </Snackbar>
 
