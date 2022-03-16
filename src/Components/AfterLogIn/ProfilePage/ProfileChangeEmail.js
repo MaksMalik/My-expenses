@@ -13,6 +13,8 @@ const ProfileChangeEmail = ({realUser}) => {
 
   const [updateEmailNew, setUpdateEmailNew] = useState ()
   const [succeedUpdateEmail, setSucceedUpdateEmail] = useState (false)
+  const [failedUpdateEmail, setFailedUpdateEmail] = useState (false)
+
 
   const theme = createTheme({
     palette: {
@@ -30,11 +32,14 @@ const ProfileChangeEmail = ({realUser}) => {
       return;
     }
     setSucceedUpdateEmail(false);
+    setFailedUpdateEmail(false)
   };
 
   const updateProfileEmail = () => {
-    updateEmail(realUser, `${updateEmailNew}`)
-    .then(() => setSucceedUpdateEmail(true))
+    (!updateEmailNew || updateEmailNew === realUser?.email)
+      ? setFailedUpdateEmail(true)
+      : (updateEmail(realUser, `${updateEmailNew}`)
+      .then(() => setSucceedUpdateEmail(true)))
   }
 
   return (
@@ -43,6 +48,12 @@ const ProfileChangeEmail = ({realUser}) => {
         <Snackbar open={succeedUpdateEmail === true} autoHideDuration={6000} onClose={handleClose}>
           <Alert style={{backgroundColor: 'rgb(21,128,3)', color: 'rgb(255,255,255)'}} onClose={handleClose} severity="success" sx={{ width: '100%' }}>
             Successfully changed e-mail.
+          </Alert>
+        </Snackbar>
+
+        <Snackbar open={failedUpdateEmail === true} autoHideDuration={6000} onClose={handleClose}>
+          <Alert  style={{backgroundColor: 'rgb(164,0,0)', color: 'rgb(255,255,255)'}}  onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+            Wrong email. Try again
           </Alert>
         </Snackbar>
 

@@ -117,7 +117,7 @@ const Register = () => {
                 autoComplete="current-password"
               />
               {failedRegister && (<div style={{color: 'rgb(255,0,0)', textAlign: 'center', paddingTop:"10px"}}>Wrong e-mail or password</div>)}
-              {succeededRegister && (<div style={{color: 'rgba(47,255,0,0.2)'}}>Successfully registered. Redirecting to login page.</div>)}
+              {succeededRegister && (<div style={{color: 'rgb(21,128,3)'}}>Successfully registered. Redirecting to login page.</div>)}
               <Button
                 type="submit"
                 fullWidth
@@ -128,7 +128,7 @@ const Register = () => {
               </Button>
 
               <Snackbar open={succeededRegister} autoHideDuration={6000} onClose={handleClose}>
-                <Alert style={{backgroundColor: 'rgba(47,255,0,0.13)', color: 'rgba(255,255,255,0.55)'}} onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                <Alert style={{backgroundColor: 'rgb(21,128,3)', color: 'rgb(255,255,255)'}} onClose={handleClose} severity="success" sx={{ width: '100%' }}>
                   Successfully registered. Redirecting to login page.
                 </Alert>
               </Snackbar>

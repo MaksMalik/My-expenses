@@ -43,7 +43,7 @@ const Login = ({setIsAuth}) => {
     setFailedLogIn(false);
   };
 
-  const SubmitLogin =  (event) => {
+  const SubmitLogin = (event) => {
     event.preventDefault();
     try {
       signInWithEmailAndPassword (
@@ -51,18 +51,18 @@ const Login = ({setIsAuth}) => {
         loginEmail,
         loginPassword
       )
-      .then(() => setFailedLogIn(false))
       .then(() => {
         localStorage.setItem("isAuth", true);
         setIsAuth(true);
         navigate("/dashboard")
+        setFailedLogIn(false)
       })
       .catch(() => {
         setFailedLogIn(true)
+        console.log("1")
       })
     } catch (error) {
-      console.log(error)
-      setFailedLogIn(true)
+      console.log("2")
     }
   };
 

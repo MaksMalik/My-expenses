@@ -14,7 +14,6 @@ const ProfileChangePassword = ({realUser}) => {
   const [succeedUpdatePassword, setSucceedUpdatePassword] = useState (false)
   const [failedUpdatePassword, setFailedUpdatePassword] = useState (false)
 
-
   const theme = createTheme({
     palette: {
       secondary: {

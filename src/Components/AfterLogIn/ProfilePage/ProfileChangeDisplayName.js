@@ -10,8 +10,10 @@ import {createTheme} from "@mui/material/styles";
 
 const ProfileChangeDisplayName = ({realUser}) => {
 
-  const [updateDisplayName, setUpdateDisplayName] = useState ()
+  const [updateDisplayName, setUpdateDisplayName] = useState ("")
   const [succeedUpdateDisplayName, setSucceedUpdateDisplayName] = useState (false)
+  const [failedUpdateDisplayName, setFailedUpdateDisplayName] = useState (false)
+
 
   const theme = createTheme({
     palette: {
@@ -24,20 +26,22 @@ const ProfileChangeDisplayName = ({realUser}) => {
     }}
   )
 
-
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
     setSucceedUpdateDisplayName(false);
+    setFailedUpdateDisplayName(false)
   };
 
   const updateProfileName = () => {
-    updateProfile(realUser, {
-      displayName: updateDisplayName
-    }).then(() => {
-      setSucceedUpdateDisplayName(true)
-    })
+    !updateDisplayName || updateDisplayName === realUser?.displayName || updateDisplayName.length < 6
+      ? setFailedUpdateDisplayName(true)
+      : (updateProfile(realUser, {
+        displayName: updateDisplayName })
+      .then(() => {
+        setSucceedUpdateDisplayName(true)
+      }))
   }
 
   return (
@@ -46,6 +50,12 @@ const ProfileChangeDisplayName = ({realUser}) => {
         <Snackbar open={succeedUpdateDisplayName === true} autoHideDuration={6000} onClose={handleClose}>
           <Alert style={{backgroundColor: 'rgb(21,128,3)', color: 'rgb(255,255,255)'}} onClose={handleClose} severity="success" sx={{ width: '100%' }}>
             Successfully changed name.
+          </Alert>
+        </Snackbar>
+
+        <Snackbar open={failedUpdateDisplayName === true} autoHideDuration={6000} onClose={handleClose}>
+          <Alert  style={{backgroundColor: 'rgb(164,0,0)', color: 'rgb(255,255,255)'}}  onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+            New name is shorter than 6 character or matches previous one
           </Alert>
         </Snackbar>
 
