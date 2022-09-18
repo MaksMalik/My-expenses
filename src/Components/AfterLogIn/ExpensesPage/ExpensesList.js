@@ -14,10 +14,22 @@ import Divider from "@mui/material/Divider";
 
 export const ExpensesList = ({filterByFilterCategoryAndTypeAndNameAndAmount, handleOpenEdit, handleOpenDelete}) => {
 
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('show')
+      })
+    })
+  const hiddenElementsWhyUs = document.querySelectorAll('.hidden');
+  hiddenElementsWhyUs.forEach((el) => {
+    observer.observe(el)
+  })
+
+
   return (
     <List>
       {filterByFilterCategoryAndTypeAndNameAndAmount.map((transaction, index) => (
-        <div key={index}>
+        <div key={index} className="hidden">
           <Divider/>
           <ListItem
             style={{backgroundColor:`${transaction.type === "income" ? "rgb(60,151,184)" : 'rgb(67,67,67)'}`}}
@@ -44,7 +56,7 @@ export const ExpensesList = ({filterByFilterCategoryAndTypeAndNameAndAmount, han
 
 
                 </ListItemAvatar>
-            <ListItemText
+            <ListItemText 
               primary={<div style={{textTransform: 'uppercase', color:"#fff"}}>{transaction.name}</div>}
               secondary={transaction.type === "income"
                 ? (<span className="income" style={{color:"#fff"}}>+ {transaction.amount} zł</span>)
